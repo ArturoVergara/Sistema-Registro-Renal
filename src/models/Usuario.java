@@ -1,16 +1,17 @@
 package models;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Usuario
 {
-    private int id;
-    private String rut;
-    private String contrasena;
-    private String nombre;
-    private String direccion;
-    private String email;
-    private String telefono;
+    private final int id;
+    private final String rut;
+    private final String contrasena;
+    private final String nombre;
+    private final String direccion;
+    private final String email;
+    private final String telefono;
     private LocalDateTime fechaCreacion;
 
     //Constructor para la aplicación
@@ -27,7 +28,7 @@ public class Usuario
     }
 
     //Constructor para MySQL (Base de Datos)
-    public Usuario(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, String fechaCreacion)
+    public Usuario(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion)
     {
         this.id = id;
         this.rut = rut;
@@ -36,18 +37,59 @@ public class Usuario
         this.direccion = direccion;
         this.email = email;
         this.telefono = telefono;
-
-        //Convertir la fecha de MySQL a LocalDateTime de Java
-        //this.fechaCreacion = LocalDateTime.now();
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public String getNombre()
-    {
-        return this.nombre;
+    public int getId() {
+        return id;
     }
 
-    public String getRut()
-    {
-        return this.rut;
+    public String getRut() {
+        return rut;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario)) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(getRut(), usuario.getRut()) &&
+                Objects.equals(getNombre(), usuario.getNombre()) &&
+                Objects.equals(getDireccion(), usuario.getDireccion()) &&
+                Objects.equals(getEmail(), usuario.getEmail()) &&
+                Objects.equals(getTelefono(), usuario.getTelefono());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRut(), getNombre(), getDireccion(), getEmail(), getTelefono());
     }
 }

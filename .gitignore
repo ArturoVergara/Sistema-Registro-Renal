@@ -1,0 +1,12 @@
+/shelf/
+/workspace.xml
+out/
+.idea/
+.idea_modules/
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
