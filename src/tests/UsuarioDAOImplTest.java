@@ -1,45 +1,41 @@
-package DAO;
+package tests;
 
 import core.DataBase;
-import models.Paciente;
 import models.Usuario;
+import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PacienteDAOImpl implements PacienteDAO{
+import static java.lang.System.out;
+
+
+class UsuarioDAOImplTest {
 
     private static Connection conexion;
     private static PreparedStatement sentencia;
     private static ResultSet resultado;
     public String query;
 
-    @Override
-    public Paciente getPaciente(String rut) {
-        return null;
-    }
-
-    @Override
-    public Paciente getPaciente(int id)
-    {
-        query = "SELECT * FROM paciente WHERE id=?";
-        Paciente paciente=null;
+    @org.junit.jupiter.api.Test
+    void getUsuario() {
+        String rut = "111";
+        query = "SELECT * FROM usuario WHERE rut=?";
+        Usuario usuarioRetorno = null;
         try
         {
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
             resultado = sentencia.executeQuery();
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("DispatchDate");
-                Timestamp timestamp = new Timestamp(date.getTime());
-                Paciente dato = new Paciente(
+                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
                         resultado.getString("contrasena"),
@@ -49,21 +45,25 @@ public class PacienteDAOImpl implements PacienteDAO{
                         resultado.getString("telefono"),
                         timestamp.toLocalDateTime()
                 );
-                paciente=dato;
+                usuarioRetorno = dato;
+                out.println(dato.getNombre() + dato.getDireccion());
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        return paciente;
+        out.println(usuarioRetorno);
+        //return usuarioRetorno;
     }
 
-    @Override
-    public List<Paciente> getPacientes() {
-        List<Paciente> list = new ArrayList<>();
-        query = "SELECT * FROM paciente ";
+    @org.testng.annotations.Test
+    void testGetUsuario() {
+    }
 
+    @org.junit.jupiter.api.Test
+    void getUsuarios() {
+        List<Usuario> list = new ArrayList<>();
+        query = "SELECT * FROM sistema_registro_renal.usuario;";
         try
         {
             conexion = DataBase.conectar();
@@ -72,9 +72,9 @@ public class PacienteDAOImpl implements PacienteDAO{
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("DispatchDate");
+                Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
-                Paciente dato = new Paciente(
+                Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
                         resultado.getString("contrasena"),
@@ -87,20 +87,20 @@ public class PacienteDAOImpl implements PacienteDAO{
                 list.add(dato);
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (SQLException sqlException) {
+            sqlException.getErrorCode();
+            sqlException.getCause();
         }
-
-        return list;
+        for (Usuario usuario : list) {
+            System.out.println(usuario);
+        }
     }
 
-    @Override
-    public Paciente createPaciente(Paciente paciente) {
-        return null;
+    @org.junit.jupiter.api.Test
+    void createUsuario() {
     }
 
-    @Override
-    public void deletePaciente(String id) {
-
+    @org.junit.jupiter.api.Test
+    void deleteUsuario() {
     }
 }
