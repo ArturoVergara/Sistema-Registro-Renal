@@ -1,0 +1,54 @@
+@font-face
+{
+	src: url('../fonts/Oswald-Bold.ttf');
+}
+
+@font-face
+{
+	src: url('../fonts/Roboto-Regular.ttf');
+}
+
+.input
+{
+	-fx-font-family: 'Roboto';
+	-fx-font-size: 16px;
+}
+
+.boton
+{
+	-fx-font-family: 'Roboto';
+	-fx-font-size: 14px;
+}
+
+.label-error
+{
+	-fx-font-family: 'Roboto';
+	-fx-font-size: 16px;
+}
+
+.label-nombre
+{
+	-fx-font-family: 'Oswald';
+	-fx-font-size: 20px;
+}
+
+.label-rut
+{
+	-fx-font-family: 'Roboto';
+	-fx-font-size: 18px;
+}
+
+.label-informacion
+{
+	-fx-font-family: 'Roboto';
+	-fx-font-size: 16px;
+}
+
+.boton-login
+{
+	-fx-background-size: 300% 100%;
+	-fx-background-color: #6A72EF;
+	-fx-background-radius: 5px;
+	-fx-font-family: 'Oswald';
+	-fx-font-size: 16px;
+}
