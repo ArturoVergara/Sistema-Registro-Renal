@@ -2,7 +2,6 @@ package tests;
 
 import core.DataBase;
 import models.Usuario;
-import org.junit.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,11 +11,12 @@ import java.util.List;
 import static java.lang.System.out;
 
 
-class UsuarioDAOImplTest {
+class UsuarioDAOImplTest{
 
     private static Connection conexion;
     private static PreparedStatement sentencia;
     private static ResultSet resultado;
+    private static int resultado2;
     public String query;
 
     @org.junit.jupiter.api.Test
@@ -53,11 +53,6 @@ class UsuarioDAOImplTest {
             e.printStackTrace();
         }
         out.println(usuarioRetorno);
-        //return usuarioRetorno;
-    }
-
-    @org.testng.annotations.Test
-    void testGetUsuario() {
     }
 
     @org.junit.jupiter.api.Test
@@ -98,9 +93,65 @@ class UsuarioDAOImplTest {
 
     @org.junit.jupiter.api.Test
     void createUsuario() {
+        Usuario usuario = new Usuario("ppp","ppp","ppp","ppp","ppp","ppp");
+
+        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+
+            sentencia.setString(1,usuario.getRut());
+            sentencia.setString(2,usuario.getNombre());
+            sentencia.setString(3,usuario.getDireccion());
+            sentencia.setString(4,usuario.getEmail());
+            sentencia.setString(5,usuario.getEmail());
+            sentencia.setString(6,usuario.getTelefono());
+
+            resultado2= sentencia.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(resultado2>0){
+            out.println("Usuario: " + usuario.getNombre() + " creado satisfactoriamente!");
+            //return usuario;
+        }else{
+            out.println("Hubo un error al crear el Usuario: " + usuario.getNombre());
+        }
+        //return usuario;
+        //System.out.println("Nuevo usuario: "+ usuario.getNombre());
     }
 
     @org.junit.jupiter.api.Test
     void deleteUsuario() {
+    }
+
+    @org.junit.jupiter.api.Test
+    public boolean testCredentialsPersonal(){
+        String rut = "111";
+        String contrasena = "asd";
+        /**
+         * estas credenciales retornan un 1 si se encuentra un personal
+         * 0 será retornado si no se encuentra un personal, es decir, las credenciales son erróneas.
+         */
+        List<Usuario> list = new ArrayList<>();
+        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id;";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
+            sentencia.setString(1,contrasena);
+            resultado = sentencia.executeQuery();
+            String res= resultado.toString();
+            System.out.println(resultado);
+            if(res.equals('0')){
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return true;
     }
 }

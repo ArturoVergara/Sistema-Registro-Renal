@@ -72,6 +72,10 @@ public class Usuario
         return fechaCreacion;
     }
 
+    public boolean testCredentials(String rut, String contrasena){
+        return (this.rut.equals(rut) && this.contrasena.equals(contrasena));
+    }
+
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
