@@ -14,6 +14,7 @@ public class Main extends Application
         Parent root = FXMLLoader.load(getClass().getResource("/views/Login.fxml"));
 
         primaryStage.setTitle("Sistema de Registro Renal");
+        primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show(); 
     }

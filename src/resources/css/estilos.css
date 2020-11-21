@@ -1,0 +1,21 @@
+@font-face
+{
+	src: url('../fonts/Roboto-Regular.ttf');
+}
+
+.label
+{
+	-fx-font-family: 'Roboto';
+}
+.slide
+{
+	-fx-background-image: url('../images/fondo4.jpg');
+	-fx-background-size: cover;
+}
+
+.boton-login
+{
+	-fx-background-size: 300% 100%;
+	-fx-background-color: #6A72EF;
+}
+

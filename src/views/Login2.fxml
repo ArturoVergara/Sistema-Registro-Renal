@@ -17,11 +17,11 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="slide" stylesheets="@../resources/css/estilos.css" />
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ffffff;">
          <children>
-            <JFXTextField fx:id="rut" focusColor="#6a72ef" layoutX="78.0" layoutY="245.0" prefHeight="25.0" prefWidth="267.0" promptText="RUT" styleClass="input" stylesheets="@../resources/css/login.css">
+            <JFXTextField fx:id="rut" focusColor="#6a72ef" layoutX="78.0" layoutY="255.0" prefHeight="25.0" prefWidth="267.0" promptText="RUT" styleClass="input" stylesheets="@../resources/css/login.css">
                <font>
                   <Font size="16.0" />
                </font></JFXTextField>
-            <JFXPasswordField fx:id="contrasenia" focusColor="#6a72ef" layoutX="78.0" layoutY="313.0" prefHeight="25.0" prefWidth="267.0" promptText="Contraseña" styleClass="input" stylesheets="@../resources/css/login.css">
+            <JFXPasswordField fx:id="contrasenia" focusColor="#6a72ef" layoutX="78.0" layoutY="322.0" prefHeight="25.0" prefWidth="267.0" promptText="Contraseña" styleClass="input" stylesheets="@../resources/css/login.css">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -29,11 +29,11 @@
                   <Font size="16.0" />
                </font>
             </JFXPasswordField>
-            <Label layoutX="145.0" layoutY="168.0" prefHeight="57.0" prefWidth="95.0" styleClass="titulo-login" stylesheets="@../resources/css/login.css" text="LOGIN" textFill="#222222">
+            <Label layoutX="143.0" layoutY="177.0" prefHeight="57.0" prefWidth="95.0" styleClass="titulo-login" stylesheets="@../resources/css/login.css" text="LOGIN" textFill="#222222">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font></Label>
-            <JFXButton layoutX="92.0" layoutY="401.0" onAction="#verificarDatos" prefHeight="44.0" prefWidth="200.0" styleClass="boton-login" stylesheets="@../resources/css/login.css" text="INGRESAR" textFill="WHITE">
+            <JFXButton layoutX="90.0" layoutY="393.0" onAction="#verificarDatos" prefHeight="44.0" prefWidth="200.0" styleClass="boton-login" stylesheets="@../resources/css/login.css" text="INGRESAR" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="16.0" />
                </font>
@@ -41,15 +41,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fitHeight="113.0" fitWidth="106.0" layoutX="139.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="113.0" fitWidth="106.0" layoutX="137.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../resources/images/doctor_login.png" />
                </image>
             </ImageView>
-            <MaterialDesignIconView fill="#4d4d4d" glyphName="ACCOUNT_CIRCLE" layoutX="36.0" layoutY="273.0" size="32" />
-            <MaterialDesignIconView fill="#4d4d4d" glyphName="KEY" layoutX="36.0" layoutY="341.0" size="32" />
-            <Label fx:id="labelRut" layoutX="78.0" layoutY="284.0" prefHeight="17.0" prefWidth="267.0" styleClass="label-error" stylesheets="@../resources/css/login.css" textFill="#ff1744" />
-            <Label fx:id="labelContrasenia" layoutX="78.0" layoutY="352.0" prefHeight="17.0" prefWidth="267.0" styleClass="label-error" stylesheets="@../resources/css/login.css" textFill="#ff1744" />
+            <MaterialDesignIconView fill="#4d4d4d" glyphName="ACCOUNT_CIRCLE" layoutX="36.0" layoutY="283.0" size="32" />
+            <MaterialDesignIconView fill="#4d4d4d" glyphName="KEY" layoutX="36.0" layoutY="350.0" size="32" />
          </children></AnchorPane>
   </items>
 </SplitPane>
