@@ -55,7 +55,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
     }
 
     @Override
-    public List<PersonalMedico> getPersonalMedico() {
+    public List<PersonalMedico> getAllPersonalMedico() {
         List<PersonalMedico> list = new ArrayList<>();
         query = "SELECT * FROM personal inner join usuario WHERE personal.idUsuario=usuario.id";
         try{

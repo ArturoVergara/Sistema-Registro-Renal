@@ -2,7 +2,6 @@ package tests;
 
 import core.DataBase;
 import models.PersonalMedico;
-import models.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ public class PersonalMedicoDAOTest {
 
     @org.junit.jupiter.api.Test
     void createPersonalMedico() {
-        PersonalMedico personalMedico = new PersonalMedico("1111234","22222345","333334","44445","555556","66667");
+        PersonalMedico personalMedico = new PersonalMedico("1111234asd","22222345asd","333334","44445","555556","66667");
         /**
          * Se crea usuario y se guarda en la db
          * Se retorna el objeto usuario si se pudo guardar satisfactoriamente

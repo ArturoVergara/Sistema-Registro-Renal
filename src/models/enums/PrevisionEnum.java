@@ -1,6 +1,6 @@
 package models.enums;
 
-public enum Prevision {
+public enum PrevisionEnum {
     FONASA,
     ISAPRE,
     CAPREDENA, //FUNAO
