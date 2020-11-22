@@ -2,7 +2,6 @@ package DAO;
 
 import core.DataBase;
 import models.PersonalMedico;
-import models.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,11 +17,10 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
     private static ResultSet resultado;
     private static int resultadoParaEnteros;
     public String query;
-    public String query2;
 
     @Override
     public PersonalMedico getPersonalMedico(String rut) {
-        query = "SELECT * FROM usuario inner join personal WHERE rut=?";
+        query = "SELECT * FROM Usuario AS U INNER JOIN Personal AS P WHERE rut=? AND U.id = P.idUsuario";
         PersonalMedico personalMedicoRetorno = null;
         try
         {
@@ -43,8 +41,9 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime()
-                );
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+                        );
                 personalMedicoRetorno = dato;
             }
         }
@@ -75,7 +74,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime()
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
                 );
                 list.add(dato);
             }
@@ -99,7 +99,6 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
          * Se retorna null si hubo un error al guardar el usuario
          */
         query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
-        query2 = "INSERT INTO personal (tipoPersonal) VALUES (?)";
 
         try{
             conexion = DataBase.conectar();
@@ -118,20 +117,32 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
             e.printStackTrace();
         }
         if(resultadoParaEnteros>0){
-            out.println("Personal: " + personalMedico.getNombre() + " creado satisfactoriamente!");
+            out.println("Usuario: " + personalMedico.getNombre() + " creado satisfactoriamente!");
+            query = "SELECT (id) FROM usuario ORDER BY id DESC LIMIT 1";
             try{
                 conexion = DataBase.conectar();
-                sentencia = conexion.prepareStatement(query2);
-
-                sentencia.setInt(1,personalMedico.getTipoPersonalInt());
-                resultadoParaEnteros = sentencia.executeUpdate();
+                sentencia = conexion.prepareStatement(query);
+                resultado = sentencia.executeQuery();
+                resultado.next();
+                resultadoParaEnteros = resultado.getInt("id");
             }catch (Exception e){
                 e.printStackTrace();
             }
 
+            try{
+                query = "INSERT INTO personal (idUsuario,tipoPersonal) VALUES (?,?)";
+                conexion = DataBase.conectar();
+                sentencia = conexion.prepareStatement(query);
+                sentencia.setInt(1,resultadoParaEnteros);
+                sentencia.setInt(2,personalMedico.getTipoPersonalInt());
+                sentencia.executeUpdate();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            out.println("Exito al crear el personal: " + personalMedico.getNombre() + "...\n");
             return personalMedico;
         }else{
-            out.println("Hubo un error al crear el Usuario: " + personalMedico.getNombre());
+            out.println("Lo sentimos, hubo un error al crear el personal: " + personalMedico.getNombre() + "...");
             return null;
         }
     }

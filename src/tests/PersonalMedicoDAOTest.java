@@ -41,7 +41,9 @@ public class PersonalMedicoDAOTest {
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime()
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+
                 );
                 personalMedicoRetorno = dato;
                 out.println(dato.getNombre() + dato.getDireccion());
@@ -71,7 +73,9 @@ public class PersonalMedicoDAOTest {
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime()
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+
                 );
                 list.add(dato);
             }
@@ -84,5 +88,62 @@ public class PersonalMedicoDAOTest {
             System.out.println(personalMedico.getNombre() + " " + personalMedico.getRut());
         }
         //return list;
+    }
+
+    @org.junit.jupiter.api.Test
+    void createPersonalMedico() {
+        PersonalMedico personalMedico = new PersonalMedico("1111234","22222345","333334","44445","555556","66667");
+        /**
+         * Se crea usuario y se guarda en la db
+         * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
+         * Se retorna null si hubo un error al guardar el usuario
+         */
+        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
+
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+
+            sentencia.setString(1,personalMedico.getRut());
+            sentencia.setString(2,personalMedico.getNombre());
+            sentencia.setString(3,personalMedico.getDireccion());
+            sentencia.setString(4,personalMedico.getEmail());
+            sentencia.setString(5,personalMedico.getContrasena());
+            sentencia.setString(6,personalMedico.getTelefono());
+
+            resultado2 = sentencia.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultado2>0){
+            out.println("Usuario: " + personalMedico.getNombre() + " creado satisfactoriamente!");
+            query = "SELECT (id) FROM usuario ORDER BY id DESC LIMIT 1";
+            try{
+                conexion = DataBase.conectar();
+                sentencia = conexion.prepareStatement(query);
+                resultado = sentencia.executeQuery();
+                resultado.next();
+                resultado2 = resultado.getInt("id");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            try{
+                query = "INSERT INTO personal (idUsuario,tipoPersonal) VALUES (?,?)";
+                conexion = DataBase.conectar();
+                sentencia = conexion.prepareStatement(query);
+                sentencia.setInt(1,resultado2);
+                sentencia.setInt(2,personalMedico.getTipoPersonalInt());
+                sentencia.executeUpdate();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            out.println("Exito al crear el personal: " + personalMedico.getNombre() + "...\n");
+            //return personalMedico;
+        }else{
+            out.println("Lo sentimos, hubo un error al crear el personal: " + personalMedico.getNombre() + "...");
+            //return null;
+        }
     }
 }

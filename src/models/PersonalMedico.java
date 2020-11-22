@@ -12,8 +12,10 @@ public class PersonalMedico extends Usuario{
         super(rut, contrasena, nombre, direccion, email, telefono);
     }
 
-    public PersonalMedico(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion) {
+    public PersonalMedico(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion, int tipoPersonal) {
         super(id, rut, contrasena, nombre, direccion, email, telefono, fechaCreacion);
+        this.tipoPersonal= this.getTipoPersonalPersonal(tipoPersonal);
+
     }
 
     public boolean isAdmin(){
@@ -44,6 +46,25 @@ public class PersonalMedico extends Usuario{
             return 5;
         }
         return 0;
+    }
+
+    public PersonalEnum getTipoPersonalPersonal(int i){
+        if(i == 1){
+            return PersonalEnum.ADMIN;
+        }
+        if(i == 2){
+            return PersonalEnum.DOCTOR;
+        }
+        if(i == 3){
+            return PersonalEnum.LABORISTA;
+        }
+        if(i == 4){
+            return PersonalEnum.ENFERMERO;
+        }
+        if(i == 5) {
+            return PersonalEnum.GES;
+        }
+        return null;
     }
 
     public void setTipoPersonal(PersonalEnum tipoPersonal) {

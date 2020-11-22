@@ -103,7 +103,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("DispatchDate");
+                Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
