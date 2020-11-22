@@ -126,18 +126,14 @@ public class TablaPacientesController implements Initializable
 
     void eliminarPaciente(Paciente dato, int indice)
     {
-        System.out.println(indice);
         if (alertaEliminar(dato))
         {
-            System.out.println("Se ha eliminado");
             tabla.getItems().remove(indice);
-            //sistema.eliminarIngrediente(dato.getId());
+            //Falta eliminar de la base de datos
         }
-        else
-            System.out.println("No se ha eliminado");
     }
 
-    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el ingrediente, retornando un booleano
+    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el paciente, retornando un booleano
     private boolean alertaEliminar(Paciente dato)
     {
         Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);

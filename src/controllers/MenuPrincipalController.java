@@ -49,7 +49,7 @@ public class MenuPrincipalController implements Initializable
             Parent root = loader.load();
             Scene escena = new Scene(root);
 
-            //Obtiene el controlador del MenuPrincipal
+            //Obtiene el controlador de TablaPacientes
             TablaPacientesController controlador = (TablaPacientesController) loader.getController();
             controlador.inicializar(usuario);
 
@@ -63,26 +63,6 @@ public class MenuPrincipalController implements Initializable
         }
     }
 
-    @FXML
-    private void cargarVentanaAnterior(ActionEvent event){}
-
-    @FXML
-    private void cargarAdministrarAlimentos(ActionEvent event){}
-
-    @FXML
-    private void cargarAdministrarBebestibles(ActionEvent event){}
-
-    @FXML
-    private void cargarAdministrarIngredientes(ActionEvent event){}
-
-    @FXML
-    private void cargarAdministrarMesas(ActionEvent event){}
-
-    @FXML
-    private void cargarReportes(ActionEvent event){}
-
-    @FXML
-    private void guardarCambios(ActionEvent event){}
 
     //Muestra una alerta con toda la información detallada de la excepción
     private void alertaExcepcion(Exception excepcion)
@@ -93,7 +73,7 @@ public class MenuPrincipalController implements Initializable
         alerta.setHeaderText(excepcion.getMessage());
         alerta.setContentText(excepcion.toString());
 
-        //Se imprime todo el stacktrace de la excepción en un cajón expandible de texto
+        //Se imprime el stacktrace de la excepcion en un cajón expandible de texto
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         excepcion.printStackTrace(pw);

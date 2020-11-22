@@ -22,7 +22,7 @@
             </Label>
             <HBox layoutX="226.0" layoutY="148.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
                <children>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarAdministrarAlimentos" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
                         <Label layoutX="14.0" layoutY="76.0" prefHeight="30.0" prefWidth="146.0" text="Mi Perfil" textFill="WHITE">
                            <font>
@@ -39,7 +39,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </AnchorPane>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarAdministrarBebestibles" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
                         <Label layoutX="14.0" layoutY="60.0" prefHeight="27.0" prefWidth="146.0" text="Ingresar" textFill="WHITE">
                            <font>
@@ -87,7 +87,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </AnchorPane>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarAdministrarMesas" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="146.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -113,7 +113,7 @@
             </HBox>
             <HBox layoutX="226.0" layoutY="404.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
                <children>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarReportes" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
