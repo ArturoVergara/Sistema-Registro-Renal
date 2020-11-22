@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable
@@ -78,6 +79,8 @@ public class LoginController implements Initializable
     @FXML
     private void verificarDatos(ActionEvent evento)
     {
+        labelContrasenia.setText("");
+
         //Verifica si los datos ingresados coinciden con una cuenta
         if (rut.getText().isEmpty())
         {
@@ -101,16 +104,15 @@ public class LoginController implements Initializable
         {
             PersonalMedicoDAOImpl personalMedicoDAO = new PersonalMedicoDAOImpl();
             PersonalMedico usuario = personalMedicoDAO.getPersonalMedico(rut.getText());
-            System.out.println(usuario);
-            cargarMenuPrincipal();
+            cargarMenuPrincipal(usuario);
         }
-
         else
             labelContrasenia.setText("Las credenciales no son correctas.");
+
     }
 
     @FXML
-    private void cargarMenuPrincipal()
+    private void cargarMenuPrincipal(PersonalMedico usuario)
     {
         try
         {
@@ -121,7 +123,7 @@ public class LoginController implements Initializable
 
             //Obtiene el controlador del MenuPrincipal
             MenuPrincipalController controlador = (MenuPrincipalController) loader.getController();
-            //controlador.inicializar(sistema);
+            controlador.inicializar(usuario);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);

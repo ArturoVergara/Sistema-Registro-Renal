@@ -46,6 +46,6 @@
 
 .table-view:focused .table-row-cell:selected
 {
-    -fx-background-color: #9A9A9A;
+    -fx-background-color: #6a72ef;
     -fx-background-insets: 0 0 0 0;
 }
