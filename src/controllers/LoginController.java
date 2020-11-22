@@ -1,11 +1,8 @@
 package controllers;
 
+import DAO.UsuarioDAOImpl;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,14 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.util.Duration;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,23 +27,23 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable
 {
     @FXML
-    private AnchorPane anchorRoot;
-    @FXML
-    private StackPane parentContainer;
+    private SplitPane parentContainer;
     @FXML
     private JFXTextField rut;
     @FXML
     private JFXPasswordField contrasenia;
-
     @FXML
     private Label labelRut;
-
     @FXML
     private Label labelContrasenia;
+
+    private UsuarioDAOImpl usuarioDAO;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        this.usuarioDAO = new UsuarioDAOImpl();
+
         rut.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue)
             {
@@ -79,18 +74,10 @@ public class LoginController implements Initializable
         });
     }
 
-
     @FXML
     private void verificarDatos(ActionEvent evento)
     {
         //Verifica si los datos ingresados coinciden con una cuenta
-        /*
-        if (!Usuario.iniciarSesion(usuario.getText(),contraseña.getText()))
-        {
-            advertencia.setText("Los datos ingresados no son válidos.");
-            return;
-        }*/
-
         if (rut.getText().isEmpty())
         {
             rut.requestFocus();
@@ -107,38 +94,31 @@ public class LoginController implements Initializable
             return;
         }
 
-        if ((rut.getText().compareTo("admin") == 0) && (contrasenia.getText().compareTo("admin") == 0))
-            //cargarMenuPrincipal();
-            System.out.println("Datos Correctos");
+        System.out.println(this.usuarioDAO.testCredentialsPersonal(rut.getText(), contrasenia.getText()));
+
+        if ((rut.getText().compareTo("198543047") == 0) && (contrasenia.getText().compareTo("admin") == 0))
+            cargarMenuPrincipal();
         else
             labelContrasenia.setText("Las credenciales no son correctas.");
     }
 
-
-    //Carga la ventana del MenuPrincipal con una animación de barrido horizontal
+    @FXML
     private void cargarMenuPrincipal()
     {
         try
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MenuPrincipal.fxml"));
-            Parent root = (Parent) loader.load();
-            Scene scene = anchorRoot.getScene();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/MenuPrincipal.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
 
-            //Obtiene el controlador de MenuAdministrador para inicializar la clase Cajero y enviarla por parámetros
+            //Obtiene el controlador del MenuPrincipal
             MenuPrincipalController controlador = (MenuPrincipalController) loader.getController();
-            //controlador.inicializar(new Cajero(usuario.getText()));
+            //controlador.inicializar(sistema);
 
-            //Obtiene el ancho y largo del panel para realizar la transición horizontal hacia la siguiente escena
-            root.translateXProperty().set(scene.getWidth());
-            parentContainer.getChildren().add(root);
-            Timeline timeline = new Timeline();
-            KeyValue value = new KeyValue(root.translateXProperty(),0, Interpolator.EASE_IN);
-            KeyFrame frame = new KeyFrame(Duration.seconds(1),value);
-            timeline.getKeyFrames().add(frame);
-            timeline.setOnFinished((ActionEvent evento) -> {
-                parentContainer.getChildren().remove(anchorRoot);
-            });
-            timeline.play();
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
         }
         catch (IOException | IllegalStateException excepcion)
         {

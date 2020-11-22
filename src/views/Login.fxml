@@ -12,7 +12,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+
+<SplitPane fx:id="parentContainer" dividerPositions="0.7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="slide" stylesheets="@../resources/css/estilos.css" />
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ffffff;">
@@ -20,7 +21,8 @@
             <JFXTextField fx:id="rut" focusColor="#6a72ef" layoutX="78.0" layoutY="245.0" prefHeight="25.0" prefWidth="267.0" promptText="RUT" styleClass="input" stylesheets="@../resources/css/login.css">
                <font>
                   <Font size="16.0" />
-               </font></JFXTextField>
+               </font>
+            </JFXTextField>
             <JFXPasswordField fx:id="contrasenia" focusColor="#6a72ef" layoutX="78.0" layoutY="313.0" prefHeight="25.0" prefWidth="267.0" promptText="Contraseña" styleClass="input" stylesheets="@../resources/css/login.css">
                <cursor>
                   <Cursor fx:constant="TEXT" />
@@ -32,7 +34,8 @@
             <Label layoutX="145.0" layoutY="168.0" prefHeight="57.0" prefWidth="95.0" styleClass="titulo-login" stylesheets="@../resources/css/login.css" text="LOGIN" textFill="#222222">
                <font>
                   <Font name="System Bold" size="36.0" />
-               </font></Label>
+               </font>
+            </Label>
             <JFXButton layoutX="92.0" layoutY="401.0" onAction="#verificarDatos" prefHeight="44.0" prefWidth="200.0" styleClass="boton-login" stylesheets="@../resources/css/login.css" text="INGRESAR" textFill="WHITE">
                <font>
                   <Font name="Arial Black" size="16.0" />
@@ -50,6 +53,7 @@
             <MaterialDesignIconView fill="#4d4d4d" glyphName="KEY" layoutX="36.0" layoutY="341.0" size="32" />
             <Label fx:id="labelRut" layoutX="78.0" layoutY="284.0" prefHeight="17.0" prefWidth="267.0" styleClass="label-error" stylesheets="@../resources/css/login.css" textFill="#ff1744" />
             <Label fx:id="labelContrasenia" layoutX="78.0" layoutY="352.0" prefHeight="17.0" prefWidth="267.0" styleClass="label-error" stylesheets="@../resources/css/login.css" textFill="#ff1744" />
-         </children></AnchorPane>
+         </children>
+      </AnchorPane>
   </items>
 </SplitPane>
