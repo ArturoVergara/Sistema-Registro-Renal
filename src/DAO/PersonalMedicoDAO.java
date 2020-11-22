@@ -6,8 +6,8 @@ import models.Usuario;
 import java.util.List;
 
 public interface PersonalMedicoDAO {
-    PersonalMedico getPersonalMedico(int id);
+    PersonalMedico getPersonalMedico(String rut);
     List<PersonalMedico> getPersonalMedico();
     PersonalMedico createPersonalMedico(PersonalMedico personalMedico);
-    void deletePersonalMedico(int id);
+    void deletePersonalMedico(String rut);
 }

@@ -16,6 +16,13 @@ public class PersonalMedico extends Usuario{
         super(id, rut, contrasena, nombre, direccion, email, telefono, fechaCreacion);
     }
 
+    public boolean isAdmin(){
+        if(this.tipoPersonal == PersonalEnum.ADMIN){
+            return true;
+        }
+        return false;
+    }
+
     public PersonalEnum getTipoPersonal() {
         return tipoPersonal;
     }

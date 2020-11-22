@@ -10,7 +10,6 @@ public class DataBase
     {
 
         //String url = "jdbc:mysql://localhost/sistema_registro_renal";
-
         //FELIPE: esta url la uso porque mi version de mysql en el pc es muy actual
         String url = "jdbc:mysql://localhost/sistema_registro_renal?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String usuario = "root";

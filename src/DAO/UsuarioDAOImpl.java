@@ -34,7 +34,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("DispatchDate"); // se obtiene la fecha-hora de la db
+                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
                 Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
@@ -69,7 +69,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("DispatchDate"); // se obtiene la fecha-hora de la db
+                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
                 Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),

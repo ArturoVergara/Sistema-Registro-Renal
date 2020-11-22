@@ -1,9 +1,9 @@
 package models.enums;
 
 public enum PersonalEnum {
-    Admin,
-    Doctor,
-    Laborista,
-    Enfermero,
-    Ges
+    ADMIN,
+    DOCTOR,
+    LABORISTA,
+    ENFERMERO,
+    GES
 }
