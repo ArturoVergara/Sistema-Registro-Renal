@@ -27,6 +27,25 @@ public class PersonalMedico extends Usuario{
         return tipoPersonal;
     }
 
+    public int getTipoPersonalInt(){
+        if(this.tipoPersonal == PersonalEnum.ADMIN){
+            return 1;
+        }
+        if(this.tipoPersonal == PersonalEnum.DOCTOR){
+            return 2;
+        }
+        if(this.tipoPersonal == PersonalEnum.LABORISTA){
+            return 3;
+        }
+        if(this.tipoPersonal == PersonalEnum.ENFERMERO){
+            return 4;
+        }
+        if(this.tipoPersonal == PersonalEnum.GES) {
+            return 5;
+        }
+        return 0;
+    }
+
     public void setTipoPersonal(PersonalEnum tipoPersonal) {
         this.tipoPersonal = tipoPersonal;
     }

@@ -140,7 +140,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             sentencia.setString(2,usuario.getNombre());
             sentencia.setString(3,usuario.getDireccion());
             sentencia.setString(4,usuario.getEmail());
-            sentencia.setString(5,usuario.getEmail());
+            sentencia.setString(5,usuario.getContrasena());
             sentencia.setString(6,usuario.getTelefono());
 
             resultadoParaEnteros = sentencia.executeUpdate();
@@ -180,12 +180,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public boolean testCredentialsPersonal(String rut, String contrasena){
         List<Usuario> list = new ArrayList<>();
-        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id;";
+        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             sentencia.setString(1,rut);
-            sentencia.setString(1,contrasena);
+            sentencia.setString(2,contrasena);
             resultado = sentencia.executeQuery();
             resultado.next();
             resultadoParaEnteros=resultado.getInt("count(*)");
