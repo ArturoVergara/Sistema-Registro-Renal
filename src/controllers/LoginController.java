@@ -19,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -34,20 +36,49 @@ public class LoginController implements Initializable
     @FXML
     private StackPane parentContainer;
     @FXML
-    private JFXTextField usuario;
+    private JFXTextField rut;
     @FXML
     private JFXPasswordField contrasenia;
+
     @FXML
-    private Label advertencia;
+    private Label labelRut;
+
+    @FXML
+    private Label labelContrasenia;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {}
-
-    @FXML
-    private void finalizarPrograma(ActionEvent evento)
+    public void initialize(URL url, ResourceBundle rb)
     {
-        System.exit(0);
+        rut.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
+            {
+                //Verificar si es un rut valido
+                if (!rut.getText().matches("^(\\d{1,3}(\\.?\\d{3})*)\\-?([\\dkK])$"))
+                {
+                    rut.requestFocus();
+                    rut.setFocusColor(Color.rgb(255,23,68));
+                    labelRut.setText("Por favor ingrese un rut válido.");
+                }
+                else
+                {
+                    rut.setFocusColor(Color.rgb(106,114,239));
+                    labelRut.setText("");
+                }
+            }
+        });
+
+        contrasenia.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue)
+            {
+                if (!contrasenia.getText().isEmpty())
+                {
+                    contrasenia.setFocusColor(Color.rgb(106,114,239));
+                    labelContrasenia.setText("");
+                }
+            }
+        });
     }
+
 
     @FXML
     private void verificarDatos(ActionEvent evento)
@@ -60,10 +91,27 @@ public class LoginController implements Initializable
             return;
         }*/
 
-        if ((usuario.getText().compareTo("admin") == 0) && (contrasenia.getText().compareTo("admin") == 0))
-            cargarMenuPrincipal();
+        if (rut.getText().isEmpty())
+        {
+            rut.requestFocus();
+            rut.setFocusColor(Color.rgb(255,23,68));
+            labelRut.setText("Por favor ingrese un rut válido.");
+            return;
+        }
+
+        if (contrasenia.getText().isEmpty())
+        {
+            contrasenia.requestFocus();
+            contrasenia.setFocusColor(Color.rgb(255,23,68));
+            labelContrasenia.setText("Por favor ingrese una contraseña.");
+            return;
+        }
+
+        if ((rut.getText().compareTo("admin") == 0) && (contrasenia.getText().compareTo("admin") == 0))
+            //cargarMenuPrincipal();
+            System.out.println("Datos Correctos");
         else
-            advertencia.setText("Los datos ingresados no son válidos.");
+            labelContrasenia.setText("Las credenciales no son correctas.");
     }
 
 

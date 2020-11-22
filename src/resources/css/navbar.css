@@ -1,0 +1,16 @@
+@font-face
+{
+	src: url('../fonts/Oswald-Bold.ttf');
+}
+
+@font-face
+{
+	src: url('../fonts/Roboto-Regular.ttf');
+}
+
+.label-usuario
+{
+	-fx-font-family: 'Oswald';
+	-fx-font-size: 24px;
+}
+

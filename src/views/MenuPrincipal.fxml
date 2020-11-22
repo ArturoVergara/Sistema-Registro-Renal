@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="panel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1024.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../config/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuPrincipalController">
+<AnchorPane id="AnchorPane" fx:id="panel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1024.0" style="-fx-background-color: #FFFFFF;" stylesheets="@../resources/css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuPrincipalController">
    <children>
       <Label layoutX="307.0" layoutY="68.0" text="MENU PRINCIPAL" textFill="#00a8df">
          <font>
@@ -29,7 +29,7 @@
                   </Label>
                   <ImageView fitHeight="84.0" fitWidth="87.0" layoutX="160.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/doctor.png" />
+                        <Image url="@../resources/images/doctor.png" />
                      </image>
                   </ImageView>
                </children>
@@ -46,7 +46,7 @@
                   </Label>
                   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="152.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/ingresar.png" />
+                        <Image url="@../resources/images/ingresar.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="14.0" layoutY="87.0" prefHeight="27.0" prefWidth="146.0" text="Paciente" textFill="WHITE">
@@ -67,7 +67,7 @@
                <children>
                   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="154.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/buscar.png" />
+                        <Image url="@../resources/images/buscar.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="14.0" layoutY="60.0" prefHeight="27.0" prefWidth="146.0" text="Buscar" textFill="WHITE">
@@ -89,7 +89,7 @@
                <children>
                   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="146.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/contactar.png" />
+                        <Image url="@../resources/images/contactar.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="14.0" layoutY="60.0" prefHeight="27.0" prefWidth="146.0" text="Contactar" textFill="WHITE">
@@ -115,7 +115,7 @@
                <children>
                   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/reportes.png" />
+                        <Image url="@../resources/images/reportes.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" text="Ingresar" textFill="WHITE">
@@ -142,7 +142,7 @@
                   </Label>
                   <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="152.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/opciones.png" />
+                        <Image url="@../resources/images/opciones.png" />
                      </image>
                   </ImageView>
                </children>
