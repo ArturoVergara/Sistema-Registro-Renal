@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PerfilPacienteController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
          <children>
@@ -46,12 +46,12 @@
                   <Image url="@../resources/images/hombre.jpg" />
                </image>
             </ImageView>
-            <Label prefHeight="17.0" prefWidth="375.0" styleClass="label-nombre" stylesheets="@../resources/css/perfil.css" text="Bastian Ramirez" textFill="#4d4d4d">
+            <Label fx:id="nombrePaciente" prefHeight="17.0" prefWidth="375.0" styleClass="label-nombre" stylesheets="@../resources/css/perfil.css" textFill="#4d4d4d">
                <VBox.margin>
                   <Insets left="20.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <Label contentDisplay="CENTER" prefHeight="24.0" prefWidth="373.0" styleClass="label-rut" stylesheets="@../resources/css/perfil.css" text="19.590.633-5" textFill="#6a72ef">
+            <Label fx:id="rutPaciente" contentDisplay="CENTER" prefHeight="24.0" prefWidth="373.0" styleClass="label-rut" stylesheets="@../resources/css/perfil.css" textFill="#6a72ef">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -164,11 +164,11 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="Río Loco, Rancagua" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="bastian-2404@hotmail.com" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label layoutX="196.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="+56911223344" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label layoutX="212.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="24 / 04 / 1990" textFill="#333333" GridPane.columnIndex="1" />
-                  <Label layoutX="217.0" layoutY="135.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="Fonasa" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="direccionPaciente" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="emailPaciente" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="telefonoPaciente" layoutX="196.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="fechaNacimientoPaciente" layoutX="212.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" />
+                  <Label fx:id="previsionPaciente" layoutX="217.0" layoutY="135.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>

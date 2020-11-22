@@ -1,7 +1,7 @@
 package models.enums;
 
 public enum PrevisionEnum {
-    FONASA,
-    ISAPRE,
-    CAPREDENA, //FUNAO
+    FONASA,     //0
+    ISAPRE,     //1
+    CAPREDENA,  //2 FUNAO
 }

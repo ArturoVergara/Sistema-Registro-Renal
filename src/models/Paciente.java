@@ -95,16 +95,15 @@ public class Paciente extends Usuario{
         return 0;
     }
 
-    public PrevisionEnum getPrevisionEnum(int i){
+    private PrevisionEnum getPrevisionEnum(int i){
+
         if(i == 1){
-            return PrevisionEnum.FONASA;
-        }
-        if(i == 2){
             return PrevisionEnum.ISAPRE;
         }
-        if(i == 3){
+        else if(i == 2){
             return PrevisionEnum.CAPREDENA;
         }
-        return null;
+
+        return PrevisionEnum.FONASA;
     }
 }
