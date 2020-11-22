@@ -1,5 +1,7 @@
 package controllers;
 
+import DAO.PersonalMedicoDAO;
+import DAO.PersonalMedicoDAOImpl;
 import DAO.UsuarioDAOImpl;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -17,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import models.PersonalMedico;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,13 +40,11 @@ public class LoginController implements Initializable
     @FXML
     private Label labelContrasenia;
 
-    private UsuarioDAOImpl usuarioDAO;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        this.usuarioDAO = new UsuarioDAOImpl();
-
         rut.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue)
             {
@@ -94,10 +95,16 @@ public class LoginController implements Initializable
             return;
         }
 
-        System.out.println(this.usuarioDAO.testCredentialsPersonal(rut.getText(), contrasenia.getText()));
+        UsuarioDAOImpl usuarioDAO = new UsuarioDAOImpl();
 
-        if ((rut.getText().compareTo("198543047") == 0) && (contrasenia.getText().compareTo("admin") == 0))
+        if (usuarioDAO.testCredentialsPersonal(rut.getText(), contrasenia.getText()))
+        {
+            PersonalMedicoDAOImpl personalMedicoDAO = new PersonalMedicoDAOImpl();
+            PersonalMedico usuario = personalMedicoDAO.getPersonalMedico(rut.getText());
+            System.out.println(usuario);
             cargarMenuPrincipal();
+        }
+
         else
             labelContrasenia.setText("Las credenciales no son correctas.");
     }
