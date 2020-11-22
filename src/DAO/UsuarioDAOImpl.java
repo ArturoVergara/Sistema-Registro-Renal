@@ -187,16 +187,17 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             sentencia.setString(1,rut);
             sentencia.setString(1,contrasena);
             resultado = sentencia.executeQuery();
-            String res = resultado.toString();
-            //System.out.println(resultado);
-            if(res.equals('0')){
-                return false;
+            resultado.next();
+            resultadoParaEnteros=resultado.getInt("count(*)");
+            if(resultadoParaEnteros >0){
+                out.println("*** Credenciales correctas ***");
+                return true;
             }
-            return true;
         }catch (Exception e){
             e.printStackTrace();
         }
-        return true;
+        out.println("*** Credenciales incorrectas ***");
+        return false;
     }
 
 }

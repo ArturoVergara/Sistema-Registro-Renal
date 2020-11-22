@@ -104,7 +104,7 @@ class UsuarioDAOImplTest{
             sentencia.setString(2,usuario.getNombre());
             sentencia.setString(3,usuario.getDireccion());
             sentencia.setString(4,usuario.getEmail());
-            sentencia.setString(5,usuario.getEmail());
+            sentencia.setString(5,usuario.getContrasena());
             sentencia.setString(6,usuario.getTelefono());
 
             resultado2= sentencia.executeUpdate();
@@ -128,7 +128,7 @@ class UsuarioDAOImplTest{
     }
 
     @org.junit.jupiter.api.Test
-    public boolean testCredentialsPersonal(){
+    void testCredentialsPersonal(){
         String rut = "111";
         String contrasena = "asd";
         /**
@@ -136,22 +136,27 @@ class UsuarioDAOImplTest{
          * 0 será retornado si no se encuentra un personal, es decir, las credenciales son erróneas.
          */
         List<Usuario> list = new ArrayList<>();
-        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id;";
+        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             sentencia.setString(1,rut);
-            sentencia.setString(1,contrasena);
+            sentencia.setString(2,contrasena);
+
             resultado = sentencia.executeQuery();
-            String res= resultado.toString();
-            System.out.println(resultado);
-            if(res.equals('0')){
-                return false;
+            resultado.next();
+            resultado2=resultado.getInt("count(*)");
+            System.out.println(resultado2);
+            if(resultado2>0){
+                System.out.println(true);
+                //return false;
+            }else{
+                System.out.println(false);
             }
-            return true;
+            //return true;
         }catch (Exception e){
             e.printStackTrace();
         }
-        return true;
+        //return true;
     }
 }
