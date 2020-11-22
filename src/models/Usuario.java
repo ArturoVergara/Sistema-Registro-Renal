@@ -68,6 +68,16 @@ public class Usuario
         return telefono;
     }
 
+    public void showUserData(Usuario usuario){
+        System.out.println("Datos del usuario: ");
+        System.out.println(
+                        "Nombre: " + usuario.getNombre() + " " +
+                        "Rut: " +     usuario.getRut() + " " +
+                        "Telefono: " + usuario.getTelefono()+ " " +
+                        "Direccion: " + usuario.getDireccion() +".\n"
+        );
+    }
+
     public LocalDateTime getFechaCreacion() {
         return fechaCreacion;
     }

@@ -160,7 +160,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public void deleteUsuario(String rut) {
         //se borra usuario de la db
-        query = "DELETE FROM usuario WHERE id=?";
+        query = "DELETE FROM usuario WHERE usuario.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -168,7 +168,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
             resultadoParaEnteros = sentencia.executeUpdate();
             if(resultadoParaEnteros >0){
-                out.println("*** El usuario ha sido borrado de la base de datos correctamente ***");
+                out.println("*** El o los usuarios han sido borrado(s) de la base de datos correctamente ***");
             }else {
                 out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
             }

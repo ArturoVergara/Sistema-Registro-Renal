@@ -93,7 +93,7 @@ class UsuarioDAOImplTest{
 
     @org.junit.jupiter.api.Test
     void createUsuario() {
-        Usuario usuario = new Usuario("ppp","ppp","ppp","ppp","ppp","ppp");
+        Usuario usuario = new Usuario("ppp2","ppp2","ppp2","ppp2","ppp2","ppp2");
 
         query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
         try{
@@ -125,6 +125,23 @@ class UsuarioDAOImplTest{
 
     @org.junit.jupiter.api.Test
     void deleteUsuario() {
+        String rut = "ppp1";
+        query = "DELETE FROM usuario WHERE usuario.rut=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
+
+            resultado2 = sentencia.executeUpdate();
+            out.println(resultado2);
+            if(resultado2 >0){
+                out.println("*** El o los usuarios han sido borrado(s) de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @org.junit.jupiter.api.Test
