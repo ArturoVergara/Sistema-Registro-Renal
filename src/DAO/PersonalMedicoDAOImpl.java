@@ -147,6 +147,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
         }
     }
 
+
     @Override
     public void deletePersonalMedico(String rut) {
 

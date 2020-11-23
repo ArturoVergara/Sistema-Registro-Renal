@@ -121,6 +121,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         catch (Exception e) {
             e.printStackTrace();
         }
+        for (Usuario usuario : list) {
+            System.out.println(usuario.getNombre() + " " + usuario.getRut());
+        }
         return list;
     }
 

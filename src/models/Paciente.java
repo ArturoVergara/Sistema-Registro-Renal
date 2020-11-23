@@ -81,4 +81,20 @@ public class Paciente extends Usuario{
     public void setEmailAlternativo(String emailAlternativo) {
         this.emailAlternativo = emailAlternativo;
     }
+
+    public void showUserData(){
+        System.out.print(
+                        "Id: " + this.getId() + "\n" +
+                        "Nombre: " + this.getNombre() + "\n" +
+                        "Rut: " +     this.getRut() + "\n" +
+                        "Telefono: " + this.getTelefono()+ "\n" +
+                        "Direccion: " + this.getDireccion() + "\n" +
+                        "Email: " + this.getEmail() + "\n" +
+                        "Fecha de nacimiento: " + this.getFechaNacimiento() + "\n" +
+                        "Nacionalidad: " + this.getNacionalidad() + "\n" +
+                        "Prevision: " + this.getPrevision() + "\n" +
+                        "Telefono alternativo: " + this.getTelefonoAlternativo() + "\n" +
+                        "Email alternativo: " + this.getEmailAlternativo() + "\n"
+        );
+    }
 }

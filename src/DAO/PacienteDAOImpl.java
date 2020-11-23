@@ -5,10 +5,7 @@ import models.Paciente;
 import models.PersonalMedico;
 import models.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -166,7 +163,7 @@ public class PacienteDAOImpl implements PacienteDAO{
         }
         if(resultadoParaEnteros>0){
             out.println("Usuario: " + paciente.getNombre() + " creado satisfactoriamente!");
-            query = "SELECT (id) FROM usuario ORDER BY id DESC LIMIT 1";
+            query = "SELECT (id) FROM usuario ORDER BY id DESC";
             try{
                 conexion = DataBase.conectar();
                 sentencia = conexion.prepareStatement(query);
@@ -200,6 +197,107 @@ public class PacienteDAOImpl implements PacienteDAO{
 
     @Override
     public Paciente updatePaciente(Paciente paciente) {
+        /**
+         * Se crea usuario y se guarda en la db
+         * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
+         * Se retorna null si hubo un error al guardar el usuario
+         */
+        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id and P.idUsuario=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,paciente.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                Paciente dato = new Paciente(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("contrasena"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getDate("fechaNacimiento"),
+                        resultado.getString("nacionalidad"),
+                        resultado.getInt("prevision"),
+                        resultado.getString("telefonoAlternativo"),
+                        resultado.getString("emailAlternativo")
+                );
+                out.print("Información del paciente: \n");
+                dato.showUserData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        query = "UPDATE paciente AS P " +
+                "INNER JOIN usuario AS U " +
+                "ON P.idUsuario = U.id AND P.idUsuario=? " +
+                "SET " +
+                "rut = ? ," +
+                "nombre = ? ," +
+                "direccion = ? ," +
+                "email = ? ," +
+                "telefono = ? ," +
+                "nacionalidad = ? ," +
+                "prevision = ? ," +
+                "telefonoAlternativo = ? ," +
+                "emailAlternativo = ?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,paciente.getId());
+            sentencia.setString(2,paciente.getRut());
+            sentencia.setString(3,paciente.getNombre());
+            sentencia.setString(4,paciente.getDireccion());
+            sentencia.setString(5,paciente.getEmail());
+            sentencia.setString(6,paciente.getTelefono());
+            sentencia.setString(7,paciente.getNacionalidad());
+            sentencia.setInt(8,paciente.getPrevision().getValor());
+            sentencia.setString(9,paciente.getTelefonoAlternativo());
+            sentencia.setString(10,paciente.getEmailAlternativo());
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("Paciente actualizado con éxito!\n");
+            }else{
+                out.println("Lo sentimos, hubo un error al actualizar el Paciente...\n");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id AND P.idUsuario=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,paciente.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                Paciente dato = new Paciente(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("contrasena"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getDate("fechaNacimiento"),
+                        resultado.getString("nacionalidad"),
+                        resultado.getInt("prevision"),
+                        resultado.getString("telefonoAlternativo"),
+                        resultado.getString("emailAlternativo")
+                );
+                out.print("Información del paciente actualizada: \n");
+                dato.showUserData();
+                return dato;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
