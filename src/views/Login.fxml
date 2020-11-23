@@ -12,11 +12,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <SplitPane fx:id="parentContainer" dividerPositions="0.7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="slide" stylesheets="@../resources/css/estilos.css" />
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ffffff;">
+    <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="slide" stylesheets="@../resources/css/estilos.css" />
+    <AnchorPane minHeight="0.0" minWidth="0.0" style="-fx-background-color: #ffffff;">
          <children>
             <JFXTextField fx:id="rut" focusColor="#6a72ef" layoutX="78.0" layoutY="245.0" prefHeight="25.0" prefWidth="267.0" promptText="RUT" styleClass="input" stylesheets="@../resources/css/login.css">
                <font>

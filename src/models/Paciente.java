@@ -15,8 +15,13 @@ public class Paciente extends Usuario{
     private String emailAlternativo;
     private FichaMedica fichaPaciente;
 
-    public Paciente(String rut, String contrasena, String nombre, String direccion, String email, String telefono) {
-        super(rut, contrasena, nombre, direccion, email, telefono);
+    public Paciente(String rut, String nombre, String direccion, String email, String telefono, Date fechaNacimiento, PrevisionEnum prevision, String nacionalidad) {
+        super(rut, null, nombre, direccion, email, telefono);
+        this.fechaNacimiento = fechaNacimiento;
+        this.prevision = prevision;
+        this.nacionalidad = nacionalidad;
+        this.telefonoAlternativo = null;
+        this.emailAlternativo = null;
     }
 
     public Paciente(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion) {
