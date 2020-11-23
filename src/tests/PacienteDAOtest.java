@@ -107,7 +107,7 @@ public class PacienteDAOtest {
 
     @org.junit.jupiter.api.Test
     void createPaciente() {
-        Paciente paciente = new Paciente(1,"20003481-1","QWERTY","JOSE VERGARA","BRASIL 58","ASD@MAIL.COM","+569 82017717",
+        Paciente paciente = new Paciente(100,"borrar","QWERTY","JOSE VERGARA","BRASIL 58","ASD@MAIL.COM","+569 82017717",
                 LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"NONE","NONE");
 
         /**

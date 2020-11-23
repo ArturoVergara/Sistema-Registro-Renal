@@ -15,5 +15,5 @@ public interface PacienteDAO {
 
     Paciente updatePaciente(Paciente paciente);
 
-    void deletePaciente(String rut);
+    void deletePaciente(int id);
 }
