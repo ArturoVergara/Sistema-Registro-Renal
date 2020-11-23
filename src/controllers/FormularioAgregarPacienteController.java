@@ -44,6 +44,8 @@ public class FormularioAgregarPacienteController implements Initializable
 
         prevision.setItems(FXCollections.observableArrayList(PrevisionEnum.FONASA, PrevisionEnum.ISAPRE, PrevisionEnum.CAPREDENA));
 
+        System.out.println(PrevisionEnum.FONASA.getValor());
+
         prevision.setConverter(new StringConverter<PrevisionEnum>() {
             @Override
             public String toString(PrevisionEnum objeto)

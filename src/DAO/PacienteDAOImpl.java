@@ -183,7 +183,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 sentencia.setInt(1,resultadoParaEnteros);
                 sentencia.setString(2,paciente.getEmailAlternativo());
                 sentencia.setString(3,paciente.getTelefonoAlternativo());
-                sentencia.setInt(4,paciente.getPrevisionPaciente());
+                sentencia.setInt(4,paciente.getPrevision().getValor());
                 sentencia.setString(5,paciente.getNacionalidad());
 
                 sentencia.executeUpdate();

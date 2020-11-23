@@ -27,6 +27,20 @@ public enum PrevisionEnum
         return FONASA;
     }
 
+    public int getValor()
+    {
+        switch (nombre)
+        {
+            case "Isapre":
+                return 1;
+
+            case "Capredena":
+                return 2;
+        }
+
+        return 0;
+    }
+
     public String getNombre()
     {
         return nombre;

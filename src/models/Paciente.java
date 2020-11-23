@@ -81,17 +81,4 @@ public class Paciente extends Usuario{
     public void setEmailAlternativo(String emailAlternativo) {
         this.emailAlternativo = emailAlternativo;
     }
-
-    public int getPrevisionPaciente(){
-        if(this.prevision == PrevisionEnum.FONASA){
-            return 1;
-        }
-        if(this.prevision == PrevisionEnum.ISAPRE){
-            return 2;
-        }
-        if(this.prevision == PrevisionEnum.CAPREDENA){
-            return 3;
-        }
-        return 0;
-    }
 }
