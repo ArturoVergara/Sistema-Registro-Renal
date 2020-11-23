@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FormularioAgregarPacienteController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
          <children>
@@ -54,7 +53,7 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <JFXTextField focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css">
+            <JFXTextField fx:id="nombre" focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
@@ -73,37 +72,37 @@
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="RUT" />
-                        <JFXTextField focusColor="#6a72ef" prefHeight="25.0" prefWidth="370.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXTextField fx:id="rut" focusColor="#6a72ef" prefHeight="25.0" prefWidth="370.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="Fecha de Nacimiento" />
-                        <JFXDatePicker defaultColor="#6a72ef" prefHeight="25.0" prefWidth="387.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXDatePicker fx:id="fechaNacimiento" defaultColor="#6a72ef" prefHeight="25.0" prefWidth="387.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="Dirección" />
-                        <JFXTextField focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXTextField fx:id="direccion" focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="Previsión" />
-                        <JFXComboBox focusColor="#6a72ef" prefHeight="25.0" prefWidth="388.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXComboBox fx:id="prevision" focusColor="#6a72ef" prefHeight="25.0" prefWidth="388.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="Correo Electrónico" />
-                        <JFXTextField focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXTextField fx:id="email" focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="Teléfono" />
-                        <JFXTextField focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXTextField fx:id="telefono" focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                      </children>
                   </VBox>
                </children>

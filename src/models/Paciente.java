@@ -30,7 +30,7 @@ public class Paciente extends Usuario{
         this.nacionalidad=nacionalidad;
         this.telefonoAlternativo= telefonoAlternativo;
         this.emailAlternativo =emailAlternativo;
-        this.prevision = getPrevisionEnum(prevision);
+        this.prevision = PrevisionEnum.fromInteger(prevision);
         this.fichaPaciente = null;
     }
 
@@ -93,17 +93,5 @@ public class Paciente extends Usuario{
             return 3;
         }
         return 0;
-    }
-
-    private PrevisionEnum getPrevisionEnum(int i){
-
-        if(i == 1){
-            return PrevisionEnum.ISAPRE;
-        }
-        else if(i == 2){
-            return PrevisionEnum.CAPREDENA;
-        }
-
-        return PrevisionEnum.FONASA;
     }
 }

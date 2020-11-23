@@ -1,5 +1,8 @@
 package controllers;
 
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import models.PersonalMedico;
+import models.enums.PrevisionEnum;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,6 +42,30 @@ public class MenuPrincipalController implements Initializable
 
     @FXML
     private void finalizarPrograma(ActionEvent event){}
+
+    @FXML
+    private void cargarVistaAgregarPaciente()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/FormularioAgregarPaciente.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            FormularioAgregarPacienteController controlador = (FormularioAgregarPacienteController) loader.getController();
+            controlador.inicializar(usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
 
     @FXML
     private void cargarVistaTablaPacientes()
