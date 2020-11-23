@@ -6,13 +6,13 @@ import java.util.Objects;
 public class Usuario
 {
     private final int id;
-    private final String rut;
-    private final String contrasena;
-    private final String nombre;
-    private final String direccion;
-    private final String email;
-    private final String telefono;
-    private LocalDateTime fechaCreacion;
+    private String rut;
+    private String contrasena;
+    private String nombre;
+    private String direccion;
+    private String email;
+    private String telefono;
+    private final LocalDateTime fechaCreacion;
 
     //Constructor para la aplicación
     public Usuario(String rut, String contrasena, String nombre, String direccion, String email, String telefono)
@@ -68,6 +68,36 @@ public class Usuario
         return telefono;
     }
 
+    public void setRut(String rut)
+    {
+        this.rut = rut;
+    }
+
+    public void setNombre(String nombre)
+    {
+        this.nombre = nombre;
+    }
+
+    public void setContrasena(String contrasena)
+    {
+        this.contrasena = contrasena;
+    }
+
+    public void setDireccion(String direccion)
+    {
+        this.direccion = direccion;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public void setTelefono(String telefono)
+    {
+        this.telefono = telefono;
+    }
+
     public void showUserData(Usuario usuario){
         System.out.println("Datos del usuario: ");
         System.out.println(
@@ -86,9 +116,6 @@ public class Usuario
         return (this.rut.equals(rut) && this.contrasena.equals(contrasena));
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
 
     @Override
     public boolean equals(Object o) {

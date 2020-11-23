@@ -151,7 +151,25 @@ public class TablaPacientesController implements Initializable
 
     void cargarVistaModificarPaciente(Paciente dato)
     {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/FormularioModificarPaciente.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
 
+            //Obtiene el controlador de TablaPacientes
+            FormularioModificarPacienteController controlador = (FormularioModificarPacienteController) loader.getController();
+            controlador.inicializar(usuario, dato);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
     }
 
     void eliminarPaciente(Paciente dato, int indice)
