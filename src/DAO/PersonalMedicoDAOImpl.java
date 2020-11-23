@@ -1,6 +1,7 @@
 package DAO;
 
 import core.DataBase;
+import models.Paciente;
 import models.PersonalMedico;
 
 import java.sql.*;
@@ -36,7 +37,6 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -55,6 +55,75 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
     }
 
     @Override
+    public PersonalMedico getPersonalMedico(PersonalMedico personalMedico) {
+        query = "SELECT * FROM Usuario AS U INNER JOIN Personal AS P WHERE rut=? AND U.id = P.idUsuario";
+        PersonalMedico personalMedicoRetorno = null;
+        try
+        {
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,personalMedico.getRut());
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next())
+            {
+                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                PersonalMedico dato = new PersonalMedico(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+                );
+                personalMedicoRetorno = dato;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return personalMedicoRetorno;
+    }
+
+    @Override
+    public PersonalMedico getPersonalMedico(int id) {
+        query = "SELECT * FROM Usuario AS U INNER JOIN Personal AS P WHERE P.id=? AND U.id = P.idUsuario";
+        PersonalMedico personalMedicoRetorno = null;
+        try
+        {
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,id);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next())
+            {
+                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                PersonalMedico dato = new PersonalMedico(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+                );
+                personalMedicoRetorno = dato;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return personalMedicoRetorno;
+    }
+
+    @Override
     public List<PersonalMedico> getAllPersonalMedico() {
         List<PersonalMedico> list = new ArrayList<>();
         query = "SELECT * FROM personal inner join usuario WHERE personal.idUsuario=usuario.id";
@@ -69,7 +138,6 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -147,9 +215,150 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
         }
     }
 
+    @Override
+    public PersonalMedico updatePersonalMedico(PersonalMedico personalMedico) {
+        /**
+         * Se crea usuario y se guarda en la db
+         * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
+         * Se retorna null si hubo un error al guardar el usuario
+         */
+        query = "SELECT * FROM personal AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id and P.idUsuario=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,personalMedico.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                PersonalMedico dato = new PersonalMedico(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+                );
+                out.print("Información del personal: \n");
+                dato.showUserData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        query = "UPDATE personal AS P " +
+                "INNER JOIN usuario AS U " +
+                "ON P.idUsuario = U.id AND P.idUsuario=? " +
+                "SET " +
+                "rut = ? ," +
+                "nombre = ? ," +
+                "direccion = ? ," +
+                "email = ? ," +
+                "telefono = ? ," +
+                "tipoPersonal = ? ,";
+
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,personalMedico.getId());
+            sentencia.setString(2,personalMedico.getRut());
+            sentencia.setString(3,personalMedico.getNombre());
+            sentencia.setString(4,personalMedico.getDireccion());
+            sentencia.setString(5,personalMedico.getEmail());
+            sentencia.setString(6,personalMedico.getTelefono());
+            sentencia.setInt(6,personalMedico.getTipoPersonalInt());
+
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("Personal " + personalMedico.getTipoPersonal() + " actualizado con éxito!\n");
+            }else{
+                out.println("Lo sentimos, hubo un error al actualizar el Personal" + personalMedico.getTipoPersonal() + "...\n");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        query = "SELECT * FROM personal AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id AND P.idUsuario=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,personalMedico.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                PersonalMedico dato = new PersonalMedico(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+                );
+                out.print("Información del personal actualizada: \n");
+                dato.showUserData();
+                return personalMedico;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public void deletePersonalMedico(String rut) {
+        query = "DELETE p FROM personal AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE U.rut=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void deletePersonalMedico(PersonalMedico personalMedico){
+        query = "DELETE p FROM personal AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,personalMedico.getId());
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deletePersonalMedico(int id){
+        query = "DELETE p FROM personal AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,id);
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

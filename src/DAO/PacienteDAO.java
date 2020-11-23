@@ -5,7 +5,7 @@ import models.Paciente;
 import java.util.List;
 
 public interface PacienteDAO {
-    //Paciente getPaciente(String rut);
+    Paciente getPaciente(String rut);
 
     Paciente getPaciente(int id);
 
@@ -15,5 +15,11 @@ public interface PacienteDAO {
 
     Paciente updatePaciente(Paciente paciente);
 
+//    Paciente agregarDiagnosticoPaciente(Diagnostico );
+
     void deletePaciente(int id);
+
+    void deletePaciente(Paciente paciente);
+
+    void deletePaciente(String rut);
 }

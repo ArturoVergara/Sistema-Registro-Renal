@@ -78,7 +78,6 @@ public class PacienteDAOtest {
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -107,7 +106,7 @@ public class PacienteDAOtest {
 
     @org.junit.jupiter.api.Test
     void createPaciente() {
-        Paciente paciente = new Paciente(100,"borrar","QWERTY","JOSE VERGARA","BRASIL 58","ASD@MAIL.COM","+569 82017717",
+        Paciente paciente = new Paciente(10,"borrar","JOSE VERGARA","BRASIL 58","ASD@MAIL.COM","82017717",
                 LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"NONE","NONE");
 
         /**
@@ -115,7 +114,7 @@ public class PacienteDAOtest {
          * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
          * Se retorna null si hubo un error al guardar el usuario
          */
-        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
+        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,null,now())";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -124,8 +123,7 @@ public class PacienteDAOtest {
             sentencia.setString(2,paciente.getNombre());
             sentencia.setString(3,paciente.getDireccion());
             sentencia.setString(4,paciente.getEmail());
-            sentencia.setString(5,paciente.getContrasena());
-            sentencia.setString(6,paciente.getTelefono());
+            sentencia.setString(5,paciente.getTelefono());
 
             resultado2 = sentencia.executeUpdate();
 
@@ -169,7 +167,7 @@ public class PacienteDAOtest {
     @org.junit.jupiter.api.Test
     void updatePaciente()
     {
-        Paciente paciente = new Paciente(19,"19940860-7","QWERRRTY","FELIPE GUAJARDO NUNEZ","BRASIL 58","AGN@MAIL.CL","82017717",
+        Paciente paciente = new Paciente(2,"19940860-7","FELIPE GUAJARDO NUNEZ","BRASIL 58","AGN@MAIL.CL","82017717",
                 LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"telefono","mailalternativotest");
 
         /**
@@ -189,7 +187,6 @@ public class PacienteDAOtest {
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -254,7 +251,6 @@ public class PacienteDAOtest {
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),

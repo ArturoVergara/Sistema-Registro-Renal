@@ -24,13 +24,13 @@ public class Paciente extends Usuario{
         this.emailAlternativo = null;
     }
 
-    public Paciente(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion) {
-        super(id, rut, contrasena, nombre, direccion, email, telefono, fechaCreacion);
+    public Paciente(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion) {
+        super(id, rut, nombre, direccion, email, telefono, fechaCreacion);
     }
 
-    public Paciente(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion,
+    public Paciente(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion,
                     Date fechaNacimiento, String nacionalidad, int prevision, String telefonoAlternativo, String emailAlternativo) {
-        super(id, rut, contrasena, nombre, direccion, email, telefono, fechaCreacion);
+        super(id, rut, nombre, direccion, email, telefono, fechaCreacion);
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad=nacionalidad;
         this.telefonoAlternativo= telefonoAlternativo;

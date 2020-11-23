@@ -4,6 +4,7 @@ import core.DataBase;
 import models.Usuario;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,6 @@ class UsuarioDAOImplTest{
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -72,7 +72,6 @@ class UsuarioDAOImplTest{
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -146,14 +145,14 @@ class UsuarioDAOImplTest{
 
     @org.junit.jupiter.api.Test
     void testCredentialsPersonal(){
-        String rut = "111";
-        String contrasena = "asd";
+        String rut = "14.501.741-6";
+        String contrasena = "cDay";
         /**
          * estas credenciales retornan un 1 si se encuentra un personal
          * 0 será retornado si no se encuentra un personal, es decir, las credenciales son erróneas.
          */
         List<Usuario> list = new ArrayList<>();
-        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id";
+        query = "SELECT count(*) FROM usuario AS U inner join personal AS P where (rut=? and contrasena=?) and (contrasena IS NOT null) and P.idUsuario=U.id";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -175,5 +174,54 @@ class UsuarioDAOImplTest{
             e.printStackTrace();
         }
         //return true;
+    }
+
+    @org.junit.jupiter.api.Test
+    void cambiarContrasena(){
+        /*query = "SELECT * FROM usuario AS U WHERE U.id=?";
+        Usuario usuarioRetorno=null;
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,usuario.getId());
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next())
+            {
+                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                Usuario dato = new Usuario(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("contrasena"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime()
+                );
+                usuarioRetorno = dato;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+        Usuario usuario = new Usuario(2, "19940860-7", "FELIPE GUAJARDO N", "BRASIL 58", "ASD", "ASD", LocalDateTime.now());
+
+        query = "UPDATE usuario AS U SET U.contrasena=? WHERE U.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,usuario.getContrasena());            sentencia.setString(1,usuario.getContrasena());
+            sentencia.setInt(2,usuario.getId());
+            resultado2 = sentencia.executeUpdate();
+
+            if(resultado2 >0){
+                out.println("Clave actualizada con éxito!\n");
+            }else{
+                out.println("Lo sentimos, hubo un error al cambiar la clave...\n");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

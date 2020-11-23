@@ -20,9 +20,9 @@ public class PacienteDAOImpl implements PacienteDAO{
     private static int resultadoParaEnteros;
     public String query;
 
- /*   @Override
+    @Override
     public Paciente getPaciente(String rut) {
-        query = "SELECT * FROM sistema_registro_renal.paciente INNER JOIN usuario where paciente.rut=?";
+        query = "SELECT * FROM paciente AS P INNER JOIN usuario WHERE P.rut=?";
         Paciente pacienteRetorno = null;
         try
         {
@@ -31,30 +31,31 @@ public class PacienteDAOImpl implements PacienteDAO{
             sentencia.setString(1,rut);
             resultado = sentencia.executeQuery();
 
-            while (resultado.next())
-            {
-                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
-                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
                         timestamp.toLocalDateTime(),
-                        resultado.getInt("tipoPersonal")
+                        resultado.getDate("fechaNacimiento"),
+                        resultado.getString("nacionalidad"),
+                        resultado.getInt("prevision"),
+                        resultado.getString("telefonoAlternativo"),
+                        resultado.getString("emailAlternativo")
                 );
-                pacienteRetorno = dato;
+                pacienteRetorno=dato;
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        return personalMedicoRetorno;
-    }*/
+        return pacienteRetorno;
+    }
 
     @Override
     public Paciente getPaciente(int id)
@@ -73,7 +74,6 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -113,7 +113,6 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -214,7 +213,6 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -279,7 +277,6 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Paciente dato = new Paciente(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -303,70 +300,57 @@ public class PacienteDAOImpl implements PacienteDAO{
 
     @Override
     public void deletePaciente(int id) {
-       /* query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id and P.idUsuario=?";
+        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=1";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             sentencia.setInt(1,id);
-            resultado = sentencia.executeQuery();
-            while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
-                Timestamp timestamp = new Timestamp(date.getTime());
-                Paciente dato = new Paciente(
-                        resultado.getInt("id"),
-                        resultado.getString("rut"),
-                        resultado.getString("contrasena"),
-                        resultado.getString("nombre"),
-                        resultado.getString("direccion"),
-                        resultado.getString("email"),
-                        resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
-                        resultado.getDate("fechaNacimiento"),
-                        resultado.getString("nacionalidad"),
-                        resultado.getInt("prevision"),
-                        resultado.getString("telefonoAlternativo"),
-                        resultado.getString("emailAlternativo")
-                );
-                out.print("Información del paciente: \n");
-                dato.showUserData();
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        query = "UPDATE paciente AS P " +
-                "INNER JOIN usuario AS U " +
-                "ON P.idUsuario = U.id AND P.idUsuario=? " +
-                "SET " +
-                "rut = ? ," +
-                "nombre = ? ," +
-                "direccion = ? ," +
-                "email = ? ," +
-                "telefono = ? ," +
-                "nacionalidad = ? ," +
-                "prevision = ? ," +
-                "telefonoAlternativo = ? ," +
-                "emailAlternativo = ?";
+
+    }
+
+    @Override
+    public void deletePaciente(Paciente paciente) {
+        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             sentencia.setInt(1,paciente.getId());
-            sentencia.setString(2,paciente.getRut());
-            sentencia.setString(3,paciente.getNombre());
-            sentencia.setString(4,paciente.getDireccion());
-            sentencia.setString(5,paciente.getEmail());
-            sentencia.setString(6,paciente.getTelefono());
-            sentencia.setString(7,paciente.getNacionalidad());
-            sentencia.setInt(8,paciente.getPrevision().getValor());
-            sentencia.setString(9,paciente.getTelefonoAlternativo());
-            sentencia.setString(10,paciente.getEmailAlternativo());
             resultadoParaEnteros = sentencia.executeUpdate();
             if(resultadoParaEnteros >0){
-                out.println("Paciente actualizado con éxito!\n");
-            }else{
-                out.println("Lo sentimos, hubo un error al actualizar el Paciente...\n");
+                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
             }
-        }catch (SQLException e){
+        }catch (Exception e){
             e.printStackTrace();
-        }*/
+        }
+    }
+
+    @Override
+    public void deletePaciente(String rut) {
+        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE U.rut=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
+            resultadoParaEnteros = sentencia.executeUpdate();
+            if(resultadoParaEnteros >0){
+                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            }else {
+                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

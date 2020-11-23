@@ -28,11 +28,11 @@ public class Usuario
     }
 
     //Constructor para MySQL (Base de Datos)
-    public Usuario(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion)
+    public Usuario(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion)
     {
         this.id = id;
         this.rut = rut;
-        this.contrasena = contrasena;
+        this.contrasena = null;
         this.nombre = nombre;
         this.direccion = direccion;
         this.email = email;

@@ -1,8 +1,6 @@
 package DAO;
 
 import core.DataBase;
-import models.Paciente;
-import models.PersonalMedico;
 import models.Usuario;
 
 import java.sql.*;
@@ -39,7 +37,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -74,7 +71,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -108,7 +104,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 Usuario dato = new Usuario(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -134,7 +129,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
          * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
          * Se retorna null si hubo un error al guardar el usuario
           */
-        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
+        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,null,now())";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -143,8 +138,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             sentencia.setString(2,usuario.getNombre());
             sentencia.setString(3,usuario.getDireccion());
             sentencia.setString(4,usuario.getEmail());
-            sentencia.setString(5,usuario.getContrasena());
-            sentencia.setString(6,usuario.getTelefono());
+            sentencia.setString(5,usuario.getTelefono());
 
             resultadoParaEnteros = sentencia.executeUpdate();
 
@@ -182,8 +176,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public boolean testCredentialsPersonal(String rut, String contrasena){
-        List<Usuario> list = new ArrayList<>();
-        query = "SELECT count(*) FROM sistema_registro_renal.usuario inner join personal where (rut=? and contrasena=?) and personal.idUsuario=usuario.id";
+        query = "SELECT count(*) FROM usuario AS U inner join personal AS P where (rut=? and contrasena=?) and (contrasena IS NOT null) and P.idUsuario=U.id";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -202,6 +195,48 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         out.println("*** Credenciales incorrectas ***");
         return false;
     }
+
+    @Override
+    public void cambiarContrasena(Usuario usuario){
+        query = "UPDATE usuario AS U SET U.contrasena=? WHERE U.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,usuario.getContrasena());
+            sentencia.setInt(2,usuario.getId());
+            resultadoParaEnteros = sentencia.executeUpdate();
+
+            if(resultadoParaEnteros >0){
+                out.println("Clave actualizada con éxito!\n");
+            }else{
+                out.println("Lo sentimos, hubo un error al cambiar la clave...\n");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void crearContrasena(Usuario usuario){
+        query = "UPDATE usuario AS U SET U.contrasena=? WHERE U.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,usuario.getContrasena());
+            sentencia.setInt(2,usuario.getId());
+            resultadoParaEnteros = sentencia.executeUpdate();
+
+            if(resultadoParaEnteros >0){
+                out.println("Clave creada con éxito!\n");
+            }else{
+                out.println("Lo sentimos, hubo un error al crear la clave...\n");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
 

@@ -10,4 +10,6 @@ public interface UsuarioDAO {
     Usuario createUsuario(Usuario usuario);
     void deleteUsuario(String rut);
     boolean testCredentialsPersonal(String rut, String contrasena);
+    void cambiarContrasena(Usuario usuario);
+    void crearContrasena(Usuario usuario);
 }

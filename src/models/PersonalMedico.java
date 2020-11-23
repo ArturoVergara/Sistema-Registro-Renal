@@ -8,12 +8,12 @@ public class PersonalMedico extends Usuario{
 
     private PersonalEnum tipoPersonal;
 
-    public PersonalMedico(String rut, String contrasena, String nombre, String direccion, String email, String telefono) {
-        super(rut, contrasena, nombre, direccion, email, telefono);
+    public PersonalMedico(String rut, String nombre, String direccion, String email, String telefono) {
+        super(rut, nombre, null, direccion, email, telefono);
     }
 
-    public PersonalMedico(int id, String rut, String contrasena, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion, int tipoPersonal) {
-        super(id, rut, contrasena, nombre, direccion, email, telefono, fechaCreacion);
+    public PersonalMedico(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion, int tipoPersonal) {
+        super(id, rut, nombre, direccion, email, telefono, fechaCreacion);
         this.tipoPersonal= this.getTipoPersonalPersonal(tipoPersonal);
 
     }
@@ -69,5 +69,16 @@ public class PersonalMedico extends Usuario{
 
     public void setTipoPersonal(PersonalEnum tipoPersonal) {
         this.tipoPersonal = tipoPersonal;
+    }
+
+    public void showUserData(){
+        System.out.print(
+                "Id: " + this.getId() + "\n" +
+                        "Nombre: " + this.getNombre() + "\n" +
+                        "Rut: " +     this.getRut() + "\n" +
+                        "Telefono: " + this.getTelefono()+ "\n" +
+                        "Direccion: " + this.getDireccion() + "\n" +
+                        "Email: " + this.getEmail() + "\n"
+        );
     }
 }
