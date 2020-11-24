@@ -167,7 +167,10 @@
             </GridPane>
             <HBox alignment="CENTER" prefHeight="142.0" prefWidth="795.0">
                <children>
-                  <JFXButton onAction="#agregarPaciente" prefHeight="37.0" prefWidth="150.0" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="AGREGAR" textFill="WHITE" />
+                  <JFXButton onAction="#agregarPaciente" prefHeight="37.0" prefWidth="150.0" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="AGREGAR" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXButton>
                </children>
             </HBox>
          </children>

@@ -4,6 +4,8 @@ import DAO.PacienteDAOImpl;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +34,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -102,6 +105,36 @@ public class FormularioModificarPacienteController implements Initializable
             }
         });
 
+        //Rut como los dioses
+        rut.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+            {
+                String temporalNuevo = newValue.replaceAll("[^\\d]", "");
+                String temporalViejo = oldValue.replaceAll("[^\\d]", "");
+
+                if (temporalNuevo.length() < 8)
+                    rut.setText(String.format("%,d", Integer.parseInt(temporalNuevo)));
+                else if (temporalNuevo.length() < 9)
+                    rut.setText(String.format("%,d", Integer.parseInt(temporalNuevo.substring(0,7))) + "-" + temporalNuevo.substring(7));
+                else if (temporalNuevo.length() < 10)
+                    rut.setText(String.format("%,d", Integer.parseInt(temporalNuevo.substring(0,8))) + "-" + temporalNuevo.substring(8));
+                else
+                    rut.setText(temporalViejo);
+            }
+        });
+
+        //Asignar al campo telefono la propiedad de aceptar solo un input númerico y con un signo mas antes (+)
+        // Ejemplo: +56911223344
+        telefono.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+            {
+                if (!newValue.matches("([\\+])?\\d{0,11}"))
+                    telefono.setText(oldValue);
+            }
+        });
+
         //Se rellenan los campos con los atributos del paciente
         nombre.setText(paciente.getNombre());
         rut.setText(paciente.getRut());
@@ -111,6 +144,25 @@ public class FormularioModificarPacienteController implements Initializable
         email.setText(paciente.getEmail());
         telefono.setText(paciente.getTelefono());
         nacionalidad.setText(paciente.getNacionalidad());
+    }
+
+    public boolean verificarRut(String rut)
+    {
+        byte[] serie = {2,3,4,5,6,7};
+        int digito, suma = 0;
+
+        rut = rut.replaceAll("[^\\d]", "");
+
+        for (int i = rut.length() - 2, j = 0; i >= 0; i--, j++)
+        {
+            if (j > 5)
+                j = 0;
+
+            suma += Character.getNumericValue(rut.charAt(i)) * serie[j];
+        }
+
+        digito = 11 - (suma - (11 * (suma / 11)));
+        return (digito == Character.getNumericValue(rut.charAt(rut.length() - 1)));
     }
 
     @FXML
@@ -176,6 +228,14 @@ public class FormularioModificarPacienteController implements Initializable
         {
             rut.requestFocus();
             rut.setFocusColor(Color.rgb(255,23,68));
+            errorRut.setText("Por favor ingrese un rut.");
+            return;
+        }
+
+        if (!verificarRut(rut.getText()))
+        {
+            rut.requestFocus();
+            rut.setFocusColor(Color.rgb(255,23,68));
             errorRut.setText("Por favor ingrese un rut válido.");
             return;
         }
@@ -212,6 +272,14 @@ public class FormularioModificarPacienteController implements Initializable
             return;
         }
 
+        if (!email.getText().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+        {
+            email.requestFocus();
+            email.setFocusColor(Color.rgb(255,23,68));
+            errorEmail.setText("Por favor ingrese un email válido.");
+            return;
+        }
+
         if (telefono.getText().isEmpty())
         {
             telefono.requestFocus();
@@ -241,13 +309,24 @@ public class FormularioModificarPacienteController implements Initializable
         //Se ingresa a la base de datos
         PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
 
+        //Si se modifico el rut, verifica que no exista otro igual en el sistema
+        if ((paciente.getRut().compareTo(rut.getText()) != 0) && (pacienteDAO.getPaciente(rut.getText()) != null))
+        {
+            alertaError("Ya existe un paciente registrado con ese rut en el sistema.");
+            rut.requestFocus();
+            rut.setFocusColor(Color.rgb(255,23,68));
+            return;
+        }
+
+        System.out.println(paciente.getId());
+
         if (pacienteDAO.updatePaciente(this.paciente) != null)
         {
             alertaInfo();
             cargarVistaTablaPacientes();
         }
         else
-            alertaError();
+            alertaError("Ocurrió un error al ingresar el paciente en la base de datos.");
     }
 
     private void alertaInfo()
@@ -261,12 +340,12 @@ public class FormularioModificarPacienteController implements Initializable
     }
 
     //Muestra un cuadro de dialogo de error, con un mensaje del porqué ocurrió dicho error
-    private void alertaError()
+    private void alertaError(String mensaje)
     {
         Alert ventana=new Alert(Alert.AlertType.ERROR);
-        ventana.setTitle("¡Error al modificar!");
-        ventana.setHeaderText("Error: No se pudo modificar el paciente");
-        ventana.setContentText("Ocurrió un error al modificar el paciente en la base de datos.");
+        ventana.setTitle("¡Error al ingresar!");
+        ventana.setHeaderText("Error: No se pudo ingresar el paciente");
+        ventana.setContentText(mensaje);
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();
