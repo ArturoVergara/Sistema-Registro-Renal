@@ -223,5 +223,6 @@ class UsuarioDAOImplTest{
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
 }
