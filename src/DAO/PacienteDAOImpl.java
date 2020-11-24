@@ -22,7 +22,7 @@ public class PacienteDAOImpl implements PacienteDAO{
 
     @Override
     public Paciente getPaciente(String rut) {
-        query = "SELECT * FROM paciente AS P INNER JOIN usuario WHERE P.rut=?";
+        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE U.rut=? and U.id=P.idUsuario";
         Paciente pacienteRetorno = null;
         try
         {
@@ -60,7 +60,7 @@ public class PacienteDAOImpl implements PacienteDAO{
     @Override
     public Paciente getPaciente(int id)
     {
-        query = "SELECT * FROM sistema_registro_renal.paciente INNER JOIN usuario where paciente.idUsuario=?";
+        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U where P.idUsuario=? and P.idUsuario = U.id";
         Paciente paciente=null;
         try {
             conexion = DataBase.conectar();
