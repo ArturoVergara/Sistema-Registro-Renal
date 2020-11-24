@@ -301,7 +301,7 @@ public class PacienteDAOImpl implements PacienteDAO{
 
     @Override
     public void deletePaciente(int id) {
-        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=1";
+        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
