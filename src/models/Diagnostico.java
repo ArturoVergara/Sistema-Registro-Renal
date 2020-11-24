@@ -13,12 +13,13 @@ public class Diagnostico{
     private String descripcionDiagnostico;
     private CategoriaDanioEnum categoriaDanioPaciente;
 
-    public Diagnostico(int id,LocalDateTime fechaCreacion, float resultadoExamen, String desc, CategoriaDanioEnum categoriaDanio){
+    public Diagnostico(int id, LocalDateTime fechaCreacion, LocalDateTime fechaActualizacion, float resultadoExamen, String desc, int categoriaDanio){
         this.id=id;
         this.fechaCreacion=fechaCreacion;
+        this.fechaActualizacion=fechaActualizacion;
         this.resultadoFiltradoGlomerular=resultadoExamen;
         this.descripcionDiagnostico=desc;
-        this.categoriaDanioPaciente=categoriaDanio;
+        this.categoriaDanioPaciente=this.getCategoriaDanio(categoriaDanio);
     }
 
     public int getId() {
@@ -59,5 +60,38 @@ public class Diagnostico{
 
     public void setCategoriaDanioPaciente(CategoriaDanioEnum categoriaDanio) {
         this.categoriaDanioPaciente = categoriaDanio;
+    }
+
+
+   /* public int getTipoExamenInt(){
+        if(this.tipoExamen == ExamenEnum.CREATININA){
+            return 1;
+        }
+        if(this.tipoExamen == ExamenEnum.ALBUMINA){
+            return 2;
+        }
+        if(this.tipoExamen == ExamenEnum.UREA){
+            return 3;
+        }
+        return 0;
+    }*/
+
+    public CategoriaDanioEnum getCategoriaDanio(int i){
+        if(i == 1){
+            return CategoriaDanioEnum.NORMAL;
+        }
+        if(i == 2){
+            return CategoriaDanioEnum.TEMPRANA;
+        }
+        if(i == 3){
+            return CategoriaDanioEnum.MODERADA;
+        }
+        if(i == 4){
+            return CategoriaDanioEnum.SEVERA;
+        }
+        if(i == 5){
+            return CategoriaDanioEnum.TERMINAL;
+        }
+        return null;
     }
 }

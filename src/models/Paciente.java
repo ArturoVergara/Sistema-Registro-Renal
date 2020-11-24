@@ -1,6 +1,5 @@
 package models;
 
-import models.enums.PersonalEnum;
 import models.enums.PrevisionEnum;
 
 import java.time.LocalDateTime;
