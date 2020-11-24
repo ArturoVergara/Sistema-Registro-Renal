@@ -7,15 +7,13 @@ import java.time.LocalDateTime;
 public class Diagnostico{
 
     private final int id;
-    private final LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
     private float resultadoFiltradoGlomerular;
     private String descripcionDiagnostico;
     private CategoriaDanioEnum categoriaDanioPaciente;
 
-    public Diagnostico(int id, LocalDateTime fechaCreacion, LocalDateTime fechaActualizacion, float resultadoExamen, String desc, int categoriaDanio){
+    public Diagnostico(int id, LocalDateTime fechaActualizacion, float resultadoExamen, String desc, int categoriaDanio){
         this.id=id;
-        this.fechaCreacion=fechaCreacion;
         this.fechaActualizacion=fechaActualizacion;
         this.resultadoFiltradoGlomerular=resultadoExamen;
         this.descripcionDiagnostico=desc;
@@ -26,9 +24,6 @@ public class Diagnostico{
         return id;
     }
 
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
 
     public LocalDateTime getFechaActualizacion() {
         return fechaActualizacion;
@@ -62,20 +57,6 @@ public class Diagnostico{
         this.categoriaDanioPaciente = categoriaDanio;
     }
 
-
-   /* public int getTipoExamenInt(){
-        if(this.tipoExamen == ExamenEnum.CREATININA){
-            return 1;
-        }
-        if(this.tipoExamen == ExamenEnum.ALBUMINA){
-            return 2;
-        }
-        if(this.tipoExamen == ExamenEnum.UREA){
-            return 3;
-        }
-        return 0;
-    }*/
-
     public CategoriaDanioEnum getCategoriaDanio(int i){
         if(i == 1){
             return CategoriaDanioEnum.NORMAL;
@@ -93,5 +74,16 @@ public class Diagnostico{
             return CategoriaDanioEnum.TERMINAL;
         }
         return null;
+    }
+
+    public void showDiagnosticoData(){
+        System.out.print(
+                        "Id: " + this.getId() + "\n" +
+                        "Último diagnóstico realizado al paciente: " + this.getFechaActualizacion() + "\n" +
+                        "Descripción del diagnóstico: " +     this.getDescripcionDiagnostico() + "\n" +
+                        "Categoria de daño del paciente (NORMAL/TEMPRANA/MODERADA/SEVERA/TERMINAL): " + this.getCategoriaDanioPaciente()+ "\n" +
+                        "Resultado de formula filtrado glomerular: " + this.getResultadoFiltradoGlomerular() + "\n"
+
+        );
     }
 }

@@ -17,9 +17,9 @@ public interface FichaMedicaDAO {
 
     List<Diagnostico> getDiagnosticosPaciente(FichaMedica fichaMedica);
 
-    List<Diagnostico> getUltimoDiagnostico(FichaMedica fichaMedica);
+    Diagnostico getUltimoDiagnostico(FichaMedica fichaMedica);
 
-    FichaMedica createFichaPaciente(FichaMedica fichaMedica);
+    FichaMedica createFichaPaciente(Paciente paciente, FichaMedica fichaMedica);
 
     FichaMedica updateFichaPaciente(FichaMedica fichaMedica);
 

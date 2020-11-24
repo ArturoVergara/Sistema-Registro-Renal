@@ -151,19 +151,19 @@ public class FormularioAgregarFichaMedicaController implements Initializable
             return;
         }
 
-        String etniaString;
+        boolean etniaString;
 
-        if (blanca.isSelected())
+        /*if (blanca.isSelected()) ARREGLAR
             etniaString = "Blanca";
         else
             etniaString = "Negra";
-
+*/
         //Agregar la ficha médica en la base de datos
         FichaMedica dato = new FichaMedica(
                 masculino.isSelected(),
                 Float.parseFloat(peso.getText()),
                 Float.parseFloat(estatura.getText()),
-                etniaString
+                1
         );
 
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();

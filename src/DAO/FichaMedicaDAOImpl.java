@@ -23,7 +23,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public FichaMedica getFichaPaciente(String rut) {
-        query = "SELECT * FROM fichamedica AS FM WHERE FM.rut=?";
+        query = "SELECT fm.* from fichamedica AS fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut =?";
         FichaMedica fichaMedicaRetorno= null;
         try {
             conexion = DataBase.conectar();
@@ -39,7 +39,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
                         resultado.getBoolean("sexo"),
                         resultado.getFloat("peso"),
                         resultado.getFloat("altura"),
-                        resultado.getString("etnia"),
+                        resultado.getInt("etnia"),
                         timestamp.toLocalDateTime()
                         );
                 fichaMedicaRetorno=dato;
@@ -52,8 +52,8 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
     }
 
     @Override
-    public FichaMedica getFichaPaciente(int id) {
-        query = "SELECT * FROM fichamedica AS FM WHERE FM.id=?";
+    public FichaMedica getFichaPaciente(int id){ //id -> id del paciente
+        query = "SELECT fm.* from fichamedica AS fm inner join paciente as p on fm.idPaciente=?";
         FichaMedica fichaMedicaRetorno= null;
         try {
             conexion = DataBase.conectar();
@@ -69,7 +69,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
                         resultado.getBoolean("sexo"),
                         resultado.getFloat("peso"),
                         resultado.getFloat("altura"),
-                        resultado.getString("etnia"),
+                        resultado.getInt("etnia"),
                         timestamp.toLocalDateTime()
                 );
                 fichaMedicaRetorno=dato;
@@ -83,10 +83,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public List<Examen> getExamenesPaciente(FichaMedica fichaMedica) {
-        query = "SELECT * FROM EXAMEN as E" +
-                "JOIN fichamedica as FM" +
-                "ON E.idFicha = FM.id" +
-                "WHERE E.idFicha=?";
+        query = "SELECT * FROM EXAMEN as E JOIN fichamedica as FM ON E.idFicha=? WHERE E.idFicha = FM.id";
         List<Examen> lista = new ArrayList<>();
         try {
             conexion = DataBase.conectar();
@@ -101,8 +98,8 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
                 Examen dato = new Examen(
                         resultado.getInt("id"),
                         timestamp.toLocalDateTime(),
-                        resultado.getInt("tipoExamen"),
-                        resultado.getFloat("resultadoExamen")
+                        resultado.getInt("tipo"),
+                        resultado.getFloat("valor")
                 );
                 lista.add(dato);
             }
@@ -110,15 +107,19 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
         catch (Exception e) {
             e.printStackTrace();
         }
-        return lista;
+        if(lista.size()>0){
+            for (Examen examen : lista) {
+                System.out.println(examen.getTipoExamenInt() + " " + examen.getFechaEmision());
+            }
+            return lista;
+        }else{
+            return null;
+        }
     }
 
     @Override
     public List<Diagnostico> getDiagnosticosPaciente(FichaMedica fichaMedica) {
-        query = "SELECT * FROM diagnostico as D" +
-                "JOIN fichamedica as FM" +
-                "ON D.idFicha = FM.id" +
-                "WHERE D.idFicha=?;";
+        query = "SELECT * FROM diagnostico as D JOIN fichamedica as FM ON D.idFicha=? WHERE D.idFicha = FM.id";
         List<Diagnostico> lista = new ArrayList<>();
         try {
             conexion = DataBase.conectar();
@@ -127,17 +128,11 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
             resultado = sentencia.executeQuery();
 
             while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
+                Date date = resultado.getDate("fechaActualizacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
-
-                Date date2 = resultado.getDate("fechaActualizacion");
-                Timestamp timestamp2 = new Timestamp(date2.getTime());
-
-
                 Diagnostico dato = new Diagnostico(
                         resultado.getInt("id"),
                         timestamp.toLocalDateTime(),
-                        timestamp2.toLocalDateTime(),
                         resultado.getFloat("resultado"),
                         resultado.getString("descripcion"),
                         resultado.getInt("categoriaDanio")
@@ -148,31 +143,65 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
         catch (Exception e) {
             e.printStackTrace();
         }
-        return lista;
+        if(lista.size()>0){
+            for (Diagnostico diagnostico : lista) {
+                System.out.println(diagnostico.getFechaActualizacion()+ " " + diagnostico.getCategoriaDanioPaciente());
+            }
+            return lista;
+        }else{
+            return null;
+        }
     }
 
     @Override
-    public List<Diagnostico> getUltimoDiagnostico(FichaMedica fichaMedica) {
-        return null;
+    public Diagnostico getUltimoDiagnostico(FichaMedica fichaMedica) {
+        query = "SELECT * FROM diagnostico AS D INNER JOIN fichamedica AS FM ON D.idFicha=? ORDER BY fechaActualizacion DESC LIMIT 1;";
+        Diagnostico diagnostico = null;
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+
+            sentencia.setInt(1,fichaMedica.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaActualizacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                Diagnostico dato = new Diagnostico(
+                        resultado.getInt("id"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getFloat("resultado"),
+                        resultado.getString("descripcion"),
+                        resultado.getInt("categoriaDanio")
+                );
+                diagnostico= dato;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if (diagnostico!=null){
+            diagnostico.showDiagnosticoData();
+            return diagnostico;
+        }else{
+            return null;
+        }
     }
 
     @Override
-    public FichaMedica createFichaPaciente(FichaMedica fichaMedica) {
+    public FichaMedica createFichaPaciente(Paciente paciente, FichaMedica fichaMedica) {
         /**
          * Se crea usuario y se guarda en la db
          * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
          * Se retorna null si hubo un error al guardar el usuario
          */
-        query = "INSERT INTO fichamedica (sexo,peso,altura,etnia,fechaCreacion) VALUES (?,?,?,?,now())";
+        query = "INSERT INTO fichamedica (idFicha,sexo,peso,altura,etnia,fechaCreacion) VALUES (?,?,?,?,?,now())";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-
-            sentencia.setInt(1,fichaMedica.getSexo());
-            sentencia.setFloat(2,fichaMedica.getPesoPaciente());
-            sentencia.setFloat(3,fichaMedica.getAlturaPaciente());
-            sentencia.setString(4,fichaMedica.getEtniaPaciente());
-
+            sentencia.setInt(1,paciente.getId());
+            sentencia.setInt(2,fichaMedica.getSexo());
+            sentencia.setFloat(3,fichaMedica.getPesoPaciente());
+            sentencia.setFloat(4,fichaMedica.getAlturaPaciente());
+            sentencia.setInt(5,fichaMedica.getEtniaPaciente());
             resultadoParaEnteros = sentencia.executeUpdate();
 
         }catch (Exception e){
@@ -223,7 +252,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
             sentencia.setInt(1,fichaMedica.getSexo());
             sentencia.setFloat(2,fichaMedica.getPesoPaciente());
             sentencia.setFloat(3,fichaMedica.getAlturaPaciente());
-            sentencia.setString(4,fichaMedica.getEtniaPaciente());
+            sentencia.setInt(4,fichaMedica.getEtniaPaciente());
             sentencia.setInt(5,fichaMedica.getId());
             resultadoParaEnteros = sentencia.executeUpdate();
 

@@ -35,7 +35,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
                 Paciente dato = new Paciente(
-                        resultado.getInt("id"),
+                        resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
@@ -72,7 +72,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
                 Paciente dato = new Paciente(
-                        resultado.getInt("id"),
+                        resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
@@ -111,7 +111,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
                 Paciente dato = new Paciente(
-                        resultado.getInt("id"),
+                        resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
@@ -212,7 +212,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
                 Paciente dato = new Paciente(
-                        resultado.getInt("id"),
+                        resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
@@ -276,7 +276,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 Date date = resultado.getDate("fechaCreacion");
                 Timestamp timestamp = new Timestamp(date.getTime());
                 Paciente dato = new Paciente(
-                        resultado.getInt("id"),
+                        resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
