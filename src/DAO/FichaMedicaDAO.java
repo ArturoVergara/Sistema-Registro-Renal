@@ -23,13 +23,13 @@ public interface FichaMedicaDAO {
 
     FichaMedica updateFichaPaciente(FichaMedica fichaMedica);
 
-    Diagnostico agregarDiagnosticoAFicha(Diagnostico diagnostico);
+    Diagnostico agregarDiagnosticoAFicha(FichaMedica fichaMedica, Diagnostico diagnostico);
 
-    Examen agregarExamenAFicha(Examen examen);
+    Examen agregarExamenAFicha(FichaMedica fichaMedica, Examen examen);
 
-    FichaMedica deleteFichaPaciente(int idFicha);
+    boolean deleteFichaPaciente(int idFicha);
 
-    FichaMedica deleteFichaPaciente(Paciente paciente);
+    boolean deleteFichaPaciente(FichaMedica fichaMedica);
 
-    FichaMedica deleteFichaPaciente(String rutPaciente);
+    boolean deleteFichaPaciente(Paciente paciente);
 }

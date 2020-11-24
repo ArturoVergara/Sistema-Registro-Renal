@@ -6,10 +6,7 @@ import models.Examen;
 import models.FichaMedica;
 import models.Paciente;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -192,31 +189,124 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public FichaMedica updateFichaPaciente(FichaMedica fichaMedica) {
+        /*query = "SELECT * FROM fichamedica AS FM WHERE FM.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,fichaMedica.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                FichaMedica dato = new FichaMedica(
+                        resultado.getInt("id"),
+                        resultado.getBoolean("sexo"),
+                        resultado.getFloat("peso"),
+                        resultado.getFloat("altura"),
+                        resultado.getString("etnia"),
+                        timestamp.toLocalDateTime()
+                );
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+        query = "UPDATE fichamedica AS FM" +
+                "SET " +
+                "sexo = ? ," +
+                "peso = ? ," +
+                "altura = ? ," +
+                "etnia = ? ," +
+                "WHERE FM.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,fichaMedica.getSexo());
+            sentencia.setFloat(2,fichaMedica.getPesoPaciente());
+            sentencia.setFloat(3,fichaMedica.getAlturaPaciente());
+            sentencia.setString(4,fichaMedica.getEtniaPaciente());
+            sentencia.setInt(5,fichaMedica.getId());
+            resultadoParaEnteros = sentencia.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("Ficha Medica del paciente actualizada con éxito!\n");
+            return fichaMedica;
+        }else{
+            out.println("Lo sentimos, hubo un error al actualizar la Ficha medica...\n");
+            return null;
+        }
+    }
+
+    @Override
+    public Diagnostico agregarDiagnosticoAFicha(FichaMedica fichaMedica, Diagnostico diagnostico) {
         return null;
     }
 
     @Override
-    public Diagnostico agregarDiagnosticoAFicha(Diagnostico diagnostico) {
+    public Examen agregarExamenAFicha(FichaMedica fichaMedica, Examen examen) {
         return null;
     }
 
     @Override
-    public Examen agregarExamenAFicha(Examen examen) {
-        return null;
+    public boolean deleteFichaPaciente(int idFicha) {
+        query = "DELETE FROM fichamedica AS FM WHERE FM.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,idFicha);
+            resultadoParaEnteros = sentencia.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("*** La ficha medica ha sido borrado de la base de datos correctamente ***");
+            return true;
+        }else {
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            return false;
+        }
     }
 
     @Override
-    public FichaMedica deleteFichaPaciente(int idFicha) {
-        return null;
+    public boolean deleteFichaPaciente(FichaMedica fichaMedica) {
+        query = "DELETE FROM fichamedica AS FM WHERE FM.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,fichaMedica.getId());
+            resultadoParaEnteros = sentencia.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("*** La ficha medica ha sido borrada de la base de datos correctamente ***");
+            return true;
+        }else {
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            return false;
+        }
     }
 
     @Override
-    public FichaMedica deleteFichaPaciente(Paciente paciente) {
-        return null;
-    }
+    public boolean deleteFichaPaciente(Paciente paciente) {
+        query = "DELETE f FROM fichamedica AS F INNER JOIN paciente AS P WHERE F.idUsuario=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,paciente.getId());
+            resultadoParaEnteros = sentencia.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("*** La ficha medica ha sido borrada de la base de datos correctamente ***");
+            return true;
+        }else {
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            return false;
+        }
 
-    @Override
-    public FichaMedica deleteFichaPaciente(String rutPaciente) {
-        return null;
     }
 }
