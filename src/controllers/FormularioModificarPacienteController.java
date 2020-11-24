@@ -296,16 +296,6 @@ public class FormularioModificarPacienteController implements Initializable
             return;
         }
 
-        //Se actualizan los campos de paciente
-        paciente.setNombre(nombre.getText());
-        paciente.setRut(rut.getText());
-        paciente.setFechaNacimiento(Date.from(fechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        paciente.setDireccion(direccion.getText());
-        paciente.setPrevision(prevision.getValue());
-        paciente.setEmail(email.getText());
-        paciente.setTelefono(telefono.getText());
-        paciente.setNacionalidad(nacionalidad.getText());
-
         //Se ingresa a la base de datos
         PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
 
@@ -318,7 +308,15 @@ public class FormularioModificarPacienteController implements Initializable
             return;
         }
 
-        System.out.println(paciente.getId());
+        //Se actualizan los campos de paciente
+        paciente.setNombre(nombre.getText());
+        paciente.setRut(rut.getText());
+        paciente.setFechaNacimiento(Date.from(fechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        paciente.setDireccion(direccion.getText());
+        paciente.setPrevision(prevision.getValue());
+        paciente.setEmail(email.getText());
+        paciente.setTelefono(telefono.getText());
+        paciente.setNacionalidad(nacionalidad.getText());
 
         if (pacienteDAO.updatePaciente(this.paciente) != null)
         {
