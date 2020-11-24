@@ -15,7 +15,6 @@ public class PersonalMedico extends Usuario{
     public PersonalMedico(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion, int tipoPersonal) {
         super(id, rut, nombre, direccion, email, telefono, fechaCreacion);
         this.tipoPersonal= this.getTipoPersonalPersonal(tipoPersonal);
-
     }
 
     public boolean isAdmin(){

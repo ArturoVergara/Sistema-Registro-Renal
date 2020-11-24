@@ -35,7 +35,6 @@ public class PersonalMedicoDAOTest {
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -67,7 +66,6 @@ public class PersonalMedicoDAOTest {
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
-                        resultado.getString("contrasena"),
                         resultado.getString("nombre"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
@@ -91,7 +89,7 @@ public class PersonalMedicoDAOTest {
 
     @org.junit.jupiter.api.Test
     void createPersonalMedico() {
-        PersonalMedico personalMedico = new PersonalMedico("1111234asd","22222345asd","333334","44445","555556","66667");
+        PersonalMedico personalMedico = new PersonalMedico("11111","felipe","feko","asdas@mail.cl","kkk");
         /**
          * Se crea usuario y se guarda en la db
          * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
@@ -107,8 +105,7 @@ public class PersonalMedicoDAOTest {
             sentencia.setString(2,personalMedico.getNombre());
             sentencia.setString(3,personalMedico.getDireccion());
             sentencia.setString(4,personalMedico.getEmail());
-            sentencia.setString(5,personalMedico.getContrasena());
-            sentencia.setString(6,personalMedico.getTelefono());
+            sentencia.setString(5,personalMedico.getTelefono());
 
             resultado2 = sentencia.executeUpdate();
 
