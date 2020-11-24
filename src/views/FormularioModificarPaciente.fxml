@@ -20,7 +20,7 @@
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
          <children>
-            <MaterialDesignIconView fill="WHITE" glyphName="ARROW_LEFT" size="36">
+            <MaterialDesignIconView fill="WHITE" glyphName="ARROW_LEFT" onMousePressed="#cargarVentanaAnterior" size="36">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -72,6 +72,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -140,6 +141,17 @@
                         </Label>
                      </children>
                   </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                     <children>
+                        <Label stylesheets="@../resources/css/formulario.css" text="Nacionalidad" textFill="#333333" />
+                        <JFXTextField fx:id="nacionalidad" focusColor="#6a72ef" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <Label fx:id="errorNacionalidad" prefHeight="20.0" prefWidth="781.0" styleClass="label-error" stylesheets="@../resources/css/login.css" textFill="#ff1744">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -150,7 +162,10 @@
             </GridPane>
             <HBox alignment="CENTER" prefHeight="142.0" prefWidth="795.0">
                <children>
-                  <JFXButton onAction="#modificarPaciente" prefHeight="37.0" prefWidth="150.0" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="MODIFICAR" textFill="WHITE" />
+                  <JFXButton onAction="#modificarPaciente" prefHeight="37.0" prefWidth="150.0" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="MODIFICAR" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></JFXButton>
                </children>
             </HBox>
          </children>

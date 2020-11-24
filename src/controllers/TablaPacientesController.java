@@ -176,8 +176,11 @@ public class TablaPacientesController implements Initializable
     {
         if (alertaEliminar(dato))
         {
+            PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
+
+            pacienteDAO.deletePaciente(dato.getId());
             tabla.getItems().remove(indice);
-            //Falta eliminar de la base de datos
+            alertaInfo();
         }
     }
 
@@ -199,6 +202,16 @@ public class TablaPacientesController implements Initializable
             return true;
 
         return false;
+    }
+
+    private void alertaInfo()
+    {
+        Alert ventana=new Alert(Alert.AlertType.INFORMATION);
+        ventana.setTitle("¡Éxito al eliminar!");
+        ventana.setHeaderText("Se ha eliminado al paciente satisfactioramente.");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
     }
 
     //Muestra una alerta con toda la información detallada de la excepción
