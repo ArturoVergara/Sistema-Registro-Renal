@@ -16,8 +16,8 @@ public class FichaMedica {
     private final LocalDateTime fechaCreacion;
 
 
-    public FichaMedica(int id, boolean sexoPaciente, float pesoPaciente, float alturaPaciente, String etniaPaciente){
-        this.id = id;
+    public FichaMedica(boolean sexoPaciente, float pesoPaciente, float alturaPaciente, String etniaPaciente){
+        this.id = 0;
         this.sexoPaciente = sexoPaciente;
         this.pesoPaciente= pesoPaciente;
         this.alturaPaciente=alturaPaciente;

@@ -1,5 +1,7 @@
 package controllers;
 
+import DAO.FichaMedicaDAO;
+import DAO.FichaMedicaDAOImpl;
 import DAO.PacienteDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -148,7 +150,24 @@ public class FormularioAgregarFichaMedicaController implements Initializable
             return;
         }
 
+        String etniaString;
+
+        if (blanca.isSelected())
+            etniaString = "Blanca";
+        else
+            etniaString = "Negra";
+
         //Agregar la ficha médica en la base de datos
+        FichaMedica dato = new FichaMedica(
+                masculino.isSelected(),
+                Float.parseFloat(peso.getText()),
+                Float.parseFloat(estatura.getText()),
+                etniaString
+        );
+
+        FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
+
+        //fichaMedicaDAO.createFichaPaciente()
     }
 
     private void alertaInfo()

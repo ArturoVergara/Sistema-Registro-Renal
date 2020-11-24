@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
@@ -31,6 +32,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class FormularioAgregarPacienteController implements Initializable
@@ -247,13 +249,31 @@ public class FormularioAgregarPacienteController implements Initializable
         if ((retorno = pacienteDAO.createPaciente(dato)) != null)
         {
             alertaInfo();
-            //System.out.println(retorno.getId());
-            //System.out.println(retorno.getContrasena());
-            cargarVistaAgregarFichaMedica(dato);
-            //cargarVistaTablaPacientes();
+
+            if (alertaConfirmacion())
+                cargarVistaAgregarFichaMedica(retorno);
+            else
+                cargarVistaTablaPacientes();
         }
         else
             alertaError();
+    }
+
+    private boolean alertaConfirmacion()
+    {
+        Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);
+
+        ventana.setTitle("Confirmar Creación de Ficha Médica");
+        ventana.initStyle(StageStyle.UTILITY);
+        ventana.setContentText("¿Desea agregar ahora la ficha médica del paciente");
+
+
+        Optional<ButtonType> opcion=ventana.showAndWait();
+
+        if (opcion.get() == ButtonType.OK)
+            return true;
+
+        return false;
     }
 
     private void alertaInfo()
