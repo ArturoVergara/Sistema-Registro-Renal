@@ -43,6 +43,8 @@ public class FormularioAgregarFichaMedicaController implements Initializable
     @FXML
     private BorderPane parentContainer;
     @FXML
+    private Label nombreUsuario;
+    @FXML
     private JFXTextField nombre;
     @FXML
     private JFXTextField rut;
@@ -82,8 +84,7 @@ public class FormularioAgregarFichaMedicaController implements Initializable
         this.usuario = usuario;
         this.paciente = paciente;
 
-        System.out.println(paciente.getNombre());
-        System.out.println(paciente.getRut());
+        nombreUsuario.setText(usuario.getNombre());
         nombre.setText(paciente.getNombre());
         rut.setText(paciente.getRut());
     }
@@ -167,7 +168,7 @@ public class FormularioAgregarFichaMedicaController implements Initializable
 
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
 
-        //fichaMedicaDAO.createFichaPaciente()
+        //fichaMedicaDAO.
     }
 
     private void alertaInfo()

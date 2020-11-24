@@ -29,6 +29,8 @@ public class MenuPrincipalController implements Initializable
 {
     @FXML
     private BorderPane parentContainer;
+    @FXML
+    private Label nombreUsuario;
 
     private PersonalMedico usuario;
 
@@ -38,6 +40,7 @@ public class MenuPrincipalController implements Initializable
     public void inicializar(PersonalMedico usuario)
     {
         this.usuario = usuario;
+        nombreUsuario.setText(usuario.getNombre());
     }
 
     @FXML

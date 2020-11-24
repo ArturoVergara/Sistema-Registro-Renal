@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
@@ -28,12 +29,16 @@
                   <Insets left="15.0" />
                </HBox.margin>
             </MaterialDesignIconView>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_CIRCLE" size="36">
                <HBox.margin>
-                  <Insets left="1000.0" right="10.0" />
+                  <Insets right="10.0" />
                </HBox.margin>
             </MaterialDesignIconView>
-            <Label styleClass="label-usuario" stylesheets="@../resources/css/navbar.css" text="Bastian Astudillo" textFill="WHITE" />
+            <Label fx:id="nombreUsuario" styleClass="label-usuario" stylesheets="@../resources/css/navbar.css" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Label>
          </children>
       </HBox>
    </top>

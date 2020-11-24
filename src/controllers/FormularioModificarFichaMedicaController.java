@@ -32,6 +32,8 @@ public class FormularioModificarFichaMedicaController implements Initializable
     @FXML
     private BorderPane parentContainer;
     @FXML
+    private Label nombreUsuario;
+    @FXML
     private JFXTextField nombre;
     @FXML
     private JFXTextField rut;
@@ -71,6 +73,7 @@ public class FormularioModificarFichaMedicaController implements Initializable
         this.usuario = usuario;
         this.paciente = paciente;
 
+        nombreUsuario.setText(usuario.getNombre());
         nombre.setText(paciente.getNombre());
         rut.setText(paciente.getRut());
     }

@@ -40,6 +40,8 @@ public class FormularioAgregarPacienteController implements Initializable
     @FXML
     private BorderPane parentContainer;
     @FXML
+    private Label nombreUsuario;
+    @FXML
     private JFXTextField nombre;
     @FXML
     private JFXTextField rut;
@@ -81,6 +83,7 @@ public class FormularioAgregarPacienteController implements Initializable
     {
         this.usuario = usuario;
 
+        nombreUsuario.setText(usuario.getNombre());
         prevision.setItems(FXCollections.observableArrayList(PrevisionEnum.FONASA, PrevisionEnum.ISAPRE, PrevisionEnum.CAPREDENA));
 
         System.out.println(PrevisionEnum.FONASA.getValor());

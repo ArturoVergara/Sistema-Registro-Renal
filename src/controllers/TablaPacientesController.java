@@ -36,6 +36,8 @@ public class TablaPacientesController implements Initializable
     @FXML
     private BorderPane parentContainer;
     @FXML
+    private Label nombreUsuario;
+    @FXML
     private TableView<Paciente> tabla;
     @FXML
     private TableColumn<Paciente, String> columnaNombre;
@@ -52,10 +54,10 @@ public class TablaPacientesController implements Initializable
     public void inicializar(PersonalMedico usuario)
     {
         this.usuario = usuario;
+        nombreUsuario.setText(usuario.getNombre());
+
         PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
         List<Paciente> pacientes = pacienteDAO.getPacientes();
-
-        System.out.println(pacientes);
 
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnaRut.setCellValueFactory(new PropertyValueFactory<>("rut"));

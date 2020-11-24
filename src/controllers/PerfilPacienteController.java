@@ -32,6 +32,8 @@ public class PerfilPacienteController implements Initializable
     @FXML
     private BorderPane parentContainer;
     @FXML
+    private Label nombreUsuario;
+    @FXML
     private Label nombrePaciente;
     @FXML
     private Label rutPaciente;
@@ -58,6 +60,7 @@ public class PerfilPacienteController implements Initializable
 
         this.usuario = usuario;
         this.paciente = paciente;
+        nombreUsuario.setText(usuario.getNombre());
 
         this.nombrePaciente.setText(paciente.getNombre());
         this.rutPaciente.setText(paciente.getRut());

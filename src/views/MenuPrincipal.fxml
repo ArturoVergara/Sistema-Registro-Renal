@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="parentContainer" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuPrincipalController">
@@ -164,7 +165,7 @@
       <AnchorPane prefHeight="600.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
    </left>
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
          <children>
             <MaterialDesignIconView fill="WHITE" glyphName="ARROW_LEFT" size="36">
                <cursor>
@@ -174,12 +175,16 @@
                   <Insets left="15.0" />
                </HBox.margin>
             </MaterialDesignIconView>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
             <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_CIRCLE" size="36">
                <HBox.margin>
-                  <Insets left="1000.0" right="10.0" />
+                  <Insets right="10.0" />
                </HBox.margin>
             </MaterialDesignIconView>
-            <Label styleClass="label-usuario" stylesheets="@../resources/css/navbar.css" text="Bastian Astudillo" textFill="WHITE" />
+            <Label fx:id="nombreUsuario" styleClass="label-usuario" stylesheets="@../resources/css/navbar.css" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Label>
          </children>
       </HBox>
    </top>
