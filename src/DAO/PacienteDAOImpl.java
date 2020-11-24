@@ -187,6 +187,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 e.printStackTrace();
             }
             out.println("Exito al crear el personal: " + paciente.getNombre() + "...\n");
+            paciente.setId(resultadoParaEnteros);
             return paciente;
         }else{
             out.println("Lo sentimos, hubo un error al crear el personal: " + paciente.getNombre() + "...");
