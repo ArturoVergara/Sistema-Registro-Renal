@@ -7,8 +7,8 @@ import java.util.List;
 public class FichaMedica {
 
     private final int id;
-    private boolean sexoPaciente;
-    private boolean etniaPaciente;
+    private boolean sexoPaciente; //TRUE -> HOMBRE; FALSE->MUJER
+    private boolean etniaPaciente; // TRUE-> BLANCO; FALSE->NEGRO
     private float pesoPaciente;
     private float alturaPaciente;
     List<Diagnostico> diagnosticosPaciente;
