@@ -187,6 +187,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 e.printStackTrace();
             }
             out.println("Exito al crear el personal: " + paciente.getNombre() + "...\n");
+            paciente.setId(resultadoParaEnteros);
             return paciente;
         }else{
             out.println("Lo sentimos, hubo un error al crear el personal: " + paciente.getNombre() + "...");
@@ -300,7 +301,7 @@ public class PacienteDAOImpl implements PacienteDAO{
 
     @Override
     public void deletePaciente(int id) {
-        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=1";
+        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);

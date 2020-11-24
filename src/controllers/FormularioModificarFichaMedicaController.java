@@ -1,6 +1,7 @@
 package controllers;
 
-import DAO.PacienteDAOImpl;
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,12 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Paciente;
@@ -23,28 +25,40 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class PerfilPacienteController implements Initializable
+public class FormularioModificarFichaMedicaController implements Initializable
 {
     @FXML
     private BorderPane parentContainer;
     @FXML
-    private Label nombrePaciente;
+    private JFXTextField nombre;
     @FXML
-    private Label rutPaciente;
+    private JFXTextField rut;
     @FXML
-    private Label fechaNacimientoPaciente;
+    private ToggleGroup sexo;
     @FXML
-    private Label direccionPaciente;
+    private JFXRadioButton masculino;
     @FXML
-    private Label previsionPaciente;
+    private JFXRadioButton femenino;
     @FXML
-    private Label emailPaciente;
+    private ToggleGroup etnia;
     @FXML
-    private Label telefonoPaciente;
+    private JFXRadioButton blanca;
+    @FXML
+    private JFXRadioButton negra;
+    @FXML
+    private JFXTextField estatura;
+    @FXML
+    private JFXTextField peso;
+    @FXML
+    private Label errorSexo;
+    @FXML
+    private Label errorEtnia;
+    @FXML
+    private Label errorEstatura;
+    @FXML
+    private Label errorPeso;
 
     private PersonalMedico usuario;
     private Paciente paciente;
@@ -54,60 +68,25 @@ public class PerfilPacienteController implements Initializable
 
     public void inicializar(PersonalMedico usuario, Paciente paciente)
     {
-        String prevision = "";
-
         this.usuario = usuario;
         this.paciente = paciente;
 
-        this.nombrePaciente.setText(paciente.getNombre());
-        this.rutPaciente.setText(paciente.getRut());
-        this.fechaNacimientoPaciente.setText(new SimpleDateFormat("dd / MM / yyyy").format(paciente.getFechaNacimiento()));
-        this.direccionPaciente.setText(paciente.getDireccion());
-        this.emailPaciente.setText(paciente.getEmail());
-        this.telefonoPaciente.setText(paciente.getTelefono());
-
-        switch (paciente.getPrevision())
-        {
-            case FONASA:
-                prevision = "Fonasa";
-                break;
-
-            case ISAPRE:
-                prevision = "Isapre";
-
-            default:
-                prevision = "Capredena";
-        }
-
-        this.previsionPaciente.setText(prevision);
+        nombre.setText(paciente.getNombre());
+        rut.setText(paciente.getRut());
     }
 
-    @FXML
-    private void eliminarFichaMedica(ActionEvent evento)
-    {
-        if (alertaEliminar())
-        {
-            //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
-
-            //pacienteDAO.deletePaciente(dato.getId());
-            //tabla.getItems().remove(indice);
-            alertaInfo();
-        }
-    }
-
-    @FXML
-    private void cargarVistaModificarFichaMedica(ActionEvent evento)
+    private void cargarVistaTablaPacientes()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/FormularioModificarFichaMedica.fxml"));
+            loader.setLocation(getClass().getResource("/views/TablaPacientes.fxml"));
             Parent root = loader.load();
             Scene escena = new Scene(root);
 
-            //Obtiene el controlador de FormularioAgregarFichaMedica
-            FormularioModificarFichaMedicaController controlador = (FormularioModificarFichaMedicaController) loader.getController();
-            controlador.inicializar(usuario, paciente);
+            //Obtiene el controlador de TablaPacientes
+            TablaPacientesController controlador = (TablaPacientesController) loader.getController();
+            controlador.inicializar(usuario);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);
@@ -119,31 +98,65 @@ public class PerfilPacienteController implements Initializable
         }
     }
 
-    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el paciente, retornando un booleano
-    private boolean alertaEliminar()
+    @FXML
+    private void agregarFichaMedica(ActionEvent evento)
     {
-        Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);
-        String contenido = "Paciente: "+paciente.getNombre()+"\nRut: "+paciente.getRut();
+        //Resetear todos los estilos
+        errorEstatura.setText("");
+        errorEtnia.setText("");
+        errorPeso.setText("");
+        errorSexo.setText("");
 
-        ventana.setTitle("Confirmar Eliminación de Ficha Médica");
-        ventana.setHeaderText(contenido);
-        ventana.initStyle(StageStyle.UTILITY);
-        ventana.setContentText("¿Realmente desea eliminar la ficha médica de este paciente?");
+        if (sexo.getSelectedToggle() == null)
+        {
+            masculino.requestFocus();
+            errorSexo.setText("Por favor seleccione una opción.");
+            return;
+        }
 
+        if (etnia.getSelectedToggle() == null)
+        {
+            blanca.requestFocus();
+            errorEtnia.setText("Por favor seleccione una opción.");
+            return;
+        }
 
-        Optional<ButtonType> opcion=ventana.showAndWait();
+        if (estatura.getText().isEmpty())
+        {
+            estatura.requestFocus();
+            estatura.setFocusColor(Color.rgb(255,23,68));
+            errorEstatura.setText("Por favor ingrese una estatura.");
+            return;
+        }
 
-        if (opcion.get() == ButtonType.OK)
-            return true;
-
-        return false;
+        if (peso.getText().isEmpty())
+        {
+            peso.requestFocus();
+            peso.setFocusColor(Color.rgb(255,23,68));
+            errorPeso.setText("Por favor ingrese un peso.");
+            return;
+        }
+        
+        //Modificar la ficha médica en la base de datos
     }
 
     private void alertaInfo()
     {
         Alert ventana=new Alert(Alert.AlertType.INFORMATION);
-        ventana.setTitle("¡Éxito al eliminar!");
-        ventana.setHeaderText("Se ha eliminado la ficha médica del paciente satisfactioramente.");
+        ventana.setTitle("¡Éxito al modificar!");
+        ventana.setHeaderText("Se ha modificado la ficha médica al paciente correctamente.");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
+    }
+
+    //Muestra un cuadro de dialogo de error, con un mensaje del porqué ocurrió dicho error
+    private void alertaError()
+    {
+        Alert ventana=new Alert(Alert.AlertType.ERROR);
+        ventana.setTitle("¡Error al modificar!");
+        ventana.setHeaderText("Error: No se pudo modificar la ficha médica");
+        ventana.setContentText("Ocurrió un error al modificar la ficha médica en la base de datos.");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();

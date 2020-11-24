@@ -43,7 +43,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="413.0" pickOnBounds="true">
                <image>
-                  <Image url="@../resources/images/hombre.jpg" />
+                  <Image url="@../resources/images/perfil.png" />
                </image>
             </ImageView>
             <Label fx:id="nombrePaciente" prefHeight="17.0" prefWidth="375.0" styleClass="label-nombre" stylesheets="@../resources/css/perfil.css" textFill="#4d4d4d">
@@ -204,7 +204,7 @@
             </Label>
             <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="371.0">
                <children>
-                  <JFXButton style="-fx-background-color: #FF1744;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Eliminar" textFill="WHITE">
+                  <JFXButton onAction="#eliminarFichaMedica" style="-fx-background-color: #FF1744;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Eliminar" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -212,7 +212,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton style="-fx-background-color: #00BB88;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Modificar" textFill="WHITE">
+                  <JFXButton onAction="#cargarVistaModificarFichaMedica" style="-fx-background-color: #00BB88;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Modificar" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>

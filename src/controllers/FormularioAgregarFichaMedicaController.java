@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
+import models.FichaMedica;
 import models.Paciente;
 import models.PersonalMedico;
 import models.enums.PrevisionEnum;

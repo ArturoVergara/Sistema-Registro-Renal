@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Usuario
 {
-    private final int id;
+    private  int id;
     private String rut;
     private String contrasena;
     private String nombre;
@@ -66,6 +66,11 @@ public class Usuario
 
     public String getTelefono() {
         return telefono;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public void setRut(String rut)
