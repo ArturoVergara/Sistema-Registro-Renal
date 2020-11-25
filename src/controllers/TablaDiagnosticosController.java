@@ -1,19 +1,13 @@
 package controllers;
 
+import DAO.DiagnosticoDAOImpl;
 import DAO.ExamenDAOImpl;
-import DAO.FichaMedicaDAO;
 import DAO.FichaMedicaDAOImpl;
-import DAO.PacienteDAOImpl;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,27 +20,21 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import javafx.util.Pair;
-import javafx.util.StringConverter;
-import models.Examen;
+import models.Diagnostico;
 import models.Paciente;
 import models.PersonalMedico;
-import models.enums.ExamenEnum;
-import models.enums.PersonalEnum;
-import models.enums.PrevisionEnum;
+import models.enums.CategoriaDanioEnum;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class TablaExamenesController implements Initializable
+public class TablaDiagnosticosController implements Initializable
 {
     @FXML
     private BorderPane parentContainer;
@@ -57,15 +45,17 @@ public class TablaExamenesController implements Initializable
     @FXML
     private Label rutPaciente;
     @FXML
-    private TableView<Examen> tabla;
+    private TableView<Diagnostico> tabla;
     @FXML
-    private TableColumn<Examen, String> columnaTipo;
+    private TableColumn<Diagnostico, CategoriaDanioEnum> columnaDano;
     @FXML
-    private TableColumn<Examen, Float> columnaResultado;
+    private TableColumn<Diagnostico, Float> columnaResultado;
     @FXML
-    private TableColumn<Examen, LocalDateTime> columnaFecha;
+    private TableColumn<Diagnostico, String> columnaDescripcion;
     @FXML
-    private TableColumn<Examen, String> columnaAcciones;
+    private TableColumn<Diagnostico, LocalDateTime> columnaFecha;
+    @FXML
+    private TableColumn<Diagnostico, String> columnaAcciones;
 
     private PersonalMedico usuario;
     private Paciente paciente;
@@ -85,21 +75,22 @@ public class TablaExamenesController implements Initializable
         //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
         //List<Paciente> pacientes = pacienteDAO.getPacientes();
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
-        List<Examen> examenes = fichaMedicaDAO.getExamenesPaciente(paciente.getFichaPaciente());
+        List<Diagnostico> diagnosticos = fichaMedicaDAO.getDiagnosticosPaciente(paciente.getFichaPaciente());
 
-        columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoExamen"));
-        columnaResultado.setCellValueFactory(new PropertyValueFactory<>("resultadoExamen"));
-        columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fechaEmision"));
+        columnaDano.setCellValueFactory(new PropertyValueFactory<>("categoriaDanioPaciente"));
+        columnaResultado.setCellValueFactory(new PropertyValueFactory<>("resultadoFiltradoGlomerular"));
+        columnaDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcionDiagnostico"));
+        columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
         columnaAcciones.setCellValueFactory(new PropertyValueFactory<>("ASDASD"));
 
 
         //Callback para reemplazar el valor de la columna Acciones por los botones eliminar
-        Callback<TableColumn<Examen, String>, TableCell<Examen, String>> cellFactory =  new Callback<TableColumn<Examen, String>, TableCell<Examen, String>>()
+        Callback<TableColumn<Diagnostico, String>, TableCell<Diagnostico, String>> cellFactory =  new Callback<TableColumn<Diagnostico, String>, TableCell<Diagnostico, String>>()
         {
             @Override
-            public TableCell call(TableColumn<Examen, String> param)
+            public TableCell call(TableColumn<Diagnostico, String> param)
             {
-                TableCell<Examen, String> cell = new TableCell<Examen, String>()
+                TableCell<Diagnostico, String> cell = new TableCell<Diagnostico, String>()
                 {
                     @Override
                     public void updateItem(String item, boolean empty)
@@ -117,8 +108,8 @@ public class TablaExamenesController implements Initializable
                         else
                         {
                             botonEliminar.setOnAction(event -> {
-                                Examen dato = getTableView().getItems().get(getIndex());
-                                eliminarExamen(dato, getIndex());
+                                Diagnostico dato = getTableView().getItems().get(getIndex());
+                                eliminarDiagnostico(dato, getIndex());
                             });
 
                             hbox.setSpacing(10.0);
@@ -140,8 +131,8 @@ public class TablaExamenesController implements Initializable
 
         columnaAcciones.setCellFactory(cellFactory);
 
-        if (examenes != null)
-            tabla.setItems(FXCollections.observableArrayList(examenes));
+        if (diagnosticos != null)
+            tabla.setItems(FXCollections.observableArrayList(diagnosticos));
     }
 
     @FXML
@@ -191,13 +182,13 @@ public class TablaExamenesController implements Initializable
         }
     }
 
-    void eliminarExamen(Examen dato, int indice)
+    void eliminarDiagnostico(Diagnostico dato, int indice)
     {
         if (alertaEliminar())
         {
-            ExamenDAOImpl examenDAO = new ExamenDAOImpl();
+            DiagnosticoDAOImpl diagnosticoDAO = new DiagnosticoDAOImpl();
 
-            if (examenDAO.deleteExamenPaciente(dato.getId()))
+            if (diagnosticoDAO.deleteDiagnosticoPaciente(dato.getId()))
             {
                 tabla.getItems().remove(indice);
                 alertaInfo();
@@ -207,95 +198,24 @@ public class TablaExamenesController implements Initializable
         }
     }
 
-    @FXML
-    private void agregarExamen()
-    {
-        Dialog<Pair<ExamenEnum,Float>> ventana = new Dialog<>();
-
-        ventana.setTitle("Agregar Exámen");
-        ventana.setHeaderText("Por favor ingrese los siguientes campos para agregar un exámen.");
-
-        ButtonType botonCrear = new ButtonType("Crear", ButtonBar.ButtonData.OK_DONE);
-        ventana.getDialogPane().getButtonTypes().addAll(botonCrear, ButtonType.CANCEL);
-
-        GridPane grid = new GridPane();
-
-        grid.setHgap(15);
-        grid.setVgap(15);
-
-        ComboBox<ExamenEnum> tipoExamen = new ComboBox<>();
-        tipoExamen.setItems(FXCollections.observableArrayList(ExamenEnum.ALBUMINA, ExamenEnum.CREATININA, ExamenEnum.UREA));
-
-        tipoExamen.setConverter(new StringConverter<ExamenEnum>() {
-            @Override
-            public String toString(ExamenEnum objeto)
-            {
-                return objeto == null ? "" : objeto.getNombre();
-            }
-
-            @Override
-            public ExamenEnum fromString(String string)
-            {
-                return ExamenEnum.valueOf(string);
-            }
-        });
-
-        TextField resultado = new TextField();
-
-        resultado.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
-            {
-                if (!newValue.matches("(\\d{0,3},)?\\d{0,3}"))
-                    resultado.setText(oldValue);
-            }
-        });
-
-        grid.add(new Label("Tipo: "), 0, 0);
-        grid.add(tipoExamen,1,0);
-        grid.add(new Label("Resultado:"),0,1);
-        grid.add(resultado,1,1);
-
-        ventana.getDialogPane().setContent(grid);
-
-        ventana.setResultConverter(botonDialogo -> {
-            if (botonDialogo == botonCrear) {
-                return new Pair<ExamenEnum, Float>(tipoExamen.getValue(), Float.parseFloat(resultado.getText().replace(',', '.')));
-            }
-
-            return  null;
-        });
-
-        ExamenDAOImpl examenDAO = new ExamenDAOImpl();
-
-        Optional<Pair<ExamenEnum,Float>> resultadoVentana = ventana.showAndWait();
-
-        resultadoVentana.ifPresent(datos -> {
-            ExamenEnum tipoExamenFinal = datos.getKey();
-            Float resultadoFinal = datos.getValue();
-            System.out.println(tipoExamenFinal);
-            System.out.println(resultadoFinal);
-        });
-    }
-
     private void alertaError()
     {
         Alert ventana=new Alert(Alert.AlertType.ERROR);
         ventana.setTitle("¡Error al eliminar!");
-        ventana.setHeaderText("Error: No se pudo eliminar el examen de la base de datos");
+        ventana.setHeaderText("Error: No se pudo eliminar el diagnóstico de la base de datos");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();
     }
 
-    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el examen, retornando un booleano
+    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el diagnostico, retornando un booleano
     private boolean alertaEliminar()
     {
         Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);
 
-        ventana.setTitle("Confirmar Eliminación de Examen");
+        ventana.setTitle("Confirmar Eliminación de Diagnóstico");
         ventana.initStyle(StageStyle.UTILITY);
-        ventana.setContentText("¿Realmente desea eliminar este examen?");
+        ventana.setContentText("¿Realmente desea eliminar este diagnóstico?");
 
         Optional<ButtonType> opcion=ventana.showAndWait();
 

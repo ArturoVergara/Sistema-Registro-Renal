@@ -339,7 +339,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="154.0" style="-fx-background-color: #6a72ef;" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="VER DIAGNÓSTICOS" textFill="WHITE">
+                  <JFXButton layoutX="10.0" layoutY="10.0" onAction="#cargarVistaTablaDiagnosticos" prefHeight="37.0" prefWidth="154.0" style="-fx-background-color: #6a72ef;" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="VER DIAGNÓSTICOS" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

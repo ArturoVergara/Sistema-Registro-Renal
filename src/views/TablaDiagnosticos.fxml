@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -16,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TablaExamenesController">
+<BorderPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TablaDiagnosticosController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
          <children>
@@ -58,7 +57,7 @@
             <Insets top="30.0" />
          </BorderPane.margin>
          <children>
-            <Label alignment="CENTER" prefHeight="60.0" prefWidth="800.0" styleClass="titulo" stylesheets="@../resources/css/formulario.css" text="Lista de Exámenes" textFill="#4d4d4d">
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="800.0" styleClass="titulo" stylesheets="@../resources/css/formulario.css" text="Lista de Diagnósticos" textFill="#4d4d4d">
                <VBox.margin>
                   <Insets bottom="15.0" top="15.0" />
                </VBox.margin>
@@ -81,24 +80,13 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="129.0" prefHeight="46.0" prefWidth="780.0">
-               <children>
-                  <JFXButton onAction="#agregarExamen" prefHeight="37.0" prefWidth="168.0" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="AGREGAR EXÁMEN" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-               </children>
-            </HBox>
             <TableView fx:id="tabla" prefHeight="455.0" prefWidth="750.0">
               <columns>
-                <TableColumn fx:id="columnaTipo" prefWidth="234.0" text="Tipo" />
-                <TableColumn fx:id="columnaResultado" prefWidth="178.0" text="Resultado" />
-                  <TableColumn fx:id="columnaFecha" prefWidth="191.0" text="Fecha de Emisión" />
-                  <TableColumn fx:id="columnaAcciones" prefWidth="142.0" text="Acciones" />
+                <TableColumn fx:id="columnaDano" prefWidth="83.0" text="Daño" />
+                  <TableColumn fx:id="columnaResultado" prefWidth="103.0" text="Resultado" />
+                <TableColumn fx:id="columnaDescripcion" prefWidth="230.0" text="Descripción" />
+                  <TableColumn fx:id="columnaFecha" prefWidth="187.0" text="Fecha de Emisión" />
+                  <TableColumn fx:id="columnaAcciones" prefWidth="471.0" text="Acciones" />
               </columns>
                <VBox.margin>
                   <Insets left="15.0" right="15.0" />
