@@ -1,21 +1,27 @@
 package controllers;
 
+import DAO.ExamenDAOImpl;
+import DAO.FichaMedicaDAO;
+import DAO.FichaMedicaDAOImpl;
 import DAO.PacienteDAOImpl;
-import javafx.event.ActionEvent;
+import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
+import models.Examen;
 import models.Paciente;
 import models.PersonalMedico;
 
@@ -23,11 +29,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class PerfilPacienteController implements Initializable
+public class TablaExamenesController implements Initializable
 {
     @FXML
     private BorderPane parentContainer;
@@ -38,53 +45,88 @@ public class PerfilPacienteController implements Initializable
     @FXML
     private Label rutPaciente;
     @FXML
-    private Label fechaNacimientoPaciente;
+    private TableView<Examen> tabla;
     @FXML
-    private Label direccionPaciente;
+    private TableColumn<Examen, String> columnaTipo;
     @FXML
-    private Label previsionPaciente;
+    private TableColumn<Examen, Float> columnaResultado;
     @FXML
-    private Label emailPaciente;
+    private TableColumn<Examen, LocalDateTime> columnaFecha;
     @FXML
-    private Label telefonoPaciente;
+    private TableColumn<Examen, String> columnaAcciones;
 
     private PersonalMedico usuario;
     private Paciente paciente;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL url, ResourceBundle rb) {}
 
     public void inicializar(PersonalMedico usuario, Paciente paciente)
     {
-        String prevision = "";
-
         this.usuario = usuario;
         this.paciente = paciente;
         nombreUsuario.setText(usuario.getNombre());
 
-        System.out.println(paciente.getFichaPaciente());
+        nombrePaciente.setText(paciente.getNombre());
+        rutPaciente.setText(paciente.getRut());
 
-        this.nombrePaciente.setText(paciente.getNombre());
-        this.rutPaciente.setText(paciente.getRut());
-        this.fechaNacimientoPaciente.setText(new SimpleDateFormat("dd / MM / yyyy").format(paciente.getFechaNacimiento()));
-        this.direccionPaciente.setText(paciente.getDireccion());
-        this.emailPaciente.setText(paciente.getEmail());
-        this.telefonoPaciente.setText(paciente.getTelefono());
+        //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
+        //List<Paciente> pacientes = pacienteDAO.getPacientes();
+        FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
+        List<Examen> examenes = fichaMedicaDAO.getExamenesPaciente(paciente.getFichaPaciente());
 
-        switch (paciente.getPrevision())
+        columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoExamen"));
+        columnaResultado.setCellValueFactory(new PropertyValueFactory<>("resultadoExamen"));
+        columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fechaEmision"));
+        columnaAcciones.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        //Callback para reemplazar el valor de la columna Acciones por los botones agregar, modificar y eliminar
+        Callback<TableColumn<Examen, String>, TableCell<Examen, String>> cellFactory =  new Callback<TableColumn<Examen, String>, TableCell<Examen, String>>()
         {
-            case FONASA:
-                prevision = "Fonasa";
-                break;
+            @Override
+            public TableCell call(TableColumn<Examen, String> param)
+            {
+                TableCell<Examen, String> cell = new TableCell<Examen, String>()
+                {
+                    @Override
+                    public void updateItem(String item, boolean empty)
+                    {
+                        JFXButton botonEliminar = new JFXButton("Eliminar");
+                        HBox hbox = new HBox();
 
-            case ISAPRE:
-                prevision = "Isapre";
+                        super.updateItem(item, empty);
 
-            default:
-                prevision = "Capredena";
-        }
+                        if (empty)
+                        {
+                            setGraphic(null);
+                            setText(null);
+                        }
+                        else
+                        {
+                            botonEliminar.setOnAction(event -> {
+                                Examen dato = getTableView().getItems().get(getIndex());
+                                eliminarExamen(dato, getIndex());
+                            });
 
-        this.previsionPaciente.setText(prevision);
+                            hbox.setSpacing(10.0);
+
+                            //Setear estilos a los botones
+                            botonEliminar.setStyle("-fx-background-color: #ff1744; -fx-text-fill: white");
+                            botonEliminar.setCursor(Cursor.HAND);
+
+                            hbox.getChildren().addAll(botonEliminar);
+                            setGraphic(hbox);
+                            setText(null);
+                        }
+                    }
+                };
+
+                return cell;
+            }
+        };
+
+        columnaAcciones.setCellFactory(cellFactory);
+        tabla.setItems(FXCollections.observableArrayList(examenes));
     }
 
     @FXML
@@ -111,18 +153,18 @@ public class PerfilPacienteController implements Initializable
     }
 
     @FXML
-    private void cargarVistaTablaPacientes()
+    void cargarVistaPerfilPaciente()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/TablaPacientes.fxml"));
+            loader.setLocation(getClass().getResource("/views/PerfilPaciente.fxml"));
             Parent root = loader.load();
             Scene escena = new Scene(root);
 
             //Obtiene el controlador de TablaPacientes
-            TablaPacientesController controlador = (TablaPacientesController) loader.getController();
-            controlador.inicializar(usuario);
+            PerfilPacienteController controlador = (PerfilPacienteController) loader.getController();
+            controlador.inicializar(usuario, paciente);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
             ventana.setScene(escena);
@@ -134,79 +176,26 @@ public class PerfilPacienteController implements Initializable
         }
     }
 
-    @FXML
-    private void eliminarFichaMedica(ActionEvent evento)
+    void eliminarExamen(Examen dato, int indice)
     {
         if (alertaEliminar())
         {
-            //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
+            ExamenDAOImpl examenDAO = new ExamenDAOImpl();
 
-            //pacienteDAO.deletePaciente(dato.getId());
-            //tabla.getItems().remove(indice);
+            //Falta eliminar
+            tabla.getItems().remove(indice);
             alertaInfo();
         }
     }
 
-    @FXML
-    void cargarVistaModificarPaciente(ActionEvent evento)
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/FormularioModificarPaciente.fxml"));
-            Parent root = loader.load();
-            Scene escena = new Scene(root);
-
-            //Obtiene el controlador de TablaPacientes
-            FormularioModificarPacienteController controlador = (FormularioModificarPacienteController) loader.getController();
-            controlador.inicializar(usuario, paciente);
-
-            Stage ventana = (Stage) parentContainer.getScene().getWindow();
-            ventana.setScene(escena);
-            ventana.show();
-        }
-        catch (IOException | IllegalStateException excepcion)
-        {
-            alertaExcepcion(excepcion);
-        }
-    }
-
-
-    @FXML
-    private void cargarVistaModificarFichaMedica(ActionEvent evento)
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/FormularioModificarFichaMedica.fxml"));
-            Parent root = loader.load();
-            Scene escena = new Scene(root);
-
-            //Obtiene el controlador de FormularioAgregarFichaMedica
-            FormularioModificarFichaMedicaController controlador = (FormularioModificarFichaMedicaController) loader.getController();
-            controlador.inicializar(usuario, paciente);
-
-            Stage ventana = (Stage) parentContainer.getScene().getWindow();
-            ventana.setScene(escena);
-            ventana.show();
-        }
-        catch (IOException | IllegalStateException excepcion)
-        {
-            alertaExcepcion(excepcion);
-        }
-    }
-
-    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el paciente, retornando un booleano
+    //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el examen, retornando un booleano
     private boolean alertaEliminar()
     {
         Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);
-        String contenido = "Paciente: "+paciente.getNombre()+"\nRut: "+paciente.getRut();
 
-        ventana.setTitle("Confirmar Eliminación de Ficha Médica");
-        ventana.setHeaderText(contenido);
+        ventana.setTitle("Confirmar Eliminación de Examen");
         ventana.initStyle(StageStyle.UTILITY);
-        ventana.setContentText("¿Realmente desea eliminar la ficha médica de este paciente?");
-
+        ventana.setContentText("¿Realmente desea eliminar este examen?");
 
         Optional<ButtonType> opcion=ventana.showAndWait();
 
@@ -220,7 +209,7 @@ public class PerfilPacienteController implements Initializable
     {
         Alert ventana=new Alert(Alert.AlertType.INFORMATION);
         ventana.setTitle("¡Éxito al eliminar!");
-        ventana.setHeaderText("Se ha eliminado la ficha médica del paciente satisfactioramente.");
+        ventana.setHeaderText("Se ha eliminado al paciente satisfactioramente.");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();
