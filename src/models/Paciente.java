@@ -2,7 +2,7 @@ package models;
 
 import models.enums.PrevisionEnum;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Date;
 
 public class Paciente extends Usuario{
@@ -44,6 +44,13 @@ public class Paciente extends Usuario{
 
     public void setFichaPaciente(FichaMedica fichaPaciente1){
         this.fichaPaciente = fichaPaciente1;
+    }
+
+    public LocalDate parseFechaNacimiento(Date fechaNacimiento){
+        Instant instant = fechaNacimiento.toInstant();
+        ZoneId zoneId = ZoneId.of("America/Montreal");
+        ZonedDateTime zdt = ZonedDateTime.ofInstant ( instant , zoneId );
+        return zdt.toLocalDate();
     }
 
     public Date getFechaNacimiento() {

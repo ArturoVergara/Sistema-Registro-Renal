@@ -190,14 +190,15 @@ public class PacienteDAOtest {
                 e.printStackTrace();
             }
             try{
-                query = "INSERT INTO paciente (idUsuario,fechaNacimiento,emailAlternativo,telefonoAlternativo,prevision,nacionalidad) VALUES (?,now(),?,?,?,?)";
+                query = "INSERT INTO paciente (idUsuario,fechaNacimiento,emailAlternativo,telefonoAlternativo,prevision,nacionalidad) VALUES (?,?,?,?,?,?)";
                 conexion = DataBase.conectar();
                 sentencia = conexion.prepareStatement(query);
                 sentencia.setInt(1,resultado2);
-                sentencia.setString(2,paciente.getEmailAlternativo());
-                sentencia.setString(3,paciente.getTelefonoAlternativo());
-                sentencia.setInt(4,paciente.getPrevision().getValor());
-                sentencia.setString(5,paciente.getNacionalidad());
+                sentencia.setDate(2, java.sql.Date.valueOf(paciente.parseFechaNacimiento(paciente.getFechaNacimiento())));
+                sentencia.setString(3,paciente.getEmailAlternativo());
+                sentencia.setString(4,paciente.getTelefonoAlternativo());
+                sentencia.setInt(5,paciente.getPrevision().getValor());
+                sentencia.setString(6,paciente.getNacionalidad());
 
                 sentencia.executeUpdate();
             }catch (Exception e){

@@ -87,14 +87,10 @@ public class PersonalMedicoDAOTest {
         //return list;
     }
 
-    @org.junit.jupiter.api.Test
+    /*@org.junit.jupiter.api.Test
     void createPersonalMedico() {
         PersonalMedico personalMedico = new PersonalMedico("11111","felipe","feko","asdas@mail.cl","kkk");
-        /**
-         * Se crea usuario y se guarda en la db
-         * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
-         * Se retorna null si hubo un error al guardar el usuario
-         */
+
         query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
 
         try{
@@ -141,5 +137,5 @@ public class PersonalMedicoDAOTest {
             out.println("Lo sentimos, hubo un error al crear el personal: " + personalMedico.getNombre() + "...");
             //return null;
         }
-    }
+    }*/
 }
