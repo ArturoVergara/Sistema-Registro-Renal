@@ -2,6 +2,7 @@ package DAO;
 
 import models.Diagnostico;
 import models.Examen;
+import models.FichaMedica;
 import models.Paciente;
 
 import java.util.List;
