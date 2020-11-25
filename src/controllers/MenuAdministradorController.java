@@ -1,9 +1,5 @@
 package controllers;
 
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import models.PersonalMedico;
-import models.enums.PrevisionEnum;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +20,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MenuPrincipalController implements Initializable
+public class MenuAdministradorController implements Initializable
 {
     @FXML
     private BorderPane parentContainer;
@@ -67,41 +62,17 @@ public class MenuPrincipalController implements Initializable
     }
 
     @FXML
-    private void cargarVistaAgregarPaciente()
+    private void cargarVistaAgregarUsuario()
     {
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/FormularioAgregarPaciente.fxml"));
+            loader.setLocation(getClass().getResource("/views/FormularioAgregarUsuario.fxml"));
             Parent root = loader.load();
             Scene escena = new Scene(root);
 
             //Obtiene el controlador de TablaPacientes
-            FormularioAgregarPacienteController controlador = (FormularioAgregarPacienteController) loader.getController();
-            controlador.inicializar(usuario);
-
-            Stage ventana = (Stage) parentContainer.getScene().getWindow();
-            ventana.setScene(escena);
-            ventana.show();
-        }
-        catch (IOException | IllegalStateException excepcion)
-        {
-            alertaExcepcion(excepcion);
-        }
-    }
-
-    @FXML
-    private void cargarVistaTablaPacientes()
-    {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/TablaPacientes.fxml"));
-            Parent root = loader.load();
-            Scene escena = new Scene(root);
-
-            //Obtiene el controlador de TablaPacientes
-            TablaPacientesController controlador = (TablaPacientesController) loader.getController();
+            FormularioAgregarUsuarioController controlador = (FormularioAgregarUsuarioController) loader.getController();
             controlador.inicializar(usuario);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();

@@ -104,11 +104,39 @@ public class LoginController implements Initializable
         {
             PersonalMedicoDAOImpl personalMedicoDAO = new PersonalMedicoDAOImpl();
             PersonalMedico usuario = personalMedicoDAO.getPersonalMedico(rut.getText());
-            cargarMenuPrincipal(usuario);
+
+            if (usuario.isAdmin())
+                cargarMenuAdministrador(usuario);
+            else
+                cargarMenuPrincipal(usuario);
         }
         else
             labelContrasenia.setText("Las credenciales no son correctas.");
 
+    }
+
+    @FXML
+    private void cargarMenuAdministrador(PersonalMedico usuario)
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/MenuAdministrador.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador del MenuPrincipal
+            MenuAdministradorController controlador = (MenuAdministradorController) loader.getController();
+            controlador.inicializar(usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
     }
 
     @FXML

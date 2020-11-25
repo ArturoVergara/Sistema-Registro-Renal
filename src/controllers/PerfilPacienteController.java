@@ -146,6 +146,31 @@ public class PerfilPacienteController implements Initializable
     }
 
     @FXML
+    void cargarVistaModificarPaciente(ActionEvent evento)
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/FormularioModificarPaciente.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            FormularioModificarPacienteController controlador = (FormularioModificarPacienteController) loader.getController();
+            controlador.inicializar(usuario, paciente);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+
+    @FXML
     private void cargarVistaModificarFichaMedica(ActionEvent evento)
     {
         try
