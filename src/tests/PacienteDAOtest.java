@@ -1,5 +1,6 @@
 package tests;
 
+import DAO.UsuarioDAOImpl;
 import core.DataBase;
 import models.Paciente;
 import models.PersonalMedico;
@@ -274,22 +275,31 @@ public class PacienteDAOtest {
 
     @org.junit.jupiter.api.Test
     void deletePaciente() {
-        int id=1;
-        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
+        int id=2;
+        UsuarioDAOImpl usuarioDAO = new UsuarioDAOImpl();
+        if(usuarioDAO.deleteUsuario(id)){
+            out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+        }else{
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+
+        }
+        /*query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             sentencia.setInt(1,id);
             resultado2 = sentencia.executeUpdate();
-            if(resultado2 >0){
-                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
-            }else {
-                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
-            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        if(resultado2 >0){
+            out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
+            //return true;
+        }else {
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            //return false;
+        }*/
     }
 
 }

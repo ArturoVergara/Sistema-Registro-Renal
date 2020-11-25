@@ -155,7 +155,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public void deleteUsuario(String rut) {
+    public boolean deleteUsuario(String rut) {
         //se borra usuario de la db
         query = "DELETE FROM usuario WHERE usuario.rut=?";
         try{
@@ -164,13 +164,38 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             sentencia.setString(1,rut);
 
             resultadoParaEnteros = sentencia.executeUpdate();
-            if(resultadoParaEnteros >0){
-                out.println("*** El o los usuarios han sido borrado(s) de la base de datos correctamente ***");
-            }else {
-                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
-            }
+
         }catch (Exception e){
             e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("*** El o los usuarios han sido borrado(s) de la base de datos correctamente ***");
+            return true;
+        }else {
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteUsuario(int id) {
+        //se borra usuario de la db
+        query = "DELETE FROM usuario WHERE usuario.id=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,id);
+
+            resultadoParaEnteros = sentencia.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("*** El o los usuarios han sido borrado(s) de la base de datos correctamente ***");
+            return true;
+        }else {
+            out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
+            return false;
         }
     }
 

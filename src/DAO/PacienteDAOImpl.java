@@ -2,8 +2,6 @@ package DAO;
 
 import core.DataBase;
 import models.Paciente;
-import models.PersonalMedico;
-import models.Usuario;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +17,7 @@ public class PacienteDAOImpl implements PacienteDAO{
     private static ResultSet resultado;
     private static int resultadoParaEnteros;
     public String query;
+    private UsuarioDAOImpl usuarioDAO;
 
     @Override
     public Paciente getPaciente(String rut) {
@@ -300,58 +299,13 @@ public class PacienteDAOImpl implements PacienteDAO{
     }
 
     @Override
-    public void deletePaciente(int id) {
-        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
-        try{
-            conexion = DataBase.conectar();
-            sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,id);
-            resultadoParaEnteros = sentencia.executeUpdate();
-            if(resultadoParaEnteros >0){
-                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
-            }else {
-                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
+    public boolean deletePaciente(int id) { return usuarioDAO.deleteUsuario(id);}
 
     @Override
-    public void deletePaciente(Paciente paciente) {
-        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE P.id=?";
-        try{
-            conexion = DataBase.conectar();
-            sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,paciente.getId());
-            resultadoParaEnteros = sentencia.executeUpdate();
-            if(resultadoParaEnteros >0){
-                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
-            }else {
-                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+    public boolean deletePaciente(Paciente paciente) { return usuarioDAO.deleteUsuario(paciente.getId());}
 
     @Override
-    public void deletePaciente(String rut) {
-        query = "DELETE p FROM paciente AS P JOIN usuario AS U ON P.idUsuario=U.id WHERE U.rut=?";
-        try{
-            conexion = DataBase.conectar();
-            sentencia = conexion.prepareStatement(query);
-            sentencia.setString(1,rut);
-            resultadoParaEnteros = sentencia.executeUpdate();
-            if(resultadoParaEnteros >0){
-                out.println("*** El paciente ha sido borrado de la base de datos correctamente ***");
-            }else {
-                out.println("*** A ocurrido un problema al borrar el registro de la base de datos ***");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public boolean deletePaciente(String rut) { return usuarioDAO.deleteUsuario(rut);}
 
-    }
+
 }
