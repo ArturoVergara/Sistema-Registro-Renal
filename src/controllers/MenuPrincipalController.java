@@ -44,7 +44,27 @@ public class MenuPrincipalController implements Initializable
     }
 
     @FXML
-    private void finalizarPrograma(ActionEvent event){}
+    private void cerrarSesion()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            LoginController controlador = (LoginController) loader.getController();
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
 
     @FXML
     private void cargarVistaAgregarPaciente()

@@ -4,6 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,16 +18,16 @@
    <center>
       <AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" stylesheets="@../resources/css/style.css">
          <children>
-            <Label layoutX="198.0" layoutY="67.0" text="MENU PRINCIPAL TEMP" textFill="#00a8df">
+            <Label layoutX="168.0" layoutY="68.0" styleClass="bienvenida" text="BIENVENIDO PERSONAL MÉDICO" textFill="#6a72ef">
                <font>
                   <Font name="Liberation Sans Bold" size="50.0" />
                </font>
             </Label>
-            <HBox layoutX="226.0" layoutY="148.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
+            <HBox layoutX="226.0" layoutY="162.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
                <children>
                   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
-                        <Label layoutX="14.0" layoutY="76.0" prefHeight="30.0" prefWidth="146.0" text="Mi Perfil" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="76.0" prefHeight="30.0" prefWidth="146.0" styleClass="titulo" text="Mi Perfil" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
@@ -42,7 +44,7 @@
                   </AnchorPane>
                   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarVistaAgregarPaciente" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
-                        <Label layoutX="14.0" layoutY="60.0" prefHeight="27.0" prefWidth="146.0" text="Ingresar" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Ingresar" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
@@ -52,7 +54,7 @@
                               <Image url="@../resources/images/ingresar.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="87.0" prefHeight="27.0" prefWidth="146.0" text="Paciente" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="76.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Paciente" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
@@ -64,7 +66,7 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <HBox layoutX="226.0" layoutY="275.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
+            <HBox layoutX="226.0" layoutY="289.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
                <children>
                   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarVistaTablaPacientes" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
@@ -73,12 +75,12 @@
                               <Image url="@../resources/images/buscar.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="60.0" prefHeight="27.0" prefWidth="146.0" text="Buscar" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Buscar" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="87.0" prefHeight="27.0" prefWidth="146.0" text="Paciente" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="76.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Paciente" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
@@ -95,59 +97,16 @@
                               <Image url="@../resources/images/contactar.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="60.0" prefHeight="27.0" prefWidth="146.0" text="Contactar" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Solicitar" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="87.0" prefHeight="27.0" prefWidth="146.0" text="Paciente" textFill="WHITE">
+                        <Label layoutX="14.0" layoutY="76.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Clave" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
                         </Label>
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <HBox layoutX="226.0" layoutY="404.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
-               <children>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
-                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/images/reportes.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" text="Ingresar" textFill="WHITE">
-                           <font>
-                              <Font name="Liberation Sans Bold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="14.0" layoutY="79.0" prefHeight="27.0" prefWidth="146.0" text="F. Médica" textFill="WHITE">
-                           <font>
-                              <Font name="Liberation Sans Bold" size="24.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </AnchorPane>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
-                     <children>
-                        <Label layoutX="14.0" layoutY="79.0" prefHeight="27.0" prefWidth="113.0" text="Opciones" textFill="WHITE">
-                           <font>
-                              <Font name="Liberation Sans Bold" size="24.0" />
-                           </font>
-                        </Label>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="152.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/images/opciones.png" />
-                           </image>
-                        </ImageView>
                      </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -167,7 +126,7 @@
    <top>
       <HBox alignment="CENTER" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
          <children>
-            <MaterialDesignIconView fill="WHITE" glyphName="ARROW_LEFT" size="36">
+            <MaterialDesignIconView disable="true" fill="#6a72ef" glyphName="ARROW_LEFT" size="36">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -185,6 +144,17 @@
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin></Label>
+            <MenuButton mnemonicParsing="false" style="-fx-background-color: white;" textFill="#333333">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" />
+               </items>
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MenuButton>
          </children>
       </HBox>
    </top>

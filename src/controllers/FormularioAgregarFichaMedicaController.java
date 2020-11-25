@@ -89,6 +89,30 @@ public class FormularioAgregarFichaMedicaController implements Initializable
         rut.setText(paciente.getRut());
     }
 
+    @FXML
+    private void cerrarSesion()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            LoginController controlador = (LoginController) loader.getController();
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+    @FXML
     private void cargarVistaTablaPacientes()
     {
         try
@@ -151,19 +175,19 @@ public class FormularioAgregarFichaMedicaController implements Initializable
             return;
         }
 
-        boolean etniaString;
+        int etniaEntero;
 
-        /*if (blanca.isSelected()) ARREGLAR
-            etniaString = "Blanca";
+        if (blanca.isSelected())
+            etniaEntero = 1;
         else
-            etniaString = "Negra";
-*/
+            etniaEntero = 0;
+
         //Agregar la ficha médica en la base de datos
         FichaMedica dato = new FichaMedica(
                 masculino.isSelected(),
                 Float.parseFloat(peso.getText()),
                 Float.parseFloat(estatura.getText()),
-                1
+                etniaEntero
         );
 
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();

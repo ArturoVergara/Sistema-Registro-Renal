@@ -166,11 +166,29 @@ public class FormularioModificarPacienteController implements Initializable
     }
 
     @FXML
-    private void cargarVentanaAnterior(ActionEvent evento)
+    private void cerrarSesion()
     {
-        cargarVistaTablaPacientes();
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            LoginController controlador = (LoginController) loader.getController();
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
     }
 
+    @FXML
     private void cargarVistaTablaPacientes()
     {
         try
@@ -296,16 +314,6 @@ public class FormularioModificarPacienteController implements Initializable
             return;
         }
 
-        //Se actualizan los campos de paciente
-        paciente.setNombre(nombre.getText());
-        paciente.setRut(rut.getText());
-        paciente.setFechaNacimiento(Date.from(fechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        paciente.setDireccion(direccion.getText());
-        paciente.setPrevision(prevision.getValue());
-        paciente.setEmail(email.getText());
-        paciente.setTelefono(telefono.getText());
-        paciente.setNacionalidad(nacionalidad.getText());
-
         //Se ingresa a la base de datos
         PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
 
@@ -318,7 +326,15 @@ public class FormularioModificarPacienteController implements Initializable
             return;
         }
 
-        System.out.println(paciente.getId());
+        //Se actualizan los campos de paciente
+        paciente.setNombre(nombre.getText());
+        paciente.setRut(rut.getText());
+        paciente.setFechaNacimiento(Date.from(fechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        paciente.setDireccion(direccion.getText());
+        paciente.setPrevision(prevision.getValue());
+        paciente.setEmail(email.getText());
+        paciente.setTelefono(telefono.getText());
+        paciente.setNacionalidad(nacionalidad.getText());
 
         if (pacienteDAO.updatePaciente(this.paciente) != null)
         {
