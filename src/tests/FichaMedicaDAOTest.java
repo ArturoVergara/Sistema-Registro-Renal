@@ -190,8 +190,8 @@ public class FichaMedicaDAOTest {
     @org.junit.jupiter.api.Test
     void agregarFichaAPaciente() {
         FichaMedica fichaMedica = new FichaMedica(true,10,10,1);
-        Paciente paciente = new Paciente(8,"borrar","JOSE VERGARA","BRASIL 58","ASD@MAIL.COM","82017717",
-                LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"NONE","NONE");
+        Paciente paciente = new Paciente(2,"19940860-7","FELIPE GUAJARDO NUNEZ","BRASIL 58","AGN@MAIL.CL","82017717",
+                LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"telefono","mailalternativotest");
         query = "SELECT paciente.id FROM paciente inner join usuario ON paciente.idUsuario=usuario.id WHERE usuario.rut=?";
         try{
             conexion = DataBase.conectar();
