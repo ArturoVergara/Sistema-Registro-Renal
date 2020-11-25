@@ -19,5 +19,5 @@ public interface DiagnosticoDAO {
 
     List<Diagnostico> agregarDiagnosticoPaciente(Diagnostico diagnostico);
 
-    void deleteDiagnosticoPaciente(int id);
+    boolean deleteDiagnosticoPaciente(int idDiagnostico);
 }
