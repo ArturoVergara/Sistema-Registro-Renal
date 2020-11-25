@@ -18,7 +18,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
     private static ResultSet resultado;
     private static int resultadoParaEnteros;
     public String query;
-    private UsuarioDAOImpl usuarioDAO;
+    private final UsuarioDAOImpl usuarioDAO= new UsuarioDAOImpl();
 
     @Override
     public PersonalMedico getPersonalMedico(String rut) {

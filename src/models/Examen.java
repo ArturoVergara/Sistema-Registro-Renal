@@ -1,7 +1,6 @@
 package models;
 
 import models.enums.ExamenEnum;
-import models.enums.PersonalEnum;
 
 import java.time.LocalDateTime;
 
@@ -39,9 +38,7 @@ public class Examen{
         return resultadoExamen;
     }
 
-    public void setResultadoExamen(float resultadoExamen) {
-        this.resultadoExamen = resultadoExamen;
-    }
+    public void setResultadoExamen(float resultadoExamen) { this.resultadoExamen = resultadoExamen; }
 
     public int getTipoExamenInt(){
         if(this.tipoExamen == ExamenEnum.CREATININA){
@@ -67,5 +64,14 @@ public class Examen{
            return ExamenEnum.UREA;
         }
         return null;
+    }
+
+    public void showExamenData(){
+        System.out.print(
+                        "Id: " + this.getId() + "\n" +
+                        "Tipo de examen (CREATININA/ALBUMINA/UREA): " + this.getTipoExamen() + "\n" +
+                        "Resultado del examen: " +     this.getResultadoExamen() + "\n" +
+                        "Fecha de emision del examen: " + this.getFechaEmision()+ "\n"
+        );
     }
 }

@@ -1,7 +1,9 @@
 package tests;
 
+import DAO.FichaMedicaDAOImpl;
 import DAO.UsuarioDAOImpl;
 import core.DataBase;
+import models.FichaMedica;
 import models.Paciente;
 import models.PersonalMedico;
 
@@ -21,6 +23,7 @@ public class PacienteDAOtest {
     private static ResultSet resultado;
     private static int resultado2;
     public String query;
+    private FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
 
     /*@org.junit.jupiter.api.Test
     void getPaciente() {
@@ -63,7 +66,7 @@ public class PacienteDAOtest {
         //return paciente;
     }*/
 
-    @org.junit.jupiter.api.Test
+    /*@org.junit.jupiter.api.Test
     void getPacientes() {
         List<Paciente> list = new ArrayList<>();
         query = "SELECT * FROM paciente inner join usuario where paciente.idUsuario=usuario.id";
@@ -102,6 +105,49 @@ public class PacienteDAOtest {
         }
 
        // return list;
+    }*/
+    @org.junit.jupiter.api.Test
+    void getPacientes() {
+        List<Paciente> list = new ArrayList<>();
+        query = "SELECT * FROM paciente inner join usuario where paciente.idUsuario=usuario.id";
+        Paciente pacienteRetorno=null;
+        try {
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                Paciente dato = new Paciente(
+                        resultado.getInt("idUsuario"),
+                        resultado.getString("rut"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getDate("fechaNacimiento"),
+                        resultado.getString("nacionalidad"),
+                        resultado.getInt("prevision"),
+                        resultado.getString("telefonoAlternativo"),
+                        resultado.getString("emailAlternativo")
+                );
+                list.add(dato);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Información de los pacientes: \n");
+        for (Paciente paciente : list) {
+            if(fichaMedicaDAO.getFichaPaciente(paciente.getRut()) != null){
+              out.print("tiene ficha");
+              FichaMedica fichaMedica= fichaMedicaDAO.getFichaPaciente(paciente.getRut());
+              paciente.setFichaPaciente(fichaMedica);
+                paciente.showUserData();
+            }
+        }
+        //return list;
     }
 
 

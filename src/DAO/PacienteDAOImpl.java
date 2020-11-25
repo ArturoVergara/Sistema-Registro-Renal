@@ -1,6 +1,7 @@
 package DAO;
 
 import core.DataBase;
+import models.FichaMedica;
 import models.Paciente;
 
 import java.sql.*;
@@ -17,7 +18,8 @@ public class PacienteDAOImpl implements PacienteDAO{
     private static ResultSet resultado;
     private static int resultadoParaEnteros;
     public String query;
-    private UsuarioDAOImpl usuarioDAO;
+    private final UsuarioDAOImpl usuarioDAO= new UsuarioDAOImpl();
+    private final FichaMedicaDAO fichaMedicaDAO = new FichaMedicaDAOImpl();
 
     @Override
     public Paciente getPaciente(String rut) {
@@ -49,9 +51,16 @@ public class PacienteDAOImpl implements PacienteDAO{
                 );
                 pacienteRetorno=dato;
             }
-        }
-        catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
+        }
+        if(pacienteRetorno !=null){
+            FichaMedica fichaMedica= fichaMedicaDAO.getFichaPaciente(pacienteRetorno.getRut());
+            if(fichaMedicaDAO.getFichaPacienteBoolean(pacienteRetorno.getRut())){
+                pacienteRetorno.setFichaPaciente(fichaMedica);
+                pacienteRetorno.showUserData();
+                return pacienteRetorno;
+            }
         }
         return pacienteRetorno;
     }
@@ -60,7 +69,7 @@ public class PacienteDAOImpl implements PacienteDAO{
     public Paciente getPaciente(int id)
     {
         query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U where P.idUsuario=? and P.idUsuario = U.id";
-        Paciente paciente=null;
+        Paciente pacienteRetorno=null;
         try {
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -84,24 +93,28 @@ public class PacienteDAOImpl implements PacienteDAO{
                         resultado.getString("telefonoAlternativo"),
                         resultado.getString("emailAlternativo")
                 );
-                paciente=dato;
+                pacienteRetorno=dato;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(paciente!=null){
-            System.out.println(paciente.getNombre() + " " + paciente.getRut());
+        if(pacienteRetorno !=null && fichaMedicaDAO.getFichaPaciente(pacienteRetorno.getRut()) != null){
+            FichaMedica fichaMedica= fichaMedicaDAO.getFichaPaciente(pacienteRetorno.getRut());
+            if(fichaMedicaDAO.getFichaPacienteBoolean(pacienteRetorno.getRut())){
+                pacienteRetorno.setFichaPaciente(fichaMedica);
+                pacienteRetorno.showUserData();
+                return pacienteRetorno;
+            }
         }
-        return paciente;
+        return pacienteRetorno;
     }
 
     @Override
     public List<Paciente> getPacientes() {
         List<Paciente> list = new ArrayList<>();
         query = "SELECT * FROM paciente inner join usuario where paciente.idUsuario=usuario.id";
-        try
-        {
+        Paciente pacienteRetorno=null;
+        try {
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             resultado = sentencia.executeQuery();
@@ -130,7 +143,13 @@ public class PacienteDAOImpl implements PacienteDAO{
         }
         System.out.println("Información de los pacientes: \n");
         for (Paciente paciente : list) {
-            System.out.println(paciente.getNombre() + " " + paciente.getRut());
+            if(fichaMedicaDAO.getFichaPaciente(paciente.getRut()) != null){
+                out.print("tiene ficha");
+                FichaMedica fichaMedica= fichaMedicaDAO.getFichaPaciente(paciente.getRut());
+                paciente.setFichaPaciente(fichaMedica);
+                paciente.showUserData();
+                out.print("\n");
+            }
         }
         return list;
     }

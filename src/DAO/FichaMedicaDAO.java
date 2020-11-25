@@ -13,15 +13,17 @@ public interface FichaMedicaDAO {
 
     FichaMedica getFichaPaciente(int id);
 
+    boolean getFichaPacienteBoolean(String rut);
+
     List<Examen> getExamenesPaciente(FichaMedica fichaMedica);
 
     List<Diagnostico> getDiagnosticosPaciente(FichaMedica fichaMedica);
 
     Diagnostico getUltimoDiagnostico(FichaMedica fichaMedica);
 
-    FichaMedica createFichaPaciente(Paciente paciente, FichaMedica fichaMedica);
+    FichaMedica agregarFichaAPaciente(Paciente paciente, FichaMedica fichaMedica);
 
-    FichaMedica updateFichaPaciente(FichaMedica fichaMedica);
+    FichaMedica updateFichaPaciente(Paciente paciente,FichaMedica fichaMedica);
 
     Diagnostico agregarDiagnosticoAFicha(FichaMedica fichaMedica, Diagnostico diagnostico);
 
