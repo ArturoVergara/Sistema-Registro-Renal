@@ -78,9 +78,10 @@ public class TablaExamenesController implements Initializable
         columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoExamen"));
         columnaResultado.setCellValueFactory(new PropertyValueFactory<>("resultadoExamen"));
         columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fechaEmision"));
-        columnaAcciones.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columnaAcciones.setCellValueFactory(new PropertyValueFactory<>("ASDASD"));
 
-        //Callback para reemplazar el valor de la columna Acciones por los botones agregar, modificar y eliminar
+
+        //Callback para reemplazar el valor de la columna Acciones por los botones eliminar
         Callback<TableColumn<Examen, String>, TableCell<Examen, String>> cellFactory =  new Callback<TableColumn<Examen, String>, TableCell<Examen, String>>()
         {
             @Override
@@ -126,7 +127,9 @@ public class TablaExamenesController implements Initializable
         };
 
         columnaAcciones.setCellFactory(cellFactory);
-        tabla.setItems(FXCollections.observableArrayList(examenes));
+
+        if (examenes != null)
+            tabla.setItems(FXCollections.observableArrayList(examenes));
     }
 
     @FXML
@@ -182,7 +185,7 @@ public class TablaExamenesController implements Initializable
         {
             ExamenDAOImpl examenDAO = new ExamenDAOImpl();
 
-            //Falta eliminar
+           
             tabla.getItems().remove(indice);
             alertaInfo();
         }

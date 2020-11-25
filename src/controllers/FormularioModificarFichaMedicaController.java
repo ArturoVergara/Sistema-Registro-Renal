@@ -1,7 +1,10 @@
 package controllers;
 
+import DAO.FichaMedicaDAOImpl;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +21,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.FichaMedica;
 import models.Paciente;
 import models.PersonalMedico;
 
@@ -76,7 +80,39 @@ public class FormularioModificarFichaMedicaController implements Initializable
         nombreUsuario.setText(usuario.getNombre());
         nombre.setText(paciente.getNombre());
         rut.setText(paciente.getRut());
+
+        if (paciente.getFichaPaciente().isSexoPaciente())
+            sexo.selectToggle(masculino);
+        else
+            sexo.selectToggle(femenino);
+
+        if (paciente.getFichaPaciente().getEtniaPaciente() == 0)
+            etnia.selectToggle(negra);
+        else
+            etnia.selectToggle(blanca);
+
+        estatura.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+            {
+                if (!newValue.matches("(\\d{0,1},)?\\d{0,3}"))
+                    estatura.setText(oldValue);
+            }
+        });
+
+        peso.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+            {
+                if (!newValue.matches("(\\d{0,3},)?\\d{0,3}"))
+                    peso.setText(oldValue);
+            }
+        });
+
+        estatura.setText(String.format("%.2f", paciente.getFichaPaciente().getAlturaPaciente()));
+        peso.setText(String.format("%.2f", paciente.getFichaPaciente().getPesoPaciente()));
     }
+
 
     @FXML
     private void cerrarSesion()
@@ -165,6 +201,29 @@ public class FormularioModificarFichaMedicaController implements Initializable
         }
         
         //Modificar la ficha médica en la base de datos
+        int etniaEntero;
+
+        if (blanca.isSelected())
+            etniaEntero = 1;
+        else
+            etniaEntero = 0;
+
+        FichaMedica fichaMedica = paciente.getFichaPaciente();
+
+        fichaMedica.setSexoPaciente((sexo.getSelectedToggle() == masculino));
+        fichaMedica.setEtniaPaciente(etniaEntero);
+        fichaMedica.setAlturaPaciente(Float.parseFloat(estatura.getText().replace(',', '.')));
+        fichaMedica.setPesoPaciente(Float.parseFloat(peso.getText().replace(',', '.')));
+
+        FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
+
+        if (fichaMedicaDAO.updateFichaPaciente(paciente, fichaMedica) != null)
+        {
+            alertaInfo();
+            cargarVistaTablaPacientes();
+        }
+        else
+            alertaError();
     }
 
     private void alertaInfo()

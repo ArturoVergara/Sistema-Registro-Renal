@@ -6,6 +6,8 @@ import DAO.PacienteDAOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,6 +89,24 @@ public class FormularioAgregarFichaMedicaController implements Initializable
         nombreUsuario.setText(usuario.getNombre());
         nombre.setText(paciente.getNombre());
         rut.setText(paciente.getRut());
+
+        estatura.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+            {
+                if (!newValue.matches("(\\d{0,1},)?\\d{0,3}"))
+                    estatura.setText(oldValue);
+            }
+        });
+
+        peso.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+            {
+                if (!newValue.matches("(\\d{0,3},)?\\d{0,3}"))
+                    peso.setText(oldValue);
+            }
+        });
     }
 
     @FXML
@@ -185,14 +205,20 @@ public class FormularioAgregarFichaMedicaController implements Initializable
         //Agregar la ficha médica en la base de datos
         FichaMedica dato = new FichaMedica(
                 masculino.isSelected(),
-                Float.parseFloat(peso.getText()),
-                Float.parseFloat(estatura.getText()),
+                Float.parseFloat(peso.getText().replace(',', '.')),
+                Float.parseFloat(estatura.getText().replace(',', '.')),
                 etniaEntero
         );
 
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
 
-        //fichaMedicaDAO.
+        if (fichaMedicaDAO.agregarFichaAPaciente(paciente, dato) != null)
+        {
+            alertaInfo();
+            cargarVistaTablaPacientes();
+        }
+        else
+            alertaError();
     }
 
     private void alertaInfo()

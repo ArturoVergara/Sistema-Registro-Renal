@@ -1,6 +1,8 @@
 package controllers;
 
+import DAO.FichaMedicaDAOImpl;
 import DAO.PacienteDAOImpl;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Paciente;
@@ -47,6 +50,18 @@ public class PerfilPacienteController implements Initializable
     private Label emailPaciente;
     @FXML
     private Label telefonoPaciente;
+    @FXML
+    private VBox fichaMedica;
+    @FXML
+    private Label sexo;
+    @FXML
+    private Label estatura;
+    @FXML
+    private Label peso;
+    @FXML
+    private Label etnia;
+    @FXML
+    private JFXButton botonCrear;
 
     private PersonalMedico usuario;
     private Paciente paciente;
@@ -62,7 +77,7 @@ public class PerfilPacienteController implements Initializable
         this.paciente = paciente;
         nombreUsuario.setText(usuario.getNombre());
 
-        System.out.println(paciente.getFichaPaciente());
+        //System.out.println(paciente.getFichaPaciente());
 
         this.nombrePaciente.setText(paciente.getNombre());
         this.rutPaciente.setText(paciente.getRut());
@@ -85,6 +100,29 @@ public class PerfilPacienteController implements Initializable
         }
 
         this.previsionPaciente.setText(prevision);
+
+        if (paciente.getFichaPaciente() != null)
+        {
+            //Se setean todas las weas
+            if (paciente.getFichaPaciente().isSexoPaciente())
+                sexo.setText("Masculino");
+            else
+                sexo.setText("Femenino");
+
+            estatura.setText(String.format("%.2f", paciente.getFichaPaciente().getAlturaPaciente()) + " m");
+            peso.setText(String.format("%.2f", paciente.getFichaPaciente().getPesoPaciente()) + " Kg");
+
+            if (paciente.getFichaPaciente().getEtniaPaciente() == 1)
+                etnia.setText("Blanca");
+            else
+                etnia.setText("Negra");
+        }
+        else
+        {
+            fichaMedica.setVisible(false);
+            botonCrear.setVisible(true);
+        }
+
     }
 
     @FXML
@@ -135,15 +173,95 @@ public class PerfilPacienteController implements Initializable
     }
 
     @FXML
+    private void cargarVistaAgregarFichaMedica()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/FormularioAgregarFichaMedica.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de FormularioAgregarFichaMedica
+            FormularioAgregarFichaMedicaController controlador = (FormularioAgregarFichaMedicaController) loader.getController();
+            controlador.inicializar(usuario, paciente);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+    @FXML
+    private void cargarVistaTablaExamenes()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/TablaExamenes.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de FormularioAgregarFichaMedica
+            TablaExamenesController controlador = (TablaExamenesController) loader.getController();
+            controlador.inicializar(usuario, paciente);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+    private void alertaError()
+    {
+        Alert ventana=new Alert(Alert.AlertType.ERROR);
+        ventana.setTitle("¡Error al eliminar!");
+        ventana.setHeaderText("Error: No se pudo eliminar de la base de datos");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
+    }
+
+
+    @FXML
+    private void eliminarPaciente(ActionEvent evento)
+    {
+        if (alertaEliminarPaciente())
+        {
+            PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
+
+            if (pacienteDAO.deletePaciente(paciente.getId()))
+            {
+                alertaInfo();
+                cargarVistaTablaPacientes();
+            }
+            else
+                alertaError();
+        }
+    }
+
+    @FXML
     private void eliminarFichaMedica(ActionEvent evento)
     {
-        if (alertaEliminar())
+        if (alertaEliminarFichaMédica())
         {
-            //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
+            FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
 
-            //pacienteDAO.deletePaciente(dato.getId());
-            //tabla.getItems().remove(indice);
-            alertaInfo();
+            if (fichaMedicaDAO.deleteFichaPaciente(paciente))
+            {
+                alertaInfo();
+                cargarVistaTablaPacientes();
+            }
+            else
+                alertaError();
         }
     }
 
@@ -197,13 +315,30 @@ public class PerfilPacienteController implements Initializable
     }
 
     //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el paciente, retornando un booleano
-    private boolean alertaEliminar()
+    private boolean alertaEliminarPaciente()
     {
         Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);
         String contenido = "Paciente: "+paciente.getNombre()+"\nRut: "+paciente.getRut();
 
-        ventana.setTitle("Confirmar Eliminación de Ficha Médica");
+        ventana.setTitle("Confirmar Eliminación de Paciente");
         ventana.setHeaderText(contenido);
+        ventana.initStyle(StageStyle.UTILITY);
+        ventana.setContentText("¿Realmente desea eliminar este paciente?");
+
+
+        Optional<ButtonType> opcion=ventana.showAndWait();
+
+        if (opcion.get() == ButtonType.OK)
+            return true;
+
+        return false;
+    }
+
+    private boolean alertaEliminarFichaMédica()
+    {
+        Alert ventana = new Alert(Alert.AlertType.CONFIRMATION);
+
+        ventana.setTitle("Confirmar Eliminación de Ficha Médica");
         ventana.initStyle(StageStyle.UTILITY);
         ventana.setContentText("¿Realmente desea eliminar la ficha médica de este paciente?");
 
@@ -220,7 +355,7 @@ public class PerfilPacienteController implements Initializable
     {
         Alert ventana=new Alert(Alert.AlertType.INFORMATION);
         ventana.setTitle("¡Éxito al eliminar!");
-        ventana.setHeaderText("Se ha eliminado la ficha médica del paciente satisfactioramente.");
+        ventana.setHeaderText("Se ha eliminado de la base de datos satisfactioramente.");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();

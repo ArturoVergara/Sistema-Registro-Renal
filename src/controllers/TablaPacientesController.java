@@ -228,10 +228,24 @@ public class TablaPacientesController implements Initializable
         {
             PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
 
-            pacienteDAO.deletePaciente(dato.getId());
-            tabla.getItems().remove(indice);
-            alertaInfo();
+            if (pacienteDAO.deletePaciente(dato.getId()))
+            {
+                tabla.getItems().remove(indice);
+                alertaInfo();
+            }
+            else
+                alertaError();
         }
+    }
+
+    private void alertaError()
+    {
+        Alert ventana=new Alert(Alert.AlertType.ERROR);
+        ventana.setTitle("¡Error al eliminar!");
+        ventana.setHeaderText("Error: No se pudo eliminar el paciente");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
     }
 
     //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el paciente, retornando un booleano

@@ -85,13 +85,21 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton style="-fx-background-color: #FF1744;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Eliminar" textFill="WHITE">
+                  <JFXButton onAction="#eliminarPaciente" style="-fx-background-color: #FF1744;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Eliminar" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                  </JFXButton>
+                  <JFXButton fx:id="botonCrear" layoutX="130.0" layoutY="17.0" onAction="#cargarVistaAgregarFichaMedica" prefHeight="28.0" prefWidth="143.0" style="-fx-background-color: #6a72ef;" styleClass="boton" stylesheets="@../resources/css/perfil.css" text="Crear Ficha Médica" textFill="WHITE" visible="false">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets left="70.0" />
+                     </HBox.margin>
                   </JFXButton>
                </children>
             </HBox>
@@ -206,7 +214,7 @@
       <HBox prefHeight="36.0" prefWidth="1280.0" BorderPane.alignment="CENTER" />
    </bottom>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="584.0" prefWidth="720.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
+      <VBox fx:id="fichaMedica" alignment="TOP_CENTER" prefHeight="584.0" prefWidth="720.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="84.0" fitWidth="100.0" pickOnBounds="true">
                <image>
@@ -304,9 +312,6 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="Masculino" textFill="#333333" GridPane.columnIndex="1" />
-                  <Label prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="1,60 m" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label layoutX="196.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="90 Kg" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="90.0" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                      <children>
                         <MaterialDesignIconView fill="#4d4d4d" glyphName="ACCOUNT" size="30" wrappingWidth="27.0">
@@ -321,9 +326,29 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label layoutX="370.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" text="Asiática (Tulachi)" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="sexo" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" />
+                  <Label fx:id="estatura" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="peso" layoutX="196.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="etnia" layoutX="370.0" layoutY="55.0" prefHeight="20.0" prefWidth="188.0" styleClass="label-informacion" stylesheets="@../resources/css/perfil.css" textFill="#333333" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
+            <HBox alignment="CENTER" prefHeight="61.0" prefWidth="720.0" spacing="50.0">
+               <children>
+                  <JFXButton onAction="#cargarVistaTablaExamenes" prefHeight="28.0" prefWidth="143.0" style="-fx-background-color: #6a72ef;" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="VER EXÁMENES" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="154.0" style="-fx-background-color: #6a72ef;" styleClass="boton-submit" stylesheets="@../resources/css/formulario.css" text="VER DIAGNÓSTICOS" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
          </children>
          <BorderPane.margin>
             <Insets right="50.0" top="30.0" />
