@@ -167,7 +167,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
          * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
          * Se retorna null si hubo un error al guardar el usuario
          */
-        query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
+        query = "INSERT INTO usuario (rut,nombre,direccion,email,contrasena,telefono,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
 
         try{
             conexion = DataBase.conectar();

@@ -91,24 +91,22 @@ public class FormularioAgregarUsuarioController implements Initializable
         this.usuario = usuario;
 
         nombreUsuario.setText(usuario.getNombre());
-        ocupacion.setItems(FXCollections.observableArrayList(PersonalEnum.ADMIN, PersonalEnum.DOCTOR, PersonalEnum.ENFERMERO, PersonalEnum.GES, PersonalEnum.LABORATORISTA));
+        ocupacion.setItems(FXCollections.observableArrayList(PersonalEnum.ADMIN, PersonalEnum.DOCTOR, PersonalEnum.ENFERMERO, PersonalEnum.LABORATORISTA, PersonalEnum.GES));
 
         //StringConverter para el combobox de prevision sobre el enum de personal
-        /*
-        ocupacion.setConverter(new StringConverter<PrevisionEnum>() {
+        ocupacion.setConverter(new StringConverter<PersonalEnum>() {
             @Override
-            public String toString(PrevisionEnum objeto)
+            public String toString(PersonalEnum objeto)
             {
                 return objeto == null ? "" : objeto.getNombre();
             }
 
             @Override
-            public PrevisionEnum fromString(String string)
+            public PersonalEnum fromString(String string)
             {
-                return PrevisionEnum.valueOf(string);
+                return PersonalEnum.valueOf(string);
             }
         });
-         */
 
         //Rut como los dioses
         rut.textProperty().addListener(new ChangeListener<String>() {
@@ -327,21 +325,17 @@ public class FormularioAgregarUsuarioController implements Initializable
             return;
         }
 
-        /*
-        Paciente dato = new Paciente(
+        PersonalMedico dato = new PersonalMedico(
                 rut.getText(),
                 nombre.getText(),
+                contrasena1.getText(),
                 direccion.getText(),
                 email.getText(),
                 telefono.getText(),
-                Date.from(fechaNacimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                prevision.getValue(),
-                nacionalidad.getText()
+                ocupacion.getValue()
         );
-*/
-        PersonalMedico datensi;
 
-        if (personalMedicoDAO.createPersonalMedico(null) != null)
+        if (personalMedicoDAO.createPersonalMedico(dato) != null)
         {
             alertaInfo();
             cargarVistaMenuAdministrador();

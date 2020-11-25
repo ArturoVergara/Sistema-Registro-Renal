@@ -8,8 +8,9 @@ public class PersonalMedico extends Usuario{
 
     private PersonalEnum tipoPersonal;
 
-    public PersonalMedico(String rut, String nombre, String direccion, String email, String telefono) {
-        super(rut, nombre, null, direccion, email, telefono);
+    public PersonalMedico(String rut, String nombre, String contrasena, String direccion, String email, String telefono, PersonalEnum tipoPersonal) {
+        super(rut, contrasena, nombre, direccion, email, telefono);
+        this.tipoPersonal = tipoPersonal;
     }
 
     public PersonalMedico(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion, int tipoPersonal) {

@@ -163,7 +163,7 @@
                   <VBox layoutX="410.0" layoutY="1.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                      <children>
                         <Label stylesheets="@../resources/css/formulario.css" text="Ocupación" textFill="#333333" />
-                        <JFXComboBox fx:id="ocupacion" prefHeight="25.0" prefWidth="378.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
+                        <JFXComboBox fx:id="ocupacion" focusColor="#6a72ef" prefHeight="25.0" prefWidth="378.0" styleClass="input" stylesheets="@../resources/css/formulario.css" />
                         <Label fx:id="errorOcupacion" prefHeight="20.0" prefWidth="781.0" styleClass="label-error" stylesheets="@../resources/css/login.css" textFill="#ff1744">
                            <VBox.margin>
                               <Insets top="5.0" />
