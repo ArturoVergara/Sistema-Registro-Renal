@@ -128,6 +128,29 @@ public class TablaPacientesController implements Initializable
         tabla.setItems(FXCollections.observableArrayList(pacientes));
     }
 
+    @FXML
+    private void cerrarSesion()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/Login.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            LoginController controlador = (LoginController) loader.getController();
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
     void cargarVistaPerfilPaciente(Paciente dato)
     {
         try
@@ -173,6 +196,31 @@ public class TablaPacientesController implements Initializable
             alertaExcepcion(excepcion);
         }
     }
+
+    @FXML
+    private void cargarMenuPrincipal()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/MenuPrincipal.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            MenuPrincipalController controlador = (MenuPrincipalController) loader.getController();
+            controlador.inicializar(usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
 
     void eliminarPaciente(Paciente dato, int indice)
     {
