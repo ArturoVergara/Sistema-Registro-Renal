@@ -12,6 +12,14 @@ public class Examen{
     private ExamenEnum tipoExamen;
     private float resultadoExamen;
 
+    public Examen(ExamenEnum tipoExamen, float resultadoExamen)
+    {
+        this.id = 0;
+        this.fechaEmision = LocalDateTime.now();
+        this.tipoExamen = tipoExamen;
+        this.resultadoExamen = resultadoExamen;
+    }
+
     public Examen(int id, LocalDateTime fechaEmision, int tipoExamen, float resultadoExamen){
         this.id=id;
         this.fechaEmision=fechaEmision;

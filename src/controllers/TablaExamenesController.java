@@ -273,9 +273,30 @@ public class TablaExamenesController implements Initializable
         resultadoVentana.ifPresent(datos -> {
             ExamenEnum tipoExamenFinal = datos.getKey();
             Float resultadoFinal = datos.getValue();
-            System.out.println(tipoExamenFinal);
-            System.out.println(resultadoFinal);
+
+            Examen examen = new Examen(tipoExamenFinal, resultadoFinal);
+
+            if (examenDAO.createExamenPaciente(paciente, examen) != null)
+            {
+                alertaInfoAgregar();
+                FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
+                List<Examen> examenes = fichaMedicaDAO.getExamenesPaciente(paciente.getFichaPaciente());
+                if (examenes != null)
+                    tabla.setItems(FXCollections.observableArrayList(examenes));
+            }
+            else
+                alertaErrorAgregar();
         });
+    }
+
+    private void alertaErrorAgregar()
+    {
+        Alert ventana=new Alert(Alert.AlertType.ERROR);
+        ventana.setTitle("¡Error al agregar!");
+        ventana.setHeaderText("Error: No se pudo agregar el examen a la base de datos");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
     }
 
     private void alertaError()
@@ -303,6 +324,16 @@ public class TablaExamenesController implements Initializable
             return true;
 
         return false;
+    }
+
+    private void alertaInfoAgregar()
+    {
+        Alert ventana=new Alert(Alert.AlertType.INFORMATION);
+        ventana.setTitle("¡Éxito al agregar!");
+        ventana.setHeaderText("Se ha creado el examen satisfactioramente.");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
     }
 
     private void alertaInfo()
