@@ -3,7 +3,7 @@ package models.enums;
 public enum PersonalEnum {
     ADMIN("Admin"),
     DOCTOR("Doctor"),
-    LABORISTA("Laborista"),
+    LABORATORISTA("Laboratorista"),
     ENFERMERO("Enfermero"),
     GES("Ges");
 
@@ -22,7 +22,7 @@ public enum PersonalEnum {
                 return DOCTOR;
 
             case 3:
-                return LABORISTA;
+                return LABORATORISTA;
 
             case 4:
                 return ENFERMERO;
@@ -41,7 +41,7 @@ public enum PersonalEnum {
             case "Doctor":
                 return 2;
 
-            case "Laborista":
+            case "Laboratorista":
                 return 3;
 
             case "Enfermero":

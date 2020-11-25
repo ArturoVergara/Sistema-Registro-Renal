@@ -91,7 +91,7 @@ public class FormularioAgregarUsuarioController implements Initializable
         this.usuario = usuario;
 
         nombreUsuario.setText(usuario.getNombre());
-        ocupacion.setItems(FXCollections.observableArrayList(PersonalEnum.ADMIN, PersonalEnum.DOCTOR, PersonalEnum.ENFERMERO, PersonalEnum.GES, PersonalEnum.LABORISTA));
+        ocupacion.setItems(FXCollections.observableArrayList(PersonalEnum.ADMIN, PersonalEnum.DOCTOR, PersonalEnum.ENFERMERO, PersonalEnum.GES, PersonalEnum.LABORATORISTA));
 
         //StringConverter para el combobox de prevision sobre el enum de personal
         /*
