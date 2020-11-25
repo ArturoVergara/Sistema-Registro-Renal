@@ -38,10 +38,12 @@ public class ExamenDAOImpl implements ExamenDAO{
 
     @Override
     public Examen createExamenPaciente(Paciente paciente, Examen examen) {
-        query = "SELECT p.id from paciente as p inner join usuario u on p.idUsuario=u.id where u.rut=?";
+        query = "SELECT fm.id from fichamedica as fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,paciente.getRut());
+
             resultado = sentencia.executeQuery();
             resultado.next();
             resultadoParaEnteros = resultado.getInt("id");
