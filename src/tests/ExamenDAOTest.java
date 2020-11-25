@@ -1,50 +1,27 @@
-package DAO;
+package tests;
 
 import core.DataBase;
-import models.Diagnostico;
 import models.Examen;
+import models.FichaMedica;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
-public class ExamenDAOImpl implements ExamenDAO{
+public class ExamenDAOTest {
 
     private static Connection conexion;
     private static PreparedStatement sentencia;
     private static ResultSet resultado;
-    private static int resultadoParaEnteros;
+    private static int resultado2;
     public String query;
 
-    @Override
-    public Diagnostico getExamenPaciente(String rut) {
-        return null;
-    }
-
-    @Override
-    public Diagnostico getExamenPaciente(int id) {
-        return null;
-    }
-
-    @Override
-    public List<Diagnostico> getExamenes() {
-        return null;
-    }
-
-    @Override
-    public Diagnostico createExamenPaciente(Examen examen) {
-        return null;
-    }
-
-    @Override
-    public Diagnostico updateExamenPaciente(Examen examen) {
-        return null;
-    }
-
-    @Override
-    public boolean deleteExamenPaciente(int idExamen) {
+    @org.junit.jupiter.api.Test
+    void deleteExamenPaciente() {
+        int idExamen=2;
         /*query = "SELECT fm.* from fichamedica as fm join examen as e on e.idFicha=fm.id where e.id=?";
         FichaMedica fichaMedicaRetorno = null;
         try {
@@ -73,7 +50,7 @@ public class ExamenDAOImpl implements ExamenDAO{
             List<Examen> examenList = fichaMedicaRetorno.getExamenesPaciente();
             examenList.removeIf(examen -> examen.getId() == idExamen);
         }else{
-            return false;
+            System.out.print("asdaasd error");
         }*/
 
         query = "DELETE FROM examen where examen.id=?";
@@ -81,11 +58,17 @@ public class ExamenDAOImpl implements ExamenDAO{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
             sentencia.setInt(1,idExamen);
-            resultadoParaEnteros = sentencia.executeUpdate();
+            resultado2 = sentencia.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return resultadoParaEnteros > 0;
+        if(resultado2>0){
+            System.out.print("went good");
+
+        }else {
+            System.out.print("asdaasd error");
+        }
+        //return resultado2 > 0;
     }
 }

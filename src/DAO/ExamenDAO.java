@@ -2,6 +2,7 @@ package DAO;
 
 import models.Diagnostico;
 import models.Examen;
+import models.FichaMedica;
 
 import java.util.List;
 
@@ -17,6 +18,6 @@ public interface ExamenDAO {
 
     Diagnostico updateExamenPaciente(Examen examen);
 
-    void deleteExamenPaciente(int id);
+    boolean deleteExamenPaciente(int idExamen);
 }
 
