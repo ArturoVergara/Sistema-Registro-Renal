@@ -5,10 +5,7 @@ import models.Examen;
 import models.FichaMedica;
 import models.Paciente;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -82,11 +79,11 @@ public class ExamenDAOTest {
         Examen examen = new Examen(LocalDateTime.now(),1,12);
         Paciente paciente = new Paciente(2,"19940860-7","FELIPE GUAJARDO NUNEZ","BRASIL 58","AGN@MAIL.CL","82017717",
                 LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"telefono","mailalternativotest");
-        /*query = "SELECT fm.id from fichamedica as fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut=?";
+        query = "SELECT fm.id from fichamedica as fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setString(1,rut);
+            sentencia.setString(1,"19940860-7");
 
             resultado = sentencia.executeQuery();
             resultado.next();
@@ -97,18 +94,18 @@ public class ExamenDAOTest {
         }
 
         out.print(resultado2);
-*/
+
         query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
 
-            sentencia.setInt(1,paciente.getFichaPaciente().getId());
+            sentencia.setInt(1,resultado2);
             sentencia.setInt(2,examen.getTipoExamen().getValor());
             sentencia.setFloat(3,examen.getResultadoExamen());
             resultado2 = sentencia.executeUpdate();
 
-        }catch (Exception e){
+        }catch (SQLException e){
             e.printStackTrace();
         }
         if(resultado2>0){

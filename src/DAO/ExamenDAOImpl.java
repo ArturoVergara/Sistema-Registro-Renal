@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -38,11 +39,11 @@ public class ExamenDAOImpl implements ExamenDAO{
 
     @Override
     public Examen createExamenPaciente(Paciente paciente, Examen examen) {
-        /*query = "SELECT fm.id from fichamedica as fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut=?";
+        query = "SELECT fm.id from fichamedica as fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setString(1,paciente.getRut());
+            sentencia.setString(1, paciente.getRut());
 
             resultado = sentencia.executeQuery();
             resultado.next();
@@ -52,8 +53,9 @@ public class ExamenDAOImpl implements ExamenDAO{
             e.printStackTrace();
         }
 
-        query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
+        out.print(resultadoParaEnteros);
 
+        query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -63,7 +65,7 @@ public class ExamenDAOImpl implements ExamenDAO{
             sentencia.setFloat(3,examen.getResultadoExamen());
             resultadoParaEnteros = sentencia.executeUpdate();
 
-        }catch (Exception e){
+        }catch (SQLException e){
             e.printStackTrace();
         }
         if(resultadoParaEnteros>0){
@@ -72,28 +74,7 @@ public class ExamenDAOImpl implements ExamenDAO{
             out.println("\ncreado satisfactoriamente!");
             return examen;
         } else {
-            return null;
-        }*/
-        query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
-        try{
-            conexion = DataBase.conectar();
-            sentencia = conexion.prepareStatement(query);
-
-            sentencia.setInt(1,paciente.getFichaPaciente().getId());
-            sentencia.setInt(2,examen.getTipoExamen().getValor());
-            sentencia.setFloat(3,examen.getResultadoExamen());
-            resultadoParaEnteros = sentencia.executeUpdate();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        if(resultadoParaEnteros>0){
-            out.println("Examen: ");
-            examen.showExamenData();
-            out.println("\ncreado satisfactoriamente!");
-            return examen;
-        } else {
-            out.println("error al crear examen: ");
+            out.println("error al crear el examen!");
             return null;
         }
     }
