@@ -1,9 +1,58 @@
 package models.enums;
 
 public enum PersonalEnum {
-    ADMIN,
-    DOCTOR,
-    LABORISTA,
-    ENFERMERO,
-    GES
+    ADMIN("Admin"),
+    DOCTOR("Doctor"),
+    LABORISTA("Laborista"),
+    ENFERMERO("Enfermero"),
+    GES("Ges");
+
+    private final String nombre;
+
+    PersonalEnum(String nombre) { this.nombre= nombre;}
+
+    public static PersonalEnum fromInteger(int valor)
+    {
+        switch (valor)
+        {
+            case 1:
+               return ADMIN;
+
+            case 2:
+                return DOCTOR;
+
+            case 3:
+                return LABORISTA;
+
+            case 4:
+                return ENFERMERO;
+        }
+
+        return GES;
+    }
+
+    public int getValor()
+    {
+        switch (nombre)
+        {
+            case "Admin":
+                return 1;
+
+            case "Doctor":
+                return 2;
+
+            case "Laborista":
+                return 3;
+
+            case "Enfermero":
+                return 4;
+        }
+
+        return 5;
+    }
+
+    public String getNombre()
+    {
+        return nombre;
+    }
 }
