@@ -2,21 +2,21 @@ package DAO;
 
 import models.Diagnostico;
 import models.Examen;
-import models.FichaMedica;
+import models.Paciente;
 
 import java.util.List;
 
 public interface ExamenDAO {
 
-    Diagnostico getExamenPaciente(String rut);
+    Examen getExamenPaciente(String rut);
 
-    Diagnostico getExamenPaciente(int id);
+    Examen getExamenPaciente(int id);
 
     List<Diagnostico> getExamenes();
 
-    Diagnostico createExamenPaciente(Examen examen);
+    Examen createExamenPaciente(Paciente paciente, Examen examen);
 
-    Diagnostico updateExamenPaciente(Examen examen);
+    Examen updateExamenPaciente(Examen examen);
 
     boolean deleteExamenPaciente(int idExamen);
 }

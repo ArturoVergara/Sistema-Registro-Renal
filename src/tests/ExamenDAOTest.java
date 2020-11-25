@@ -3,6 +3,7 @@ package tests;
 import core.DataBase;
 import models.Examen;
 import models.FichaMedica;
+import models.Paciente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+
+import static java.lang.System.out;
 
 public class ExamenDAOTest {
 
@@ -71,4 +74,43 @@ public class ExamenDAOTest {
         }
         //return resultado2 > 0;
     }
+
+    /*@org.junit.jupiter.api.Test
+    void createExamenPaciente() {
+        Paciente paciente = new Paciente("11111")
+        query = "SELECT p.id from paciente as p inner join usuario u on p.idUsuario=u.id where u.rut=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            resultado = sentencia.executeQuery();
+            resultado.next();
+            resultado2 = resultado.getInt("id");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
+
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+
+            sentencia.setInt(1,resultado2);
+            sentencia.setInt(2,examen.getTipoExamen().getValor());
+            sentencia.setFloat(3,examen.getResultadoExamen());
+            resultado2 = sentencia.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultado2>0){
+            out.println("Examen: ");
+            examen.showExamenData();
+            out.println("\ncreado satisfactoriamente!");
+            //return examen;
+        } else {
+            out.println("errrrror: ");
+        }
+    }*/
 }
