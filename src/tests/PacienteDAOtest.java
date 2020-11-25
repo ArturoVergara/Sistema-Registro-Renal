@@ -153,8 +153,8 @@ public class PacienteDAOtest {
 
     @org.junit.jupiter.api.Test
     void createPaciente() {
-        Paciente paciente = new Paciente(10,"borrar","JOSE VERGARA","BRASIL 58","ASD@MAIL.COM","82017717",
-                LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"NONE","NONE");
+        Paciente paciente = new Paciente(2,"19940860-7","FELIPE GUAJARDO NUNEZ","BRASIL 58","AGN@MAIL.CL","82017717",
+                LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"telefono","mailalternativotest");
 
         /**
          * Se crea usuario y se guarda en la db

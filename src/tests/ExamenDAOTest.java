@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -75,13 +77,17 @@ public class ExamenDAOTest {
         //return resultado2 > 0;
     }
 
-    /*@org.junit.jupiter.api.Test
+    @org.junit.jupiter.api.Test
     void createExamenPaciente() {
-        Paciente paciente = new Paciente("11111")
-        query = "SELECT p.id from paciente as p inner join usuario u on p.idUsuario=u.id where u.rut=?";
+        Examen examen = new Examen(LocalDateTime.now(),1,12);
+        Paciente paciente = new Paciente(2,"19940860-7","FELIPE GUAJARDO NUNEZ","BRASIL 58","AGN@MAIL.CL","82017717",
+                LocalDateTime.now(), Date.from(Instant.now()),"Chileno",1,"telefono","mailalternativotest");
+        /*query = "SELECT fm.id from fichamedica as fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
+
             resultado = sentencia.executeQuery();
             resultado.next();
             resultado2 = resultado.getInt("id");
@@ -90,13 +96,14 @@ public class ExamenDAOTest {
             e.printStackTrace();
         }
 
+        out.print(resultado2);
+*/
         query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
-
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
 
-            sentencia.setInt(1,resultado2);
+            sentencia.setInt(1,paciente.getFichaPaciente().getId());
             sentencia.setInt(2,examen.getTipoExamen().getValor());
             sentencia.setFloat(3,examen.getResultadoExamen());
             resultado2 = sentencia.executeUpdate();
@@ -110,7 +117,8 @@ public class ExamenDAOTest {
             out.println("\ncreado satisfactoriamente!");
             //return examen;
         } else {
-            out.println("errrrror: ");
+            //return null;
+            out.println("asdassd: ");
         }
-    }*/
+    }
 }
