@@ -92,7 +92,7 @@ class UsuarioDAOImplTest{
 
     @org.junit.jupiter.api.Test
     void createUsuario() {
-        Usuario usuario = new Usuario("ppp2","ppp2","ppp2","ppp2","ppp2","ppp2");
+        Usuario usuario = new Usuario("test","test","test","test","test","test");
 
         query = "INSERT INTO usuario (rut,nombre,direccion,email,telefono,contrasena,fechaCreacion) VALUES (?,?,?,?,?,?,now())";
         try{

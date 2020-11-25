@@ -48,8 +48,43 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
         catch (Exception e) {
             e.printStackTrace();
         }
-        return fichaMedicaRetorno;
+        if(fichaMedicaRetorno!=null){
+            fichaMedicaRetorno.showFichaData();
+            return fichaMedicaRetorno;
+        }else{
+            return null;
+        }
     }
+    @Override
+    public boolean getFichaPacienteBoolean(String rut) {
+        query = "SELECT fm.* from fichamedica AS fm inner join paciente as p on fm.idPaciente=p.id inner join usuario as u on p.idUsuario=u.id where u.rut =?";
+        FichaMedica fichaMedicaRetorno= null;
+        try {
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setString(1,rut);
+            resultado = sentencia.executeQuery();
+
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                FichaMedica dato = new FichaMedica(
+                        resultado.getInt("id"),
+                        resultado.getBoolean("sexo"),
+                        resultado.getFloat("peso"),
+                        resultado.getFloat("altura"),
+                        resultado.getInt("etnia"),
+                        timestamp.toLocalDateTime()
+                );
+                fichaMedicaRetorno=dato;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fichaMedicaRetorno != null;
+    }
+
 
     @Override
     public FichaMedica getFichaPaciente(int id){ //id -> id del paciente
@@ -109,7 +144,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
         }
         if(lista.size()>0){
             for (Examen examen : lista) {
-                System.out.println(examen.getTipoExamenInt() + " " + examen.getFechaEmision());
+                examen.showExamenData();
             }
             return lista;
         }else{
@@ -145,7 +180,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
         }
         if(lista.size()>0){
             for (Diagnostico diagnostico : lista) {
-                System.out.println(diagnostico.getFechaActualizacion()+ " " + diagnostico.getCategoriaDanioPaciente());
+                diagnostico.showDiagnosticoData();
             }
             return lista;
         }else{
@@ -187,73 +222,67 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
     }
 
     @Override
-    public FichaMedica createFichaPaciente(Paciente paciente, FichaMedica fichaMedica) {
-        /**
-         * Se crea usuario y se guarda en la db
-         * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
-         * Se retorna null si hubo un error al guardar el usuario
-         */
-        query = "INSERT INTO fichamedica (idFicha,sexo,peso,altura,etnia,fechaCreacion) VALUES (?,?,?,?,?,now())";
+    public FichaMedica agregarFichaAPaciente(Paciente paciente, FichaMedica fichaMedica) {
+        query = "SELECT paciente.id FROM paciente inner join usuario ON paciente.idUsuario=usuario.id WHERE usuario.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,paciente.getId());
+            sentencia.setString(1,paciente.getRut());
+            resultado= sentencia.executeQuery();
+            resultado.next();
+            resultadoParaEnteros=resultado.getInt("id");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //out.print(resultadoParaEnteros);
+        query = "INSERT INTO fichamedica (idPaciente,sexo,peso,altura,etnia,fechaCreacion) VALUES (?,?,?,?,?,now())";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,resultadoParaEnteros);
             sentencia.setInt(2,fichaMedica.getSexo());
             sentencia.setFloat(3,fichaMedica.getPesoPaciente());
             sentencia.setFloat(4,fichaMedica.getAlturaPaciente());
             sentencia.setInt(5,fichaMedica.getEtniaPaciente());
             resultadoParaEnteros = sentencia.executeUpdate();
-
         }catch (Exception e){
             e.printStackTrace();
         }
         if(resultadoParaEnteros>0) {
-            out.println("Ficha medica creada satisfactoriamente!");
+            out.println("Ficha medica agregada al paciente " + paciente.getNombre() +" satisfactoriamente!");
             return fichaMedica;
         }else{
-            out.println("Error al crear la Ficha medica!");
+            out.println("Error al agregar la ficha medica al paciente!");
             return null;
         }
     }
 
     @Override
-    public FichaMedica updateFichaPaciente(FichaMedica fichaMedica) {
-        /*query = "SELECT * FROM fichamedica AS FM WHERE FM.id=?";
+    public FichaMedica updateFichaPaciente(Paciente paciente, FichaMedica fichaMedica) {
+        query = "select p.id from fichamedica as fm join paciente as p on fm.idPaciente=p.id join usuario as u on p.idUsuario=u.id where u.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,fichaMedica.getId());
-            resultado = sentencia.executeQuery();
-            while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
-                Timestamp timestamp = new Timestamp(date.getTime());
-                FichaMedica dato = new FichaMedica(
-                        resultado.getInt("id"),
-                        resultado.getBoolean("sexo"),
-                        resultado.getFloat("peso"),
-                        resultado.getFloat("altura"),
-                        resultado.getString("etnia"),
-                        timestamp.toLocalDateTime()
-                );
-            }
+            sentencia.setString(1,paciente.getRut());
+            resultado= sentencia.executeQuery();
+            resultado.next();
+            resultadoParaEnteros=resultado.getInt("id");
         }catch (Exception e){
             e.printStackTrace();
-        }*/
-        query = "UPDATE fichamedica AS FM" +
-                "SET " +
-                "sexo = ? ," +
-                "peso = ? ," +
-                "altura = ? ," +
-                "etnia = ? ," +
-                "WHERE FM.id=?";
+        }
+        //out.print(resultadoParaEnteros);
+        query = "UPDATE fichamedica AS FM " +
+                "INNER JOIN paciente as P " +
+                "ON FM.idPaciente=P.id AND P.id=? " +
+                "SET sexo=?,peso=?,altura=?,etnia=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,fichaMedica.getSexo());
-            sentencia.setFloat(2,fichaMedica.getPesoPaciente());
-            sentencia.setFloat(3,fichaMedica.getAlturaPaciente());
-            sentencia.setInt(4,fichaMedica.getEtniaPaciente());
-            sentencia.setInt(5,fichaMedica.getId());
+            sentencia.setInt(1,resultadoParaEnteros);
+            sentencia.setInt(2,fichaMedica.getSexo());
+            sentencia.setFloat(3,fichaMedica.getPesoPaciente());
+            sentencia.setFloat(4,fichaMedica.getAlturaPaciente());
+            sentencia.setInt(5,fichaMedica.getEtniaPaciente());
             resultadoParaEnteros = sentencia.executeUpdate();
 
         }catch (SQLException e){
@@ -320,11 +349,23 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public boolean deleteFichaPaciente(Paciente paciente) {
-        query = "DELETE f FROM fichamedica AS F INNER JOIN paciente AS P WHERE F.idUsuario=?";
+        query = "select p.id from fichamedica as fm join paciente as p on fm.idPaciente=p.id join usuario as u on p.idUsuario=u.id where u.rut=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,paciente.getId());
+            sentencia.setString(1,paciente.getRut());
+            resultado= sentencia.executeQuery();
+            resultado.next();
+            resultadoParaEnteros=resultado.getInt("id");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        query = "DELETE FM FROM fichamedica AS FM INNER JOIN paciente AS P ON FM.idPaciente=P.id WHERE FM.idPaciente=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,resultadoParaEnteros);
             resultadoParaEnteros = sentencia.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
