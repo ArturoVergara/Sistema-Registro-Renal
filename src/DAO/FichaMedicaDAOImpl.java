@@ -299,11 +299,23 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public Diagnostico agregarDiagnosticoAFicha(FichaMedica fichaMedica, Diagnostico diagnostico) {
+        query = "select fm.id from fichamedica as fm where fm.sexo=? and fm.peso=? and fm.altura=? and fm.etnia=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            //sentencia.setString(1,paciente.getRut());
+            resultado= sentencia.executeQuery();
+            resultado.next();
+            resultadoParaEnteros=resultado.getInt("id");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public Examen agregarExamenAFicha(FichaMedica fichaMedica, Examen examen) {
+
         return null;
     }
 
