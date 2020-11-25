@@ -5,6 +5,10 @@ import models.FichaMedica;
 import models.Paciente;
 
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -195,7 +199,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                 conexion = DataBase.conectar();
                 sentencia = conexion.prepareStatement(query);
                 sentencia.setInt(1,resultadoParaEnteros);
-                sentencia.setDate(2, (java.sql.Date) paciente.getFechaNacimiento());
+                sentencia.setDate(2, java.sql.Date.valueOf(paciente.parseFechaNacimiento(paciente.getFechaNacimiento())));
                 sentencia.setString(3,paciente.getEmailAlternativo());
                 sentencia.setString(4,paciente.getTelefonoAlternativo());
                 sentencia.setInt(5,paciente.getPrevision().getValor());

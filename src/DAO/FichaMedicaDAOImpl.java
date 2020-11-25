@@ -299,7 +299,15 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public Diagnostico agregarDiagnosticoAFicha(FichaMedica fichaMedica, Diagnostico diagnostico) {
-        query = "select fm.id from fichamedica as fm where fm.sexo=? and fm.peso=? and fm.altura=? and fm.etnia=?";
+        List<Diagnostico> diagnosticos = this.getDiagnosticosPaciente(fichaMedica);
+        for(Diagnostico diagnosticoBuffer : diagnosticos){
+            if(diagnostico.getId() == diagnosticoBuffer.getId()){
+                return null;
+            }
+        }
+       // fichaMedica.add
+
+        query = "INSERT INTO diagnostico as d inner join ";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
