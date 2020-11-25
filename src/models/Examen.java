@@ -2,7 +2,8 @@ package models;
 
 import models.enums.ExamenEnum;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.util.Date;
 
 public class Examen{
 
@@ -51,6 +52,13 @@ public class Examen{
             return 3;
         }
         return 0;
+    }
+
+    public LocalDate parseFechaNacimiento(LocalDateTime fechaEmision){
+        Instant instant = fechaEmision.toInstant(ZoneOffset.ofHours(1));
+        ZoneId zoneId = ZoneId.of("America/Montreal");
+        ZonedDateTime zdt = ZonedDateTime.ofInstant ( instant , zoneId );
+        return zdt.toLocalDate();
     }
 
     public ExamenEnum getTipoExamenExamen(int i){

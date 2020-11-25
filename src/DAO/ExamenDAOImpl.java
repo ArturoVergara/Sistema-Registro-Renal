@@ -3,12 +3,15 @@ package DAO;
 import core.DataBase;
 import models.Diagnostico;
 import models.Examen;
+import models.Paciente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.List;
+
+import static java.lang.System.out;
 
 public class ExamenDAOImpl implements ExamenDAO{
 
@@ -19,12 +22,12 @@ public class ExamenDAOImpl implements ExamenDAO{
     public String query;
 
     @Override
-    public Diagnostico getExamenPaciente(String rut) {
+    public Examen getExamenPaciente(String rut) {
         return null;
     }
 
     @Override
-    public Diagnostico getExamenPaciente(int id) {
+    public Examen getExamenPaciente(int id) {
         return null;
     }
 
@@ -34,12 +37,45 @@ public class ExamenDAOImpl implements ExamenDAO{
     }
 
     @Override
-    public Diagnostico createExamenPaciente(Examen examen) {
-        return null;
+    public Examen createExamenPaciente(Paciente paciente, Examen examen) {
+        query = "SELECT p.id from paciente as p inner join usuario u on p.idUsuario=u.id where u.rut=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            resultado = sentencia.executeQuery();
+            resultado.next();
+            resultadoParaEnteros = resultado.getInt("id");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        query = "INSERT INTO examen (idFicha,fechaEmision,tipo,valor) VALUES (?,now(),?,?)";
+
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+
+            sentencia.setInt(1,resultadoParaEnteros);
+            sentencia.setInt(2,examen.getTipoExamen().getValor());
+            sentencia.setFloat(3,examen.getResultadoExamen());
+            resultadoParaEnteros = sentencia.executeUpdate();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros>0){
+            out.println("Examen: ");
+            examen.showExamenData();
+            out.println("\ncreado satisfactoriamente!");
+            return examen;
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Diagnostico updateExamenPaciente(Examen examen) {
+    public Examen updateExamenPaciente(Examen examen) {
         return null;
     }
 
@@ -88,4 +124,5 @@ public class ExamenDAOImpl implements ExamenDAO{
         }
         return resultadoParaEnteros > 0;
     }
+
 }
