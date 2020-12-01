@@ -55,7 +55,7 @@ public class TablaDiagnosticosController implements Initializable
     @FXML
     private TableColumn<Diagnostico, LocalDateTime> columnaFecha;
     @FXML
-    private TableColumn<Diagnostico, String> columnaAcciones;
+    private TableColumn<Diagnostico, String> columnaAccion;
 
     private PersonalMedico usuario;
     private Paciente paciente;
@@ -72,8 +72,6 @@ public class TablaDiagnosticosController implements Initializable
         nombrePaciente.setText(paciente.getNombre());
         rutPaciente.setText(paciente.getRut());
 
-        //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
-        //List<Paciente> pacientes = pacienteDAO.getPacientes();
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
         List<Diagnostico> diagnosticos = fichaMedicaDAO.getDiagnosticosPaciente(paciente.getFichaPaciente());
 
@@ -81,7 +79,7 @@ public class TablaDiagnosticosController implements Initializable
         columnaResultado.setCellValueFactory(new PropertyValueFactory<>("resultadoFiltradoGlomerular"));
         columnaDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcionDiagnostico"));
         columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fechaActualizacion"));
-        columnaAcciones.setCellValueFactory(new PropertyValueFactory<>("ASDASD"));
+        columnaAccion.setCellValueFactory(new PropertyValueFactory<>("ASDASD"));
 
 
         //Callback para reemplazar el valor de la columna Acciones por los botones eliminar
@@ -96,7 +94,6 @@ public class TablaDiagnosticosController implements Initializable
                     public void updateItem(String item, boolean empty)
                     {
                         JFXButton botonEliminar = new JFXButton("Eliminar");
-                        HBox hbox = new HBox();
 
                         super.updateItem(item, empty);
 
@@ -112,14 +109,11 @@ public class TablaDiagnosticosController implements Initializable
                                 eliminarDiagnostico(dato, getIndex());
                             });
 
-                            hbox.setSpacing(10.0);
-
                             //Setear estilos a los botones
                             botonEliminar.setStyle("-fx-background-color: #ff1744; -fx-text-fill: white");
                             botonEliminar.setCursor(Cursor.HAND);
 
-                            hbox.getChildren().addAll(botonEliminar);
-                            setGraphic(hbox);
+                            setGraphic(botonEliminar);
                             setText(null);
                         }
                     }
@@ -129,7 +123,7 @@ public class TablaDiagnosticosController implements Initializable
             }
         };
 
-        columnaAcciones.setCellFactory(cellFactory);
+        columnaAccion.setCellFactory(cellFactory);
 
         if (diagnosticos != null)
             tabla.setItems(FXCollections.observableArrayList(diagnosticos));

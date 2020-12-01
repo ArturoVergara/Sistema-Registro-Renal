@@ -86,7 +86,7 @@
                   <TableColumn fx:id="columnaResultado" prefWidth="103.0" text="Resultado" />
                 <TableColumn fx:id="columnaDescripcion" prefWidth="230.0" text="Descripción" />
                   <TableColumn fx:id="columnaFecha" prefWidth="187.0" text="Fecha de Emisión" />
-                  <TableColumn fx:id="columnaAcciones" prefWidth="471.0" text="Acciones" />
+                  <TableColumn fx:id="columnaAccion" prefWidth="471.0" text="Acción" />
               </columns>
                <VBox.margin>
                   <Insets left="15.0" right="15.0" />
