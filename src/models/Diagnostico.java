@@ -1,9 +1,13 @@
 package models;
 
+import lombok.Getter;
+import lombok.Setter;
 import models.enums.CategoriaDanioEnum;
 
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class Diagnostico{
 
     private final int id;
@@ -18,43 +22,6 @@ public class Diagnostico{
         this.resultadoFiltradoGlomerular=resultadoExamen;
         this.descripcionDiagnostico=desc;
         this.categoriaDanioPaciente=this.getCategoriaDanio(categoriaDanio);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-
-    public LocalDateTime getFechaActualizacion() {
-        return fechaActualizacion;
-    }
-
-    public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
-        this.fechaActualizacion = fechaActualizacion;
-    }
-
-    public float getResultadoFiltradoGlomerular() {
-        return resultadoFiltradoGlomerular;
-    }
-
-    public void setResultadoFiltradoGlomerular(float resultado) {
-        this.resultadoFiltradoGlomerular = resultado;
-    }
-
-    public String getDescripcionDiagnostico() {
-        return descripcionDiagnostico;
-    }
-
-    public void setDesc(String desc) {
-        this.descripcionDiagnostico = desc;
-    }
-
-    public CategoriaDanioEnum getCategoriaDanioPaciente() {
-        return categoriaDanioPaciente;
-    }
-
-    public void setCategoriaDanioPaciente(CategoriaDanioEnum categoriaDanio) {
-        this.categoriaDanioPaciente = categoriaDanio;
     }
 
     public CategoriaDanioEnum getCategoriaDanio(int i){

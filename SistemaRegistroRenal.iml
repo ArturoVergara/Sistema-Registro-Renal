@@ -72,5 +72,6 @@
     </orderEntry>
     <orderEntry type="library" name="mysql-connector-java-8.0.22" level="project" />
     <orderEntry type="library" name="fontawesomefx-8.9" level="project" />
+    <orderEntry type="library" name="lombok" level="project" />
   </component>
 </module>

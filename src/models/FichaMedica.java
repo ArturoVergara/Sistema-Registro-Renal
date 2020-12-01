@@ -1,9 +1,15 @@
 package models;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+@Setter
+@Getter
 public class FichaMedica {
 
     private final int id;
@@ -38,10 +44,6 @@ public class FichaMedica {
         this.examenesPaciente=null;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public int getSexo(){
         if(isSexoPaciente()){
             return 1;
@@ -49,30 +51,6 @@ public class FichaMedica {
         else{
             return 0;
         }
-    }
-
-    public boolean isSexoPaciente() {
-        return sexoPaciente;
-    }
-
-    public void setSexoPaciente(boolean sexoPaciente) {
-        this.sexoPaciente = sexoPaciente;
-    }
-
-    public float getPesoPaciente() {
-        return pesoPaciente;
-    }
-
-    public void setPesoPaciente(float pesoPaciente) {
-        this.pesoPaciente = pesoPaciente;
-    }
-
-    public float getAlturaPaciente() {
-        return alturaPaciente;
-    }
-
-    public void setAlturaPaciente(float alturaPaciente) {
-        this.alturaPaciente = alturaPaciente;
     }
 
     public int getEtniaPaciente() {
@@ -83,31 +61,7 @@ public class FichaMedica {
     }
 
     public void setEtniaPaciente(int i) {
-        if(i==1){
-            this.etniaPaciente=true;
-        }else{
-            this.etniaPaciente=false;
-        }
-    }
-
-    public List<Diagnostico> getDiagnosticosPaciente() {
-        return diagnosticosPaciente;
-    }
-
-    public void setDiagnosticosPaciente(List<Diagnostico> diagnosticosPaciente) {
-        this.diagnosticosPaciente = diagnosticosPaciente;
-    }
-
-    public List<Examen> getExamenesPaciente() {
-        return examenesPaciente;
-    }
-
-    public void setExamenesPaciente(List<Examen> examenesPaciente) {
-        this.examenesPaciente = examenesPaciente;
-    }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
+        this.etniaPaciente= i == 1;
     }
 
     public void showFichaData(){

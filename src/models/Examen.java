@@ -1,10 +1,13 @@
 package models;
 
+import lombok.Getter;
+import lombok.Setter;
 import models.enums.ExamenEnum;
 
 import java.time.*;
-import java.util.Date;
 
+@Setter
+@Getter
 public class Examen{
 
     private final int id;
@@ -33,28 +36,6 @@ public class Examen{
         this.tipoExamen= this.getTipoExamenExamen(tipoExamen);
         this.resultadoExamen=resultadoExamen;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public LocalDateTime getFechaEmision() {
-        return fechaEmision;
-    }
-
-    public ExamenEnum getTipoExamen() {
-        return tipoExamen;
-    }
-
-    public void setTipoExamen(ExamenEnum tipoExamen) {
-        this.tipoExamen = tipoExamen;
-    }
-
-    public float getResultadoExamen() {
-        return resultadoExamen;
-    }
-
-    public void setResultadoExamen(float resultadoExamen) { this.resultadoExamen = resultadoExamen; }
 
     public int getTipoExamenInt(){
         if(this.tipoExamen == ExamenEnum.CREATININA){

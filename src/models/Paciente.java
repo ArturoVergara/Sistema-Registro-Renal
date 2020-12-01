@@ -1,10 +1,14 @@
 package models;
 
+import lombok.Getter;
+import lombok.Setter;
 import models.enums.PrevisionEnum;
 
 import java.time.*;
 import java.util.Date;
 
+@Setter
+@Getter
 public class Paciente extends Usuario{
 
     private Date fechaNacimiento;
@@ -49,59 +53,12 @@ public class Paciente extends Usuario{
         this.fichaPaciente = null;
     }
 
-    public FichaMedica getFichaPaciente(){
-        return fichaPaciente;
-    }
-
-    public void setFichaPaciente(FichaMedica fichaPaciente1){
-        this.fichaPaciente = fichaPaciente1;
-    }
 
     public LocalDate parseFechaNacimiento(Date fechaNacimiento){
         Instant instant = fechaNacimiento.toInstant();
         ZoneId zoneId = ZoneId.of("America/Montreal");
         ZonedDateTime zdt = ZonedDateTime.ofInstant ( instant , zoneId );
         return zdt.toLocalDate();
-    }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getNacionalidad() {
-        return nacionalidad;
-    }
-
-    public void setNacionalidad(String nacionalidad) {
-        this.nacionalidad = nacionalidad;
-    }
-
-    public PrevisionEnum getPrevision() {
-        return prevision;
-    }
-
-    public void setPrevision(PrevisionEnum prevision) {
-        this.prevision = prevision;
-    }
-
-    public String getTelefonoAlternativo() {
-        return telefonoAlternativo;
-    }
-
-    public void setTelefonoAlternativo(String telefonoAlternativo) {
-        this.telefonoAlternativo = telefonoAlternativo;
-    }
-
-    public String getEmailAlternativo() {
-        return emailAlternativo;
-    }
-
-    public void setEmailAlternativo(String emailAlternativo) {
-        this.emailAlternativo = emailAlternativo;
     }
 
     public void showUserData(){

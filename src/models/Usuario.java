@@ -1,8 +1,13 @@
 package models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Setter
+@Getter
 public class Usuario
 {
     private  int id;
@@ -64,68 +69,7 @@ public class Usuario
         this.fechaCreacion= this.getFechaCreacion();
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public String getRut() {
-        return rut;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    public void setRut(String rut)
-    {
-        this.rut = rut;
-    }
-
-    public void setNombre(String nombre)
-    {
-        this.nombre = nombre;
-    }
-
-    public void setContrasena(String contrasena)
-    {
-        this.contrasena = contrasena;
-    }
-
-    public void setDireccion(String direccion)
-    {
-        this.direccion = direccion;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-
-    public void setTelefono(String telefono)
-    {
-        this.telefono = telefono;
-    }
 
     public void showUserData(Usuario usuario){
         System.out.println("Datos del usuario: ");
@@ -137,9 +81,6 @@ public class Usuario
         );
     }
 
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
 
     public boolean testCredentials(String rut, String contrasena){
         return (this.rut.equals(rut) && this.contrasena.equals(contrasena));

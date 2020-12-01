@@ -1,9 +1,13 @@
 package models;
 
+import lombok.Getter;
+import lombok.Setter;
 import models.enums.PersonalEnum;
 
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 public class PersonalMedico extends Usuario{
 
     private PersonalEnum tipoPersonal;
@@ -24,14 +28,7 @@ public class PersonalMedico extends Usuario{
     }
 
     public boolean isAdmin(){
-        if(this.tipoPersonal == PersonalEnum.ADMIN){
-            return true;
-        }
-        return false;
-    }
-
-    public PersonalEnum getTipoPersonal() {
-        return tipoPersonal;
+        return this.tipoPersonal == PersonalEnum.ADMIN;
     }
 
     public int getTipoPersonalInt(){
@@ -51,11 +48,6 @@ public class PersonalMedico extends Usuario{
             return 5;
         }
         return 0;
-    }
-
-
-    public void setTipoPersonal(PersonalEnum tipoPersonal) {
-        this.tipoPersonal = tipoPersonal;
     }
 
     public void showUserData(){
