@@ -55,11 +55,11 @@ public class Paciente extends Usuario{
         this.fichaPaciente = null;
     }
 
-    public int calcularEdad(Date fechaNacimiento) {
+    public int getEdad() {
         // validate inputs ...
         Date currentDate = Date.from(Instant.now());
         DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        int d1 = Integer.parseInt(formatter.format(fechaNacimiento));
+        int d1 = Integer.parseInt(formatter.format(this.fechaNacimiento));
         int d2 = Integer.parseInt(formatter.format(currentDate));
         return ((d2 - d1) / 10000);
     }
