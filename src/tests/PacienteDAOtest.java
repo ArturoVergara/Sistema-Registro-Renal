@@ -110,7 +110,6 @@ public class PacienteDAOtest {
     void getPacientes() {
         List<Paciente> list = new ArrayList<>();
         query = "SELECT * FROM paciente inner join usuario where paciente.idUsuario=usuario.id";
-        Paciente pacienteRetorno=null;
         try {
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -123,6 +122,7 @@ public class PacienteDAOtest {
                         resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
+                        resultado.getString("contrasena"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
@@ -141,10 +141,11 @@ public class PacienteDAOtest {
         System.out.println("Información de los pacientes: \n");
         for (Paciente paciente : list) {
             if(fichaMedicaDAO.getFichaPaciente(paciente.getRut()) != null){
-              out.print("tiene ficha");
-              FichaMedica fichaMedica= fichaMedicaDAO.getFichaPaciente(paciente.getRut());
-              paciente.setFichaPaciente(fichaMedica);
+                out.print("tiene ficha");
+                FichaMedica fichaMedica= fichaMedicaDAO.getFichaPaciente(paciente.getRut());
+                paciente.setFichaPaciente(fichaMedica);
                 paciente.showUserData();
+                out.print("\n");
             }
         }
         //return list;

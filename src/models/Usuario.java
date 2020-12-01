@@ -27,6 +27,18 @@ public class Usuario
         this.fechaCreacion = LocalDateTime.now();
     }
 
+    public Usuario(int id, String rut, String nombre , String contrasena, String direccion, String email, String telefono, LocalDateTime fechaCreacion)
+    {
+        this.id = id;
+        this.rut = rut;
+        this.contrasena = contrasena;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
+        this.fechaCreacion = fechaCreacion;
+    }
+
     //Constructor para MySQL (Base de Datos)
     public Usuario(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion)
     {

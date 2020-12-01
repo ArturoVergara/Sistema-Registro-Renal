@@ -113,7 +113,6 @@ public class PacienteDAOImpl implements PacienteDAO{
     public List<Paciente> getPacientes() {
         List<Paciente> list = new ArrayList<>();
         query = "SELECT * FROM paciente inner join usuario where paciente.idUsuario=usuario.id";
-        Paciente pacienteRetorno=null;
         try {
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -126,6 +125,7 @@ public class PacienteDAOImpl implements PacienteDAO{
                         resultado.getInt("idUsuario"),
                         resultado.getString("rut"),
                         resultado.getString("nombre"),
+                        resultado.getString("contrasena"),
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),

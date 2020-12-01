@@ -38,6 +38,17 @@ public class Paciente extends Usuario{
         this.fichaPaciente = null;
     }
 
+    public Paciente(int id, String rut, String nombre, String contrasena, String direccion, String email, String telefono, LocalDateTime fechaCreacion,
+                    Date fechaNacimiento, String nacionalidad, int prevision, String telefonoAlternativo, String emailAlternativo) {
+        super(id, rut, nombre, contrasena, direccion, email, telefono, fechaCreacion);
+        this.fechaNacimiento = fechaNacimiento;
+        this.nacionalidad=nacionalidad;
+        this.telefonoAlternativo= telefonoAlternativo;
+        this.emailAlternativo =emailAlternativo;
+        this.prevision = PrevisionEnum.fromInteger(prevision);
+        this.fichaPaciente = null;
+    }
+
     public FichaMedica getFichaPaciente(){
         return fichaPaciente;
     }
@@ -98,7 +109,8 @@ public class Paciente extends Usuario{
                         "Id: " + this.getId() + "\n" +
                         "Nombre: " + this.getNombre() + "\n" +
                         "Rut: " +     this.getRut() + "\n" +
-                        "Telefono: " + this.getTelefono()+ "\n" +
+                                "Contraseña: " +     this.getContrasena() + "\n" +
+                                "Telefono: " + this.getTelefono()+ "\n" +
                         "Direccion: " + this.getDireccion() + "\n" +
                         "Email: " + this.getEmail() + "\n" +
                         "Fecha de nacimiento: " + this.getFechaNacimiento() + "\n" +
