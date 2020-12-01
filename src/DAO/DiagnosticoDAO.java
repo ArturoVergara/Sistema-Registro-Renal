@@ -1,7 +1,6 @@
 package DAO;
 
 import models.Diagnostico;
-import models.Usuario;
 
 import java.util.List;
 

@@ -2,10 +2,8 @@ package DAO;
 
 import core.DataBase;
 import models.PersonalMedico;
-import models.Usuario;
 
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
