@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="parentContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TablaUsuariosController">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #6a72ef;" BorderPane.alignment="CENTER">
+         <children>
+            <MaterialDesignIconView fill="WHITE" glyphName="ARROW_LEFT" onMousePressed="#cargarVistaMenuAdministrador" size="36">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </MaterialDesignIconView>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_CIRCLE" size="36">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MaterialDesignIconView>
+            <Label fx:id="nombreUsuario" styleClass="label-usuario" stylesheets="@../resources/css/navbar.css" textFill="WHITE">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Label>
+            <MenuButton mnemonicParsing="false" style="-fx-background-color: white;" textFill="#333333">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" />
+               </items>
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </MenuButton>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="545.0" prefWidth="869.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" stylesheets="@../resources/css/tabla.css" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="30.0" />
+         </BorderPane.margin>
+         <children>
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="800.0" styleClass="titulo" stylesheets="@../resources/css/formulario.css" text="Lista de Usuarios" textFill="#4d4d4d">
+               <VBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="tabla" prefHeight="455.0" prefWidth="750.0">
+              <columns>
+                <TableColumn fx:id="columnaNombre" prefWidth="276.0" text="Nombre" />
+                <TableColumn fx:id="columnaRut" prefWidth="214.0" text="RUT" />
+                  <TableColumn fx:id="columnaAcciones" prefWidth="255.0" text="Acciones" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </VBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TableView>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+   </center>
+   <left>
+      <AnchorPane prefHeight="594.0" prefWidth="250.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <AnchorPane prefHeight="594.0" prefWidth="250.0" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <HBox prefHeight="56.0" prefWidth="1280.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

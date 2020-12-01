@@ -5,6 +5,8 @@ import models.PersonalMedico;
 import models.Usuario;
 
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +24,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
 
     @Override
     public PersonalMedico getPersonalMedico(String rut) {
-        query = "SELECT * FROM Usuario AS U INNER JOIN Personal AS P WHERE rut=? AND U.id = P.idUsuario";
+        query = "SELECT * FROM usuario AS U INNER JOIN personal AS P WHERE rut=? AND U.id = P.idUsuario";
         PersonalMedico personalMedicoRetorno = null;
         try
         {
@@ -33,8 +35,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
-                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                //Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                //Timestamp timestamp = new Timestamp(Date.from(Instant.now()));      // pasamos la fecha-hora a un formato en java
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
@@ -42,7 +44,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
+                        //timestamp.toLocalDateTime(),
+                        LocalDateTime.now(),
                         resultado.getInt("tipoPersonal")
                         );
                 personalMedicoRetorno = dato;
@@ -57,7 +60,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
 
     @Override
     public PersonalMedico getPersonalMedico(PersonalMedico personalMedico) {
-        query = "SELECT * FROM Usuario AS U INNER JOIN Personal AS P WHERE rut=? AND U.id = P.idUsuario";
+        query = "SELECT * FROM usuario AS U INNER JOIN personal AS P WHERE rut=? AND U.id = P.idUsuario";
         PersonalMedico personalMedicoRetorno = null;
         try
         {
@@ -68,8 +71,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
-                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                //Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                //Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
@@ -77,7 +80,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
+                        //timestamp.toLocalDateTime(),
+                        LocalDateTime.now(),
                         resultado.getInt("tipoPersonal")
                 );
                 personalMedicoRetorno = dato;
@@ -92,7 +96,7 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
 
     @Override
     public PersonalMedico getPersonalMedico(int id) {
-        query = "SELECT * FROM Usuario AS U INNER JOIN Personal AS P WHERE P.id=? AND U.id = P.idUsuario";
+        query = "SELECT * FROM usuario AS U INNER JOIN personal AS P WHERE P.id=? AND U.id = P.idUsuario";
         PersonalMedico personalMedicoRetorno = null;
         try
         {
@@ -103,8 +107,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
 
             while (resultado.next())
             {
-                Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
-                Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
+                //Date date = resultado.getDate("fechaCreacion"); // se obtiene la fecha-hora de la db
+                //Timestamp timestamp = new Timestamp(date.getTime());      // pasamos la fecha-hora a un formato en java
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
@@ -112,7 +116,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
+                        //timestamp.toLocalDateTime(),
+                        LocalDateTime.now(),
                         resultado.getInt("tipoPersonal")
                 );
                 personalMedicoRetorno = dato;
@@ -134,8 +139,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
             resultado = sentencia.executeQuery();
 
             while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
-                Timestamp timestamp = new Timestamp(date.getTime());
+                //Date date = resultado.getDate("fechaCreacion");
+                //Timestamp timestamp = new Timestamp(date.getTime());
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
@@ -143,7 +148,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
+                        //timestamp.toLocalDateTime(),
+                        LocalDateTime.now(),
                         resultado.getInt("tipoPersonal")
                 );
                 list.add(dato);
@@ -230,8 +236,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
             sentencia.setInt(1,personalMedico.getId());
             resultado = sentencia.executeQuery();
             while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
-                Timestamp timestamp = new Timestamp(date.getTime());
+                //Date date = resultado.getDate("fechaCreacion");
+                //Timestamp timestamp = new Timestamp(date.getTime());
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
@@ -239,7 +245,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
+                        //timestamp.toLocalDateTime(),
+                        LocalDateTime.now(),
                         resultado.getInt("tipoPersonal")
                 );
                 out.print("Información del personal: \n");
@@ -286,8 +293,8 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
             sentencia.setInt(1,personalMedico.getId());
             resultado = sentencia.executeQuery();
             while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
-                Timestamp timestamp = new Timestamp(date.getTime());
+                //Date date = resultado.getDate("fechaCreacion");
+                //Timestamp timestamp = new Timestamp(date.getTime());
                 PersonalMedico dato = new PersonalMedico(
                         resultado.getInt("id"),
                         resultado.getString("rut"),
@@ -295,11 +302,12 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
                         resultado.getString("direccion"),
                         resultado.getString("email"),
                         resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
+                        //timestamp.toLocalDateTime(),
+                        LocalDateTime.now(),
                         resultado.getInt("tipoPersonal")
                 );
                 out.print("Información del personal actualizada: \n");
-                dato.showUserData();
+                //dato.showUserData();
                 return personalMedico;
             }
         }catch (Exception e){

@@ -91,6 +91,30 @@ public class MenuPrincipalController implements Initializable
     }
 
     @FXML
+    private void cargarVistaPerfilUsuario()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/PerfilUsuario.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de PerfilUsuario
+            PerfilUsuarioController controlador = (PerfilUsuarioController) loader.getController();
+            controlador.inicializar(usuario, usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+    @FXML
     private void cargarVistaTablaPacientes()
     {
         try

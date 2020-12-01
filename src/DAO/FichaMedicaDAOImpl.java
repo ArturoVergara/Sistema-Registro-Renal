@@ -118,7 +118,7 @@ public class FichaMedicaDAOImpl implements FichaMedicaDAO{
 
     @Override
     public List<Examen> getExamenesPaciente(FichaMedica fichaMedica) {
-        query = "SELECT * FROM EXAMEN as E JOIN fichamedica as FM ON E.idFicha=? WHERE E.idFicha = FM.id";
+        query = "SELECT * FROM examen as E JOIN fichamedica as FM ON E.idFicha=? WHERE E.idFicha = FM.id";
         List<Examen> lista = new ArrayList<>();
         try {
             conexion = DataBase.conectar();

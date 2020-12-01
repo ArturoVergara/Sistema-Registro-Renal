@@ -216,9 +216,9 @@
    <right>
       <VBox fx:id="fichaMedica" alignment="TOP_CENTER" prefHeight="584.0" prefWidth="720.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="84.0" fitWidth="100.0" pickOnBounds="true">
+            <ImageView fitHeight="110.0" fitWidth="140.0" pickOnBounds="true">
                <image>
-                  <Image url="@../resources/images/ficha.png" />
+                  <Image url="@../resources/images/ficha.jpg" />
                </image>
                <VBox.margin>
                   <Insets bottom="10.0" top="15.0" />

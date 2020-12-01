@@ -62,6 +62,30 @@ public class MenuAdministradorController implements Initializable
     }
 
     @FXML
+    private void cargarVistaPerfilUsuario()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/PerfilUsuario.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de PerfilUsuario
+            PerfilUsuarioController controlador = (PerfilUsuarioController) loader.getController();
+            controlador.inicializar(usuario, usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+    @FXML
     private void cargarVistaAgregarUsuario()
     {
         try
@@ -73,6 +97,30 @@ public class MenuAdministradorController implements Initializable
 
             //Obtiene el controlador de TablaPacientes
             FormularioAgregarUsuarioController controlador = (FormularioAgregarUsuarioController) loader.getController();
+            controlador.inicializar(usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
+    @FXML
+    private void cargarVistaTablaUsuarios()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/TablaUsuarios.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de PerfilUsuario
+            TablaUsuariosController controlador = (TablaUsuariosController) loader.getController();
             controlador.inicializar(usuario);
 
             Stage ventana = (Stage) parentContainer.getScene().getWindow();
