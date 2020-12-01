@@ -70,7 +70,7 @@ public class DiagnosticoDAOImpl implements DiagnosticoDAO {
             sentencia.setInt(1,resultadoParaEnteros);
             sentencia.setFloat(2, diagnostico.getResultadoFiltradoGlomerular());
             sentencia.setString(3,diagnostico.getDescripcionDiagnostico());
-            sentencia.setInt(3,diagnostico.getCategoriaDanioPaciente().getValor());
+            sentencia.setInt(4,diagnostico.getCategoriaDanioPaciente().getValor());
 
             resultadoParaEnteros = sentencia.executeUpdate();
 

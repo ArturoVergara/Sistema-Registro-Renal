@@ -65,7 +65,7 @@
             </Label>
             <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="780.0">
                <children>
-                  <Label fx:id="nombrePaciente" prefHeight="32.0" prefWidth="143.0" styleClass="label-nombre" stylesheets="@../resources/css/perfil.css" textFill="#4d4d4d">
+                  <Label fx:id="nombrePaciente" prefHeight="32.0" prefWidth="822.0" styleClass="label-nombre" stylesheets="@../resources/css/perfil.css" textFill="#4d4d4d">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -74,7 +74,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="780.0">
                <children>
-                  <Label fx:id="rutPaciente" contentDisplay="CENTER" prefHeight="24.0" prefWidth="139.0" styleClass="label-rut" stylesheets="@../resources/css/perfil.css" textFill="#6a72ef">
+                  <Label fx:id="rutPaciente" contentDisplay="CENTER" prefHeight="23.0" prefWidth="893.0" styleClass="label-rut" stylesheets="@../resources/css/perfil.css" textFill="#6a72ef">
                      <padding>
                         <Insets left="20.0" />
                      </padding>

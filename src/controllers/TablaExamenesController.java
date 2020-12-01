@@ -287,7 +287,7 @@ public class TablaExamenesController implements Initializable
     private Diagnostico crearDiagnosticoByCreatinina(float valorCreatinina)
     {
         float sexo, etnia, resultado;
-        String mensaje = "";
+        String descripcion = "";
         CategoriaDanioEnum danio;
 
         if (paciente.getFichaPaciente().getSexo() == 1)
@@ -300,35 +300,38 @@ public class TablaExamenesController implements Initializable
         else
             etnia = 1;
 
-        resultado = (float) (186 * Math.pow(valorCreatinina, -1.154) * Math.pow(paciente.calcularEdad(paciente.getFechaNacimiento()), -0.203) * sexo * etnia);
+        resultado = (float) (186 * Math.pow(valorCreatinina, -1.154) * Math.pow(paciente.getEdad(), -0.203) * sexo * etnia);
 
         System.out.println(resultado);
 
         if (resultado >= 60)
         {
-            mensaje = "Paciente con etapa 1 o 2, en revisión";
+            descripcion = "Paciente con etapa 1 o 2, en revisión";
             danio = CategoriaDanioEnum.NORMAL;
         }
         else if ((resultado >= 30) && (resultado <=59))
         {
-            mensaje = "Paciente con etapa 3, etapa moderada";
+            descripcion = "Paciente con etapa 3, etapa moderada";
             danio = CategoriaDanioEnum.MODERADA;
         }
         else if ((resultado >= 15) && (resultado <=29))
         {
-            mensaje = "Paciente con etapa 4, estado grave";
+            descripcion = "Paciente con etapa 4, estado grave";
             danio = CategoriaDanioEnum.SEVERA;
         }
         else
         {
-            mensaje = "Paciente con etapa 5, estado crítico";
+            descripcion = "Paciente con etapa 5, estado crítico";
             danio = CategoriaDanioEnum.TERMINAL;
         }
 
         DiagnosticoDAOImpl diagnosticoDAO = new DiagnosticoDAOImpl();
-        Diagnostico diagnostico = new Diagnostico(danio, resultado, mensaje);
+        Diagnostico diagnostico = new Diagnostico(danio, resultado, descripcion);
 
-        
+        if (diagnosticoDAO.agregarDiagnosticoPaciente(paciente, diagnostico) != null)
+            alertaInfoGenerarDiagnostico();
+        else
+            alertaErrorGenerarDiagnostico();
 
         return null;
     }
@@ -338,6 +341,16 @@ public class TablaExamenesController implements Initializable
         Alert ventana=new Alert(Alert.AlertType.ERROR);
         ventana.setTitle("¡Error al agregar!");
         ventana.setHeaderText("Error: No se pudo agregar el examen a la base de datos");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
+    }
+
+    private void alertaErrorGenerarDiagnostico()
+    {
+        Alert ventana=new Alert(Alert.AlertType.ERROR);
+        ventana.setTitle("¡Error al generar diagnóstico!");
+        ventana.setHeaderText("Error: No se pudo generar el diágnostico en la base de datos");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();
@@ -375,6 +388,16 @@ public class TablaExamenesController implements Initializable
         Alert ventana=new Alert(Alert.AlertType.INFORMATION);
         ventana.setTitle("¡Éxito al agregar!");
         ventana.setHeaderText("Se ha creado el examen satisfactioramente.");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
+    }
+
+    private void alertaInfoGenerarDiagnostico()
+    {
+        Alert ventana=new Alert(Alert.AlertType.INFORMATION);
+        ventana.setTitle("¡Éxito al generar diagnóstico!");
+        ventana.setHeaderText("Se ha generado el diagnóstico satisfactioramente.");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();
