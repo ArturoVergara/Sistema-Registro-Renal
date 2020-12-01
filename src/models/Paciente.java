@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import models.enums.PrevisionEnum;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 
@@ -51,6 +53,15 @@ public class Paciente extends Usuario{
         this.emailAlternativo =emailAlternativo;
         this.prevision = PrevisionEnum.fromInteger(prevision);
         this.fichaPaciente = null;
+    }
+
+    public int calcularEdad(Date fechaNacimiento) {
+        // validate inputs ...
+        Date currentDate = Date.from(Instant.now());
+        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        int d1 = Integer.parseInt(formatter.format(fechaNacimiento));
+        int d2 = Integer.parseInt(formatter.format(currentDate));
+        return ((d2 - d1) / 10000);
     }
 
 
