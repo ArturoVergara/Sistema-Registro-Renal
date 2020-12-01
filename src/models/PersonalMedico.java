@@ -13,6 +13,11 @@ public class PersonalMedico extends Usuario{
         this.tipoPersonal = tipoPersonal;
     }
 
+    public PersonalMedico(int id, String rut, String nombre, String direccion, String email, String telefono, int tipoPersonal) {
+        super(id,rut,nombre, direccion, email, telefono);
+        this.tipoPersonal = PersonalEnum.fromInteger(tipoPersonal);
+    }
+
     public PersonalMedico(int id, String rut, String nombre, String direccion, String email, String telefono, LocalDateTime fechaCreacion, int tipoPersonal) {
         super(id, rut, nombre, direccion, email, telefono, fechaCreacion);
         this.tipoPersonal= PersonalEnum.fromInteger(tipoPersonal);

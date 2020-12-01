@@ -2,8 +2,10 @@ package tests;
 
 import core.DataBase;
 import models.PersonalMedico;
+import models.enums.PersonalEnum;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +84,7 @@ public class PersonalMedicoDAOTest {
             sqlException.getCause();
         }
         for (PersonalMedico personalMedico : list) {
-            System.out.println(personalMedico.getNombre() + " " + personalMedico.getRut());
+            System.out.println(personalMedico.getNombre() + " " + personalMedico.getRut() + " Creado en: " +  personalMedico.getFechaCreacion());
         }
         //return list;
     }
@@ -138,4 +140,68 @@ public class PersonalMedicoDAOTest {
             //return null;
         }
     }*/
+
+    @org.junit.jupiter.api.Test
+    void updatePersonalMedico() {
+        PersonalMedico personalMedico = new PersonalMedico(3,"ASDnovo","nombrenuevo","dirnueva","mailnuevo","tele",1);
+        query = "UPDATE personal AS P " +
+                "INNER JOIN usuario AS U " +
+                "ON P.idUsuario = U.id AND P.id=? " +
+                "SET " +
+                "rut = ? ," +
+                "nombre = ? ," +
+                "direccion = ? ," +
+                "email = ? ," +
+                "telefono = ? ," +
+                "tipoPersonal = ?";
+
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,personalMedico.getId());
+            sentencia.setString(2,personalMedico.getRut());
+            sentencia.setString(3,personalMedico.getNombre());
+            sentencia.setString(4,personalMedico.getDireccion());
+            sentencia.setString(5,personalMedico.getEmail());
+            sentencia.setString(6,personalMedico.getTelefono());
+            sentencia.setInt(7,personalMedico.getTipoPersonalInt());
+
+            resultado2 = sentencia.executeUpdate();
+            if(resultado2 >0){
+                out.println("Personal " + personalMedico.getTipoPersonal() + " actualizado con éxito!\n");
+                //personalMedico.showUserData();
+            }else{
+                out.println("Lo sentimos, hubo un error al actualizar el Personal" + personalMedico.getTipoPersonal() + "...\n");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        query = "SELECT * FROM personal AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id AND P.idUsuario=?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,personalMedico.getId());
+            resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                Date date = resultado.getDate("fechaCreacion");
+                Timestamp timestamp = new Timestamp(date.getTime());
+                PersonalMedico dato = new PersonalMedico(
+                        resultado.getInt("id"),
+                        resultado.getString("rut"),
+                        resultado.getString("nombre"),
+                        resultado.getString("direccion"),
+                        resultado.getString("email"),
+                        resultado.getString("telefono"),
+                        timestamp.toLocalDateTime(),
+                        resultado.getInt("tipoPersonal")
+                );
+                out.print("Información del personal actualizada: \n");
+                dato.showUserData();
+                //return personalMedico;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //return null;*/
+    }
 }

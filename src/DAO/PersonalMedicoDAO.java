@@ -23,4 +23,6 @@ public interface PersonalMedicoDAO {
     boolean deletePersonalMedico(PersonalMedico personalMedico);
 
     boolean deletePersonalMedico(int id);
+
+    boolean updateContrasena(PersonalMedico personalMedico);
 }

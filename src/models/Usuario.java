@@ -40,6 +40,18 @@ public class Usuario
         this.fechaCreacion = fechaCreacion;
     }
 
+    public Usuario(int id, String rut, String nombre, String direccion, String email, String telefono)
+    {
+        this.id = id;
+        this.rut = rut;
+        this.contrasena = this.getContrasena();
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
+        this.fechaCreacion= this.getFechaCreacion();
+    }
+
     public int getId() {
         return id;
     }
