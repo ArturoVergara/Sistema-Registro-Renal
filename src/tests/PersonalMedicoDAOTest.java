@@ -154,7 +154,6 @@ public class PersonalMedicoDAOTest {
                 "email = ? ," +
                 "telefono = ? ," +
                 "tipoPersonal = ?";
-
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);

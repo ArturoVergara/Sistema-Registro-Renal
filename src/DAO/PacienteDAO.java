@@ -16,9 +16,14 @@ public interface PacienteDAO {
 
     Paciente updatePaciente(Paciente paciente);
 
+    boolean updateContrasena(Paciente paciente);
+
+
     boolean deletePaciente(int id);
 
     boolean deletePaciente(Paciente paciente);
 
     boolean deletePaciente(String rut);
+
+
 }

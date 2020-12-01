@@ -216,43 +216,10 @@ public class PacienteDAOImpl implements PacienteDAO{
 
     @Override
     public Paciente updatePaciente(Paciente paciente) {
-        /**
-         * Se crea usuario y se guarda en la db
-         * Se retorna el objeto usuario si se pudo guardar satisfactoriamente
-         * Se retorna null si hubo un error al guardar el usuario
-         */
-        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id and P.idUsuario=?";
-        try{
-            conexion = DataBase.conectar();
-            sentencia = conexion.prepareStatement(query);
-            sentencia.setInt(1,paciente.getId());
-            resultado = sentencia.executeQuery();
-            while (resultado.next()) {
-                Date date = resultado.getDate("fechaCreacion");
-                Timestamp timestamp = new Timestamp(date.getTime());
-                Paciente dato = new Paciente(
-                        resultado.getInt("idUsuario"),
-                        resultado.getString("rut"),
-                        resultado.getString("nombre"),
-                        resultado.getString("direccion"),
-                        resultado.getString("email"),
-                        resultado.getString("telefono"),
-                        timestamp.toLocalDateTime(),
-                        resultado.getDate("fechaNacimiento"),
-                        resultado.getString("nacionalidad"),
-                        resultado.getInt("prevision"),
-                        resultado.getString("telefonoAlternativo"),
-                        resultado.getString("emailAlternativo")
-                );
-                out.print("Información del paciente: \n");
-                dato.showUserData();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        Paciente paciente1=null;
         query = "UPDATE paciente AS P " +
                 "INNER JOIN usuario AS U " +
-                "ON P.idUsuario = U.id AND P.idUsuario=? " +
+                "ON P.idUsuario = U.id AND P.id=? " +
                 "SET " +
                 "rut = ? ," +
                 "nombre = ? ," +
@@ -277,15 +244,17 @@ public class PacienteDAOImpl implements PacienteDAO{
             sentencia.setString(9,paciente.getTelefonoAlternativo());
             sentencia.setString(10,paciente.getEmailAlternativo());
             resultadoParaEnteros = sentencia.executeUpdate();
-            if(resultadoParaEnteros >0){
-                out.println("Paciente actualizado con éxito!\n");
-            }else{
-                out.println("Lo sentimos, hubo un error al actualizar el Paciente...\n");
-            }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id AND P.idUsuario=?";
+        if(resultadoParaEnteros >0){
+            out.println("Paciente actualizado con éxito!\n");
+        }else{
+            out.println("Lo sentimos, hubo un error al actualizar el Paciente...\n");
+            return null;
+        }
+
+        query = "SELECT * FROM paciente AS P INNER JOIN usuario AS U WHERE P.idUsuario=U.id AND P.id=?";
         try{
             conexion = DataBase.conectar();
             sentencia = conexion.prepareStatement(query);
@@ -308,14 +277,18 @@ public class PacienteDAOImpl implements PacienteDAO{
                         resultado.getString("telefonoAlternativo"),
                         resultado.getString("emailAlternativo")
                 );
-                out.print("Información del paciente actualizada: \n");
-                dato.showUserData();
-                return dato;
+                paciente1= dato;
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        if (paciente1 != null){
+            out.print("Información del paciente actualizada: \n");
+            paciente1.showUserData();
+            return paciente1;
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -327,5 +300,28 @@ public class PacienteDAOImpl implements PacienteDAO{
     @Override
     public boolean deletePaciente(String rut) { return usuarioDAO.deleteUsuario(rut);}
 
-
+    @Override
+    public boolean updateContrasena(Paciente paciente){
+        query = "UPDATE paciente AS P " +
+                "INNER JOIN usuario AS U " +
+                "ON P.idUsuario = U.id AND P.id=? " +
+                "SET " +
+                "contrasena = ?";
+        try{
+            conexion = DataBase.conectar();
+            sentencia = conexion.prepareStatement(query);
+            sentencia.setInt(1,paciente.getId());
+            sentencia.setString(2,paciente.getContrasena());
+            resultadoParaEnteros = sentencia.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        if(resultadoParaEnteros >0){
+            out.println("Paciente actualizado con éxito!\n");
+            return true;
+        }else{
+            out.println("Lo sentimos, hubo un error al actualizar el Paciente...\n");
+            return false;
+        }
+    }
 }

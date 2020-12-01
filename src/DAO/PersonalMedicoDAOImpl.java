@@ -300,7 +300,6 @@ public class PersonalMedicoDAOImpl implements PersonalMedicoDAO{
         }
     }
 
-
     @Override
     public boolean deletePersonalMedico(String rut) { return usuarioDAO.deleteUsuario(rut);}
 
