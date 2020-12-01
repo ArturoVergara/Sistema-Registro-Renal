@@ -200,12 +200,11 @@ public class TablaPacientesClaveController implements Initializable
 
             dato.setContrasena(random);
 
-            if (pacienteDAO.updatePaciente(dato) != null)
+            if (pacienteDAO.updateContrasena(dato))
             {
                 tabla.getItems().set(indice, dato);
                 alertaInfo(random);
             }
-
             else
                 alertaError();
         }

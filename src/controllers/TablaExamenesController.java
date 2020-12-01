@@ -1,9 +1,6 @@
 package controllers;
 
-import DAO.ExamenDAOImpl;
-import DAO.FichaMedicaDAO;
-import DAO.FichaMedicaDAOImpl;
-import DAO.PacienteDAOImpl;
+import DAO.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
@@ -28,9 +25,11 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
+import models.Diagnostico;
 import models.Examen;
 import models.Paciente;
 import models.PersonalMedico;
+import models.enums.CategoriaDanioEnum;
 import models.enums.ExamenEnum;
 import models.enums.PersonalEnum;
 import models.enums.PrevisionEnum;
@@ -40,11 +39,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.*;
+import java.util.*;
 
 public class TablaExamenesController implements Initializable
 {
@@ -65,7 +61,7 @@ public class TablaExamenesController implements Initializable
     @FXML
     private TableColumn<Examen, LocalDateTime> columnaFecha;
     @FXML
-    private TableColumn<Examen, String> columnaAcciones;
+    private TableColumn<Examen, String> columnaAccion;
 
     private PersonalMedico usuario;
     private Paciente paciente;
@@ -82,15 +78,13 @@ public class TablaExamenesController implements Initializable
         nombrePaciente.setText(paciente.getNombre());
         rutPaciente.setText(paciente.getRut());
 
-        //PacienteDAOImpl pacienteDAO = new PacienteDAOImpl();
-        //List<Paciente> pacientes = pacienteDAO.getPacientes();
         FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
         List<Examen> examenes = fichaMedicaDAO.getExamenesPaciente(paciente.getFichaPaciente());
 
         columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoExamen"));
         columnaResultado.setCellValueFactory(new PropertyValueFactory<>("resultadoExamen"));
         columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fechaEmision"));
-        columnaAcciones.setCellValueFactory(new PropertyValueFactory<>("ASDASD"));
+        columnaAccion.setCellValueFactory(new PropertyValueFactory<>("ASDASD"));
 
 
         //Callback para reemplazar el valor de la columna Acciones por los botones eliminar
@@ -105,7 +99,6 @@ public class TablaExamenesController implements Initializable
                     public void updateItem(String item, boolean empty)
                     {
                         JFXButton botonEliminar = new JFXButton("Eliminar");
-                        HBox hbox = new HBox();
 
                         super.updateItem(item, empty);
 
@@ -121,14 +114,11 @@ public class TablaExamenesController implements Initializable
                                 eliminarExamen(dato, getIndex());
                             });
 
-                            hbox.setSpacing(10.0);
-
                             //Setear estilos a los botones
                             botonEliminar.setStyle("-fx-background-color: #ff1744; -fx-text-fill: white");
                             botonEliminar.setCursor(Cursor.HAND);
 
-                            hbox.getChildren().addAll(botonEliminar);
-                            setGraphic(hbox);
+                            setGraphic(botonEliminar);
                             setText(null);
                         }
                     }
@@ -138,7 +128,7 @@ public class TablaExamenesController implements Initializable
             }
         };
 
-        columnaAcciones.setCellFactory(cellFactory);
+        columnaAccion.setCellFactory(cellFactory);
 
         if (examenes != null)
             tabla.setItems(FXCollections.observableArrayList(examenes));
@@ -281,12 +271,66 @@ public class TablaExamenesController implements Initializable
                 alertaInfoAgregar();
                 FichaMedicaDAOImpl fichaMedicaDAO = new FichaMedicaDAOImpl();
                 List<Examen> examenes = fichaMedicaDAO.getExamenesPaciente(paciente.getFichaPaciente());
+
                 if (examenes != null)
                     tabla.setItems(FXCollections.observableArrayList(examenes));
+
+                if (examen.getTipoExamen() == ExamenEnum.CREATININA)
+                    crearDiagnosticoByCreatinina(examen.getResultadoExamen());
             }
             else
                 alertaErrorAgregar();
         });
+    }
+
+    //Se crea el diagnostico en base a los resultados del examen de tipo creatinina ingresado
+    private Diagnostico crearDiagnosticoByCreatinina(float valorCreatinina)
+    {
+        float sexo, etnia, resultado;
+        String mensaje = "";
+        CategoriaDanioEnum danio;
+
+        if (paciente.getFichaPaciente().getSexo() == 1)
+            sexo = 1;
+        else
+            sexo = (float) 0.742;
+
+        if (paciente.getFichaPaciente().getEtniaPaciente() == 1)
+            etnia = (float) 1.210;
+        else
+            etnia = 1;
+
+        resultado = (float) (186 * Math.pow(valorCreatinina, -1.154) * Math.pow(paciente.calcularEdad(paciente.getFechaNacimiento()), -0.203) * sexo * etnia);
+
+        System.out.println(resultado);
+
+        if (resultado >= 60)
+        {
+            mensaje = "Paciente con etapa 1 o 2, en revisión";
+            danio = CategoriaDanioEnum.NORMAL;
+        }
+        else if ((resultado >= 30) && (resultado <=59))
+        {
+            mensaje = "Paciente con etapa 3, etapa moderada";
+            danio = CategoriaDanioEnum.MODERADA;
+        }
+        else if ((resultado >= 15) && (resultado <=29))
+        {
+            mensaje = "Paciente con etapa 4, estado grave";
+            danio = CategoriaDanioEnum.SEVERA;
+        }
+        else
+        {
+            mensaje = "Paciente con etapa 5, estado crítico";
+            danio = CategoriaDanioEnum.TERMINAL;
+        }
+
+        DiagnosticoDAOImpl diagnosticoDAO = new DiagnosticoDAOImpl();
+        Diagnostico diagnostico = new Diagnostico(danio, resultado, mensaje);
+
+        
+
+        return null;
     }
 
     private void alertaErrorAgregar()

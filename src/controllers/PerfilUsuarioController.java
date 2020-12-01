@@ -237,12 +237,12 @@ public class PerfilUsuarioController implements Initializable
             {
                 if (contrasena1.getText().compareTo(contrasena2.getText()) != 0)
                 {
-                    System.out.println("Las contraseñas no coinciden");
+                    alertaErrorContrasena("Las contraseñas no coinciden");
                     return null;
                 }
                 if (contrasena1.getText().length() < 8)
                 {
-                    System.out.println("Las contraseñas deben tener un largo mínimo de 8 caracteres");
+                    alertaErrorContrasena("Las contraseñas deben tener un largo mínimo de 8 caracteres");
                     return null;
                 }
 
@@ -254,8 +254,6 @@ public class PerfilUsuarioController implements Initializable
 
         Optional<String> resultadoVentana = ventana.showAndWait();
 
-        System.out.println(resultadoVentana);
-
         if (resultadoVentana.isPresent())
         {
             PersonalMedicoDAOImpl personalMedicoDAO = new PersonalMedicoDAOImpl();
@@ -263,13 +261,13 @@ public class PerfilUsuarioController implements Initializable
             String contrasenaAntigua = perfil.getContrasena();
             perfil.setContrasena(resultadoVentana.get());
 
-            if (personalMedicoDAO.updatePersonalMedico(perfil) != null)
+            if (personalMedicoDAO.updateContrasena(perfil))
             {
-                System.out.println("Se ha actualizado la contraseña del usuario satisfactoriamente.");
+               alertaInfoContrasena();
             }
             else
             {
-                System.out.println("Error al actualizar la contraseña en la base de datos");
+                alertaErrorContrasena("Error al actualizar la contraseña en la base de datos");
                 perfil.setContrasena(contrasenaAntigua);
             }
         }
@@ -303,6 +301,17 @@ public class PerfilUsuarioController implements Initializable
         ventana.showAndWait();
     }
 
+    private void alertaErrorContrasena(String mensaje)
+    {
+        Alert ventana=new Alert(Alert.AlertType.ERROR);
+        ventana.setTitle("¡Error al cambiar contraseña!");
+        ventana.setHeaderText("Error: No se pudo cambiar la contraseña del usuario");
+        ventana.setContentText(mensaje);
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
+    }
+
     //Muestra un cuadro de dialogo, donde pide confirmación para eliminar el usuario, retornando un booleano
     private boolean alertaEliminar()
     {
@@ -328,6 +337,16 @@ public class PerfilUsuarioController implements Initializable
         Alert ventana=new Alert(Alert.AlertType.INFORMATION);
         ventana.setTitle("¡Éxito al eliminar!");
         ventana.setHeaderText("Se ha eliminado al usuario satisfactioramente.");
+        ventana.initStyle(StageStyle.UTILITY);
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        ventana.showAndWait();
+    }
+
+    private void alertaInfoContrasena()
+    {
+        Alert ventana=new Alert(Alert.AlertType.INFORMATION);
+        ventana.setTitle("¡Éxito al cambiar la contraseña!");
+        ventana.setHeaderText("Se ha cambiado la contraseña del usuario satisfactioramente.");
         ventana.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         ventana.showAndWait();

@@ -16,6 +16,15 @@ public class Diagnostico{
     private String descripcionDiagnostico;
     private CategoriaDanioEnum categoriaDanioPaciente;
 
+    public Diagnostico(CategoriaDanioEnum categoriaDanioEnum, float resultadoFiltradoGlomerular, String descripcionDiagnostico)
+    {
+        this.id = 0;
+        this.fechaActualizacion = LocalDateTime.now();
+        this.categoriaDanioPaciente = categoriaDanioEnum;
+        this.resultadoFiltradoGlomerular = resultadoFiltradoGlomerular;
+        this.descripcionDiagnostico = descripcionDiagnostico;
+    }
+
     public Diagnostico(int id, LocalDateTime fechaActualizacion, float resultadoExamen, String desc, int categoriaDanio){
         this.id=id;
         this.fechaActualizacion=fechaActualizacion;

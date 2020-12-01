@@ -297,7 +297,6 @@ public class FormularioModificarUsuarioController implements Initializable
         perfil.setTelefono(telefono.getText());
         perfil.setTipoPersonal(ocupacion.getValue());
 
-
         if (personalMedicoDAO.updatePersonalMedico(perfil) != null)
         {
             alertaInfo();
