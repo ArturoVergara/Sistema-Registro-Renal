@@ -138,6 +138,30 @@ public class MenuPrincipalController implements Initializable
         }
     }
 
+    @FXML
+    private void cargarVistaTablaPacientesClave()
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/TablaPacientesClave.fxml"));
+            Parent root = loader.load();
+            Scene escena = new Scene(root);
+
+            //Obtiene el controlador de TablaPacientes
+            TablaPacientesClaveController controlador = (TablaPacientesClaveController) loader.getController();
+            controlador.inicializar(usuario);
+
+            Stage ventana = (Stage) parentContainer.getScene().getWindow();
+            ventana.setScene(escena);
+            ventana.show();
+        }
+        catch (IOException | IllegalStateException excepcion)
+        {
+            alertaExcepcion(excepcion);
+        }
+    }
+
     //Muestra una alerta con toda la información detallada de la excepción
     private void alertaExcepcion(Exception excepcion)
     {

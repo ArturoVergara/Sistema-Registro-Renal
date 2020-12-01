@@ -90,7 +90,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </AnchorPane>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarVistaTablaPacientesClave" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="146.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
