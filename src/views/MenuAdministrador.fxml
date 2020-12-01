@@ -66,43 +66,16 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <HBox layoutX="226.0" layoutY="289.0" prefHeight="100.0" prefWidth="316.0" spacing="8.0">
+            <HBox layoutX="226.0" layoutY="289.0" prefHeight="120.0" prefWidth="528.0" spacing="8.0">
                <children>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarVistaTablaUsuarios" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#cargarVistaTablaUsuarios" prefHeight="120.0" prefWidth="528.0" styleClass="panel">
                      <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="154.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="292.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/images/buscar.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Buscar" textFill="WHITE">
-                           <font>
-                              <Font name="Liberation Sans Bold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="14.0" layoutY="76.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Usuario" textFill="WHITE">
-                           <font>
-                              <Font name="Liberation Sans Bold" size="24.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </AnchorPane>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="260.0" styleClass="panel">
-                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="146.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../resources/images/contactar.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="14.0" layoutY="52.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Solicitar" textFill="WHITE">
-                           <font>
-                              <Font name="Liberation Sans Bold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="14.0" layoutY="76.0" prefHeight="27.0" prefWidth="146.0" styleClass="titulo" text="Clave" textFill="WHITE">
+                        <Label layoutX="127.0" layoutY="68.0" prefHeight="38.0" prefWidth="157.0" styleClass="titulo" text="Buscar Usuario" textFill="WHITE">
                            <font>
                               <Font name="Liberation Sans Bold" size="24.0" />
                            </font>
